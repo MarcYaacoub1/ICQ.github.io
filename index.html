@@ -3,177 +3,749 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفات الذات الإلهية في سفر الرؤيا 1</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="upscalemedia-transformed.png" type="image/x-icon">
+    <title>صفات الذات الإلهية في سفر الرؤيا</title>
+    <link rel="shortcut icon" href="upscalemedia-transformed.jpg" type="image/x-icon">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            direction: rtl; /* Right-to-left for Arabic */
+            text-align: right; /* Align text to the right for Arabic */
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: sticky; /* Make header sticky */
+            top: 0;
+            z-index: 1000; /* Ensure it's above other content */
+            display: flex; /* لتموضع اللوجو والعنوان */
+            justify-content: center; /* لتموضع العنوان في المنتصف */
+            align-items: center; /* لمحاذاة العناصر رأسياً */
+            padding-right: 80px; /* مساحة للوجو في اليمين */
+            padding-left: 80px; /* للحفاظ على التوازن */
+            position: relative; /* لتموضع اللوجو بداخله بشكل مطلق */
+        }
+
+        .header-content {
+            text-align: center;
+            flex-grow: 1; /* للسماح للمحتوى بأخذ المساحة المتاحة */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            padding-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            position: absolute; /* وضع اللوجو بشكل مطلق */
+            top: 50%; /* في منتصف الارتفاع */
+            right: 20px; /* 20 بكسل من اليمين */
+            transform: translateY(-50%); /* لضبط المحاذاة الرأسية تمامًا */
+            width: 60px; /* حجم اللوجو، يمكنك تعديله */
+            height: auto;
+            /* للحفاظ على الألوان الأصلية للوجو الشفاف */
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3)); /* لإضافة ظل خفيف */
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Welcome Screen Styling */
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh; /* Make it take most of the viewport height */
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 1s ease-out;
+
+            /* **تم إزالة اللوجو كخلفية من هنا** */
+            background-image: none;
+            opacity: 1; /* إعادة الشفافية الطبيعية للشاشة */
+        }
+
+        .welcome-screen h2 {
+            color: #2c3e50;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px; /* Space between welcome message and buttons */
+        }
+
+        /* Unified Button Styling for Welcome Screen and Main Navigation */
+        .welcome-buttons .chapter-nav-button,
+        .chapter-navigation .chapter-nav-button {
+            background-color: #3498db; /* Default blue, same as nav-button */
+            color: #fff;
+            border: none;
+            padding: 15px 25px; /* Slightly larger padding for main chapter buttons */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+        }
+
+        .welcome-buttons .chapter-nav-button { /* Specific styling for welcome buttons */
+            padding: 18px 30px; /* Make them larger than regular chapter buttons */
+            font-size: 1.5em;
+            border-radius: 8px; /* Slightly more rounded */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+        }
+
+
+        .chapter-nav-button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+            transform: translateY(-3px); /* More pronounced lift on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+        }
+
+        /* Active state for chapter navigation buttons */
+        .chapter-nav-button.active {
+            background-color: #e74c3c; /* Red for active state, same as section nav */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transform: translateY(0); /* No lift when active */
+        }
+
+        /* Chapter Navigation Buttons (used after welcome screen) */
+        .chapter-navigation {
+            display: none; /* Hidden by default, shown after welcome */
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+
+        /* Chapter Content Containers */
+        .chapter-content {
+            display: none; /* Hide all chapter content by default */
+        }
+
+        .chapter-content.active {
+            display: block; /* Show active chapter content */
+            animation: fadeIn 0.8s ease-out; /* Fade-in effect */
+        }
+
+        /* Navigation Buttons (for sections within a chapter) */
+        .navigation {
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap to next line */
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.05em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+        }
+
+        .nav-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+        }
+
+        .nav-button.active {
+            background-color: #e74c3c;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Feature Sections */
+        .feature-section {
+            display: none; /* Hidden by default */
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fcfcfc;
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .feature-section.active {
+            display: block; /* Show active section */
+            animation: fadeIn 0.8s ease-out; /* Fade-in effect */
+        }
+
+        .feature-section h2 {
+            color: #2c3e50;
+            font-size: 2em;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: row-reverse; /* Image on left, text on right for RTL */
+            gap: 30px;
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .text-content {
+            flex: 2;
+        }
+
+        .text-content h3 {
+            color: #3498db;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .text-content p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .image-content {
+            flex: 1;
+            text-align: center;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .image-caption {
+            font-size: 0.9em;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+
+        /* Animation for fading in sections */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column; /* Stack logo and title vertically */
+                padding: 15px 0; /* Adjust padding for stacked layout */
+                position: relative; /* Ensure position for absolute logo */
+            }
+
+            .header-logo {
+                position: static; /* Reset position for smaller screens */
+                width: 50px; /* Adjust size for smaller screens */
+                margin-bottom: 10px; /* Space between logo and title */
+                transform: none; /* Remove transform */
+            }
+            
+            .header-content {
+                order: 2; /* Put content below the logo */
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            header p {
+                font-size: 1em;
+                padding: 0 15px;
+            }
+
+            .nav-button, .chapter-nav-button { /* Apply to both types of buttons */
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+
+            .content-wrapper {
+                flex-direction: column; /* Stack image and text vertically on smaller screens */
+            }
+
+            .image-content {
+                margin-bottom: 20px;
+                order: -1; /* Image appears before text in column layout */
+            }
+
+            .welcome-screen h2 {
+                font-size: 2em;
+            }
+
+            .welcome-buttons {
+                flex-direction: column;
+            }
+
+            .welcome-buttons .chapter-nav-button {
+                width: 90%; /* Make welcome buttons almost full width */
+                font-size: 1.2em;
+                padding: 15px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-button, .chapter-nav-button { /* Apply to both types of buttons */
+                width: 100%; /* Full width buttons on very small screens */
+            }
+            .header-logo {
+                width: 40px; /* Further reduce size for very small screens */
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>صفات الذات الإلهية في سفر الرؤيا 1</h1>
-        </header>
+        <div class="header-content">
+            <h1>صفات الذات الإلهية في سفر الرؤيا</h1>
+        </div>
+        <img src="upscalemedia-transformed-removebg-preview.png" alt="Marc-Tech Logo" class="header-logo">
+    </header>
 
     <main>
-        <div class="navigation">
-            <button class="nav-button active" data-target="sonOfMan">متمنطقًا بمنطقة ذهب</button>
-            <button class="nav-button" data-target="whiteHair">رأسه وشعره أبيضان</button>
-            <button class="nav-button" data-target="flameEyes">عيناه كلهيب نار</button>
-            <button class="nav-button" data-target="bronzeFeet">رجلاه مثل النحاس النقي</button>
-            <button class="nav-button" data-target="voiceWater">صوته كمياه كثيرة</button>
-            <button class="nav-button" data-target="twoEdgedSword">من فمه يخرج سيف ذو حدين</button>
-            <button class="nav-button" data-target="shiningFace">وجهه كالشمس وهي تضيء</button>
-            <button class="nav-button" data-target="appearedChrist">ظهور السيد المسيح ليوحنا</button>
+        <div class="welcome-screen" id="welcomeScreen">
+            <h1>أهلاً بك في دراسة سفر الرؤيا مع أسرة أبونا فلتاؤس</h1>
+            <p>اختار الإصحاح الي عاوز تشوفوا:</p>
+            <div class="welcome-buttons">
+                <button class="chapter-nav-button" data-chapter="revelation1-content">سفر الرؤيا 1</button>
+                <button class="chapter-nav-button" data-chapter="revelation2-content">سفر الرؤيا 2</button>
+            </div>
         </div>
 
-        <section id="sonOfMan" class="feature-section active">
-            <h2>متمنطقًا بمنطقة من ذهب</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"...مُتَمَنْطِقًا عِنْدَ ثَدْيَيْهِ بِمِنْطَقَةٍ مِنْ ذَهَبٍ." (الرؤيا 1: 13)</p>
-                    <h3>المعنى:</h3>
-                    <p>هذا التشبيه يدل على **مجد لاهوته** و**الاستعداد للخدمة والسلطة**. المنطقة الذهبية تشير إلى **الكرامة، النبل، والغنى المطلق** الذي يميز الذات الإلهية. عادة ما كانت الأحزمة (المناطق) تستخدم لتجميع الثياب استعداداً للعمل أو للسلطة.</p>
-                    <h3>التشبيه:</h3>
-                    <p>يرمز إلى **الملك المتربع على عرشه**، والذي يتمتع بسلطان كامل ومجد لا يوصف، وهو جاهز للقيام بعمله الإلهي في الدينونة والرعاية.</p>
-                </div>
-                <div class="image-content">
-                    <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="رسم توضيحي لشخصية قوية بهالة ذهبية ومنطقة ذهبية">
-                    <p class="image-caption">تعبير عن المجد والسلطان الإلهي.</p>
-                </div>
-            </div>
-        </section>
+        <div id="chapterNavigationContainer" class="chapter-navigation">
+            <button class="chapter-nav-button" data-chapter="revelation1-content">سفر الرؤيا 1</button>
+            <button class="chapter-nav-button" data-chapter="revelation2-content">سفر الرؤيا 2</button>
+        </div>
 
-        <section id="whiteHair" class="feature-section">
-            <h2>رأسه وشعره أبيضان كالصوف الأبيض، كالثلج</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"وَرَأْسُهُ وَشَعْرُهُ أَبْيَضَانِ كَالصُّوفِ الأَبْيَضِ، كَالثَّلْجِ..." (الرؤيا 1: 14)</p>
-                    <h3>المعنى:</h3>
-                    <p>يدل هذا على **الأزلية، القدم، الحكمة، والنقاوة المطلقة**. اللون الأبيض يرمز إلى الطهارة والنقاء، والشعر الأبيض يرمز إلى الحكمة والخبرة الطويلة التي لا بداية لها ولا نهاية. هذه الصفة تشير إلى **الله الأزلي الأبدي** الذي كان قبل كل الدهور ولا يتغير.</p>
-                    <h3>التشبيه:</h3>
-                    <p>يشبه **شيخوخة حكيمة وكريمة**، لكنها هنا تشير إلى كمال وجوده الأزلي الذي لا يعرف بداية أو نهاية، وأنه هو **القديم الأيام** الذي يمتلك كل المعرفة والحكمة.</p>
-                </div>
-                <div class="image-content">
-                    <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="رسم توضيحي لرأس بشعر أبيض ناصع">
-                    <p class="image-caption">رسم يوضح نقاء وحكمة الأزلية.</p>
-                </div>
+        <div id="revelation1-content" class="chapter-content">
+            <div class="navigation">
+                <button class="nav-button active" data-target="sonOfMan">متمنطقًا بمنطقة ذهب</button>
+                <button class="nav-button" data-target="whiteHair">رأسه وشعره أبيضان</button>
+                <button class="nav-button" data-target="flameEyes">عيناه كلهيب نار</button>
+                <button class="nav-button" data-target="bronzeFeet">رجلاه مثل النحاس النقي</button>
+                <button class="nav-button" data-target="voiceWater">صوته كمياه كثيرة</button>
+                <button class="nav-button" data-target="twoEdgedSword">من فمه يخرج سيف ذو حدين</button>
+                <button class="nav-button" data-target="shiningFace">وجهه كالشمس وهي تضيء</button>
+                <button class="nav-button" data-target="appearedChrist">ظهور السيد المسيح ليوحنا</button>
             </div>
-        </section>
 
-        <section id="flameEyes" class="feature-section">
-            <h2>عَيْنَاهُ كَلَهِيبِ نَارٍ</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"...وَعَيْنَاهُ كَلَهِيبِ نَارٍ." (الرؤيا 1: 14)</p>
-                    <h3>المعنى:</h3>
-                    <p>ترمز إلى **المعرفة الكلية، الاختراق، الدينونة، والقدرة على فحص كل شيء**. لا يوجد شيء مخفي عن عينيه، فهو يرى كل خفي وظاهر. تشير هذه العيون إلى **بصيرة الله التي تميز بين الحق والباطل**، وتكشف النوايا الخفية. ترمز لـ **تفحص كل شيء**.</p>
-                    <h3>التشبيه:</h3>
-                    <p>مثل **النار التي تكشف وتطهر وتحرق كل ما هو غير نقي**، عينيه تخترقان أعماق القلوب وتكشف الحقائق، كما أنها تعبر عن **غيرة الله المقدسة** ضد الشر والخطيئة.</p>
+            <section id="sonOfMan" class="feature-section active">
+                <h2>متمنطقًا بمنطقة من ذهب</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"...مُتَمَنْطِقًا عِنْدَ ثَدْيَيْهِ بِمِنْطَقَةٍ مِنْ ذَهَبٍ." (الرؤيا 1: 13)</p>
+                        <h3>المعنى:</h3>
+                        <p>هذا التشبيه يدل على **مجد لاهوته** و**الاستعداد للخدمة والسلطة**. المنطقة الذهبية تشير إلى **الكرامة، النبل، والغنى المطلق** الذي يميز الذات الإلهية. عادة ما كانت الأحزمة (المناطق) تستخدم لتجميع الثياب استعداداً للعمل أو للسلطة.</p>
+                        <h3>التشبيه:</h3>
+                        <p>يرمز إلى **الملك المتربع على عرشه**، والذي يتمتع بسلطان كامل ومجد لا يوصف، وهو جاهز للقيام بعمله الإلهي في الدينونة والرعاية.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="رسم توضيحي لشخصية قوية بهالة ذهبية ومنطقة ذهبية">
+                        <p class="image-caption">تعبير عن المجد والسلطان الإلهي.</p>
+                    </div>
                 </div>
-                <div class="image-content">
-                    <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="رسم توضيحي لعينين تشتعلان بلهيب النار">
-                    <p class="image-caption">تجسيد للقوة الإلهية التي تخترق كل خفاء.</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="bronzeFeet" class="feature-section">
-            <h2>رِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"وَرِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ..." (الرؤيا 1: 15)</p>
-                    <h3>المعنى:</h3>
-                    <p>يدل هذا على **الاستقرار، الثبات، قوة الدينونة، والقدرة على سحق الأعداء**. النحاس النقي المحمى يشير إلى المتانة والقوة التي لا تتزعزع. هذه الصفة تظهر **عدل الله الذي يدوس على الشر** ويقيم مملكة البر. دليل على **المتانة والثبات**.</p>
-                    <h3>التشبيه:</h3>
-                    <p>يشبه **أساسًا قويًا وثابتًا لا يمكن زعزعته**، ويرمز أيضًا إلى قدرته على الدوس على الشر والدينونة العادلة. كما يشير إلى **نقاوة طرق الله** وعمله الذي لا تشوبه شائبة.</p>
+            <section id="whiteHair" class="feature-section">
+                <h2>رأسه وشعره أبيضان كالصوف الأبيض، كالثلج</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"وَرَأْسُهُ وَشَعْرُهُ أَبْيَضَانِ كَالصُّوفِ الأَبْيَضِ، كَالثَّلْجِ..." (الرؤيا 1: 14)</p>
+                        <h3>المعنى:</h3>
+                        <p>يدل هذا على **الأزلية، القدم، الحكمة، والنقاوة المطلقة**. اللون الأبيض يرمز إلى الطهارة والنقاء، والشعر الأبيض يرمز إلى الحكمة والخبرة الطويلة التي لا بداية لها ولا نهاية. هذه الصفة تشير إلى **الله الأزلي الأبدي** الذي كان قبل كل الدهور ولا يتغير.</p>
+                        <h3>التشبيه:</h3>
+                        <p>يشبه **شيخوخة حكيمة وكريمة**، لكنها هنا تشير إلى كمال وجوده الأزلي الذي لا يعرف بداية أو نهاية، وأنه هو **القديم الأيام** الذي يمتلك كل المعرفة والحكمة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="رسم توضيحي لرأس بشعر أبيض ناصع">
+                        <p class="image-caption">رسم يوضح نقاء وحكمة الأزلية.</p>
+                    </div>
                 </div>
-                <div class="image-content">
-                    <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="رسم توضيحي لأقدام قوية من النحاس المتوهج">
-                    <p class="image-caption">قوة وثبات لا يتزعزعان.</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="voiceWater" class="feature-section">
-            <h2>وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"...وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ." (الرؤيا 1: 15)</p>
-                    <h3>المعنى:</h3>
-                    <p>يشير إلى **القوة، السلطة، المهابة، والشمولية**. صوت الله له تأثير عظيم ويصل إلى كل مكان، فهو يغطي كل شيء. هذا التشبيه يعبر عن **كلمة الله الفعالة** التي تحدث وتخلق وتدين، ولا يمكن لأحد أن يقف أمامها. دليل على **القوة والرهبة**.</p>
-                    <h3>التشبيه:</h3>
-                    <p>مثل **شلالات عظيمة أو أمواج المحيط الهادرة**، صوته قوي ومهيب، لا يمكن تجاهله أو مقاومته. يعبر عن **السيادة المطلقة** لله الذي بكلمته خلق السماوات والأرض.</p>
+            <section id="flameEyes" class="feature-section">
+                <h2>عَيْنَاهُ كَلَهِيبِ نَارٍ</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"...وَعَيْنَاهُ كَلَهِيبِ نَارٍ." (الرؤيا 1: 14)</p>
+                        <h3>المعنى:</h3>
+                        <p>ترمز إلى **المعرفة الكلية، الاختراق، الدينونة، والقدرة على فحص كل شيء**. لا يوجد شيء مخفي عن عينيه، فهو يرى كل خفي وظاهر. تشير هذه العيون إلى **بصيرة الله التي تميز بين الحق والباطل**، وتكشف النوايا الخفية. ترمز لـ **تفحص كل شيء**.</p>
+                        <h3>التشبيه:</h3>
+                        <p>مثل **النار التي تكشف وتطهر وتحرق كل ما هو غير نقي**، عينيه تخترقان أعماق القلوب وتكشف الحقائق، كما أنها تعبر عن **غيرة الله المقدسة** ضد الشر والخطيئة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="رسم توضيحي لعينين تشتعلان بلهيب النار">
+                        <p class="image-caption">تجسيد للقوة الإلهية التي تخترق كل خفاء.</p>
+                    </div>
                 </div>
-                <div class="image-content">
-                    <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="رسم توضيحي لشلالات مياه ضخمة">
-                    <p class="image-caption">صوت مهيب يملأ الكون.</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="twoEdgedSword" class="feature-section">
-            <h2>وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"...وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ..." (الرؤيا 1: 16)</p>
-                    <h3>المعنى:</h3>
-                    <p>يرمز إلى **كلمة الله الحية والفعالة، القادرة على الفصل بين الحق والباطل، والحكم والدينونة**. هذه الكلمة تخترق النفوس والأرواح، وتميز الخفي من الظاهر. هي **كلمة القوة والتغيير** التي تنفذ وتدين.</p>
-                    <h3>التشبيه:</h3>
-                    <p>مثل **السيف الذي يقطع ويخترق كل شيء**، كلمة الله قاطعة وحاسمة، تفصل بين النور والظلمة. إنها **كلمة الله التي تدين** الخطية وتكشف الزيف، وتعلن الحق المطلق.</p>
+            <section id="bronzeFeet" class="feature-section">
+                <h2>رِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"وَرِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ..." (الرؤيا 1: 15)</p>
+                        <h3>المعنى:</h3>
+                        <p>يدل هذا على **الاستقرار، الثبات، قوة الدينونة، والقدرة على سحق الأعداء**. النحاس النقي المحمى يشير إلى المتانة والقوة التي لا تتزعزع. هذه الصفة تظهر **عدل الله الذي يدوس على الشر** ويقيم مملكة البر. دليل على **المتانة والثبات**.</p>
+                        <h3>التشبيه:</h3>
+                        <p>يشبه **أساسًا قويًا وثابتًا لا يمكن زعزعته**، ويرمز أيضًا إلى قدرته على الدوس على الشر والدينونة العادلة. كما يشير إلى **نقاوة طرق الله** وعمله الذي لا تشوبه شائبة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="رسم توضيحي لأقدام قوية من النحاس المتوهج">
+                        <p class="image-caption">قوة وثبات لا يتزعزعان.</p>
+                    </div>
                 </div>
-                <div class="image-content">
-                    <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_1.jpg" alt="رسم توضيحي لسيف حاد يخرج من فم">
-                    <p class="image-caption">قوة كلمة الله الفاصلة.</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="shiningFace" class="feature-section">
-            <h2>وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"...وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا." (الرؤيا 1: 16)</p>
-                    <h3>المعنى:</h3>
-                    <p>يدل على **المجد المطلق، النور الإلهي، البريق، والقداسة**. وجه الله يشع نورًا لا يطاق في مجده وعظمته. هذه الصفة تؤكد **بهاء الله وكماله** الذي لا يمكن إدراكه بالكامل بالعين البشرية. دليل على **الضياء الشديد**.</p>
-                    <h3>التشبيه:</h3>
-                    <p>يشبه **الشمس في أوج قوتها وسطوعها**، لا يمكن لأحد أن ينظر إليها مباشرة بسبب شدة ضوئها، وهذا يرمز إلى بهاء مجد الله الذي لا يمكن إدراكه بشكل كامل، وإلى **نوره الذي يبدد كل ظلمة**.</p>
+            <section id="voiceWater" class="feature-section">
+                <h2>وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"...وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ." (الرؤيا 1: 15)</p>
+                        <h3>المعنى:</h3>
+                        <p>يشير إلى **القوة، السلطة، المهابة، والشمولية**. صوت الله له تأثير عظيم ويصل إلى كل مكان، فهو يغطي كل شيء. هذا التشبيه يعبر عن **كلمة الله الفعالة** التي تحدث وتخلق وتدين، ولا يمكن لأحد أن يقف أمامها. دليل على **القوة والرهبة**.</p>
+                        <h3>التشبيه:</h3>
+                        <p>مثل **شلالات عظيمة أو أمواج المحيط الهادرة**، صوته قوي ومهيب، لا يمكن تجاهله أو مقاومته. يعبر عن **السيادة المطلقة** لله الذي بكلمته خلق السماوات والأرض.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="رسم توضيحي لشلالات مياه ضخمة">
+                        <p class="image-caption">صوت مهيب يملأ الكون.</p>
+                    </div>
                 </div>
-                <div class="image-content">
-                    <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="رسم توضيحي لوجه يشع نورًا كالشمس">
-                    <p class="image-caption">مجد وبهاء النور الإلهي.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="appearedChrist" class="feature-section">
-            <h2>ظهور السيد المسيح ليوحنا</h2>
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <h3>النص الكتابي:</h3>
-                    <p>"فَلَمَّا رَأَيْتُهُ سَقَطْتُ عِنْدَ رِجْلَيْهِ كَمَيْتٍ، فَوَضَعَ يَدَهُ الْيُمْنَى عَلَيَّ قَائِلاً لِي: لاَ تَخَفْ، أَنَا هُوَ الأَوَّلُ وَالآخِرُ، وَالْحَيُّ. وَكُنْتُ مَيْتًا، وَهَا أَنَا حَيٌّ إِلَى أَبَدِ الآبِدِينَ. آمِينَ. وَلِي مَفَاتِيحُ الْهَاوِيَةِ وَالْمَوْتِ." (الرؤيا 1: 17-18)</p>
-                    <h3>المعنى:</h3>
-                    <p>هذا الظهور يرمز إلى **المهابة والمجد العظيم للسيد المسيح في لاهوته**. رد فعل يوحنا بالسقوط كالميت يدل على عظمة هذا الظهور وعدم قدرة الإنسان على تحمل بهاء المجد الإلهي. تأكيد المسيح أنه "الأول والآخر والحي" وله مفاتيح الهاوية والموت يؤكد على **أزليته، أبدية، قيامته، وسلطانه المطلق على الحياة والموت**.</p>
-                    <h3>التشبيه:</h3>
-                    <p>يشبه هذا الظهور **الرؤى العظيمة للأنبياء** التي تدل على حضور الله وقوته. إنه يرمز إلى **مجد المسيح بعد القيامة والصعود**، وسلطانه على كل شيء، وأنه هو الرب الحقيقي الذي له كل السيادة والقوة.</p>
-                </div>
-                <div class="image-content">
-                    <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="رسم يوحنا يسقط أمام المسيح المجيد">
-                    <p class="image-caption">مشهد مهيب لظهور المسيح ليوحنا، رمزاً للمجد والسلطان.</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        </main>
+            <section id="twoEdgedSword" class="feature-section">
+                <h2>وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"...وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ..." (الرؤيا 1: 16)</p>
+                        <h3>المعنى:</h3>
+                        <p>يرمز إلى **كلمة الله الحية والفعالة، القادرة على الفصل بين الحق والباطل، والحكم والدينونة**. هذه الكلمة تخترق النفوس والأرواح، وتميز الخفي من الظاهر. هي **كلمة القوة والتغيير** التي تنفذ وتدين.</p>
+                        <h3>التشبيه:</h3>
+                        <p>مثل **السيف الذي يقطع ويخترق كل شيء**، كلمة الله قاطعة وحاسمة، تفصل بين النور والظلمة. إنها **كلمة الله التي تدين** الخطية وتكشف الزيف، وتعلن الحق المطلق.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_1.jpg" alt="رسم توضيحي لسيف حاد يخرج من فم">
+                        <p class="image-caption">قوة كلمة الله الفاصلة.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="shiningFace" class="feature-section">
+                <h2>وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"...وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا." (الرؤيا 1: 16)</p>
+                        <h3>المعنى:</h3>
+                        <p>يدل على **المجد المطلق، النور الإلهي، البريق، والقداسة**. وجه الله يشع نورًا لا يطاق في مجده وعظمته. هذه الصفة تؤكد **بهاء الله وكماله** الذي لا يمكن إدراكه بالكامل بالعين البشرية. دليل على **الضياء الشديد**.</p>
+                        <h3>التشبيه:</h3>
+                        <p>يشبه **الشمس في أوج قوتها وسطوعها**، لا يمكن لأحد أن ينظر إليها مباشرة بسبب شدة ضوئها، وهذا يرمز إلى بهاء مجد الله الذي لا يمكن إدراكه بشكل كامل، وإلى **نوره الذي يبدد كل ظلمة**.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="رسم توضيحي لوجه يشع نورًا كالشمس">
+                        <p class="image-caption">مجد وبهاء النور الإلهي.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="appearedChrist" class="feature-section">
+                <h2>ظهور السيد المسيح ليوحنا</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"فَلَمَّا رَأَيْتُهُ سَقَطْتُ عِنْدَ رِجْلَيْهِ كَمَيْتٍ، فَوَضَعَ يَدَهُ الْيُمْنَى عَلَيَّ قَائِلاً لِي: لاَ تَخَفْ، أَنَا هُوَ الأَوَّلُ وَالآخِرُ، وَالْحَيُّ. وَكُنْتُ مَيْتًا، وَهَا أَنَا حَيٌّ إِلَى أَبَدِ الآبِدِينَ. آمِينَ. وَلِي مَفَاتِيحُ الْهَاوِيَةِ وَالْمَوْتِ." (الرؤيا 1: 17-18)</p>
+                        <h3>المعنى:</h3>
+                        <p>هذا الظهور يرمز إلى **المهابة والمجد العظيم للسيد المسيح في لاهوته**. رد فعل يوحنا بالسقوط كالميت يدل على عظمة هذا الظهور وعدم قدرة الإنسان على تحمل بهاء المجد الإلهي. تأكيد المسيح أنه "الأول والآخر والحي" وله مفاتيح الهاوية والموت يؤكد على **أزليته، أبدية، قيامته، وسلطانه المطلق على الحياة والموت**.</p>
+                        <h3>التشبيه:</h3>
+                        <p>يشبه هذا الظهور **الرؤى العظيمة للأنبياء** التي تدل على حضور الله وقوته. إنه يرمز إلى **مجد المسيح بعد القيامة والصعود**، وسلطانه على كل شيء، وأنه هو الرب الحقيقي الذي له كل السيادة والقوة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="رسم يوحنا يسقط أمام المسيح المجيد">
+                        <p class="image-caption">مشهد مهيب لظهور المسيح ليوحنا، رمزاً للمجد والسلطان.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="revelation2-content" class="chapter-content">
+            <div class="navigation">
+                <button class="nav-button active" data-target="ephesus">كنيسة أفسس</button>
+                <button class="nav-button" data-target="smyrna">كنيسة سميرنا</button>
+                <button class="nav-button" data-target="pergamos">كنيسة برغامس</button>
+                <button class="nav-button" data-target="thyatira">كنيسة ثياتيرا</button>
+            </div>
+
+            <section id="ephesus" class="feature-section active">
+                <h2>كنيسة أفسس: فقدان المحبة الأولى</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"أَنَا عَارِفٌ أَعْمَالَكَ وَتَعَبَكَ وَصَبْرَكَ، وَأَنَّكَ لاَ تَقْدِرُ أَنْ تَحْتَمِلَ الأَشْرَارَ، وَقَدْ جَرَّبْتَ الْقَائِلِينَ إِنَّهُمْ رُسُلٌ وَلَيْسُوا رُسُلاً فَوَجَدْتَهُمْ كَاذِبِينَ. وَقَدِ احْتَمَلْتَ وَلَكَ صَبْرٌ، وَلَمْ تَتْعَبْ مِنْ أَجْلِ اسْمِي. لكِنْ عِنْدِي عَلَيْكَ أَنَّكَ تَرَكْتَ مَحَبَّتَكَ الأُولَى. فَاذْكُرْ مِنْ أَيْنَ سَقَطْتَ وَتُبْ، وَاعْمَلِ الأَعْمَالَ الأُولَى، وَإِلاَّ فَإِنِّي آتِيكَ عَنْ قَرِيبٍ وَأُزَحْزِحْ مَنَارَتَكَ مِنْ مَكَانِهَا، إِنْ لَمْ تَتُبْ." (الرؤيا 2: 2-5)</p>
+                        <h3>المعنى:</h3>
+                        <p>كانت كنيسة أفسس تتميز بالأعمال الجيدة والصبر وعدم تحمل الشر، لكنها فقدت **محبتها الأولى** للمسيح وللآخرين. هذا يشير إلى خطر الروتين الديني وفقدان الشغف الروحي.</p>
+                        <h3>الدرس:</h3>
+                        <p>الأعمال الصالحة مهمة، لكن يجب أن تكون مدفوعة بالمحبة الخالصة للمسيح. يدعو الرب للتوبة والعودة إلى الشغف والحيوية الروحية الأولى.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="9-saint-mary_s-basilica-the-double-church-where-the-council-of-ephesusd983d986d98ad8b3d8a9-d8a7d984d8a8d8a7d8b2d98ad984d98ad983-d985d8a7d8b1d98a-d8add98ad8ab.jpg" alt="كنيسة أفسس">
+                        <p class="image-caption">صورة لكنيسة أفسس.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="smyrna" class="feature-section">
+                <h2>كنيسة سميرنا: الصبر في الضيق</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"أَنَا عَارِفٌ أَعْمَالَكَ وَضِيقَتَكَ وَفَقْرَكَ، وَأَنْتَ غَنِيٌّ! وَتَجْدِيفَ الْقَائِلِينَ إِنَّهُمْ يَهُودٌ وَلَيْسُوا يَهُودًا، بَلْ مَجْمَعُ الشَّيْطَانِ. لاَ تَخَفْ الْبَتَّةَ مِمَّا أَنْتَ مُزْمِعٌ أَنْ تَتَأَلَّمَ بِهِ. هُوَذَا إِبْلِيسُ مُزْمِعٌ أَنْ يُلْقِيَ بَعْضًا مِنْكُمْ فِي السِّجْنِ لِكَيْ تُجَرَّبُوا، وَيَكُونَ لَكُمْ ضِيقَةُ عَشَرَةِ أَيَّامٍ. كُنْ أَمِينًا إِلَى الْمَوْتِ فَسَأُعْطِيكَ إِكْلِيلَ الْحَيَاةِ." (الرؤيا 2: 9-10)</p>
+                        <h3>المعنى:</h3>
+                        <p>كنيسة سميرنا كانت تعاني من الضيق والفقر والاضطهاد، لكن الرب يصفها بأنها **غنية روحيًا**. يشجعهم على الثبات والأمانة حتى الموت.</p>
+                        <h3>الدرس:</h3>
+                        <p>الأمانة في وجه الاضطهاد تجلب مكافأة عظيمة، وهي إكليل الحياة. الضيقات قد تكون قصيرة الأمد، لكن الأمانة لله تدوم إلى الأبد.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="images.jpg" alt="كنيسة سميرنا">
+                        <p class="image-caption">صورة لكنيسة سميرنا.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pergamos" class="feature-section">
+                <h2>كنيسة برغامس: التنازل عن الحق</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"أَنَا عَارِفٌ أَيْنَ تَسْكُنُ، حَيْثُ كُرْسِيُّ الشَّيْطَانِ، وَأَنْتَ مُتَمَسِّكٌ بِاسْمِي وَلَمْ تُنْكِرْ إِيمَانِي حَتَّى فِي الأَيَّامِ الَّتِي فِيهَا كَانَ أَنْتِيبَاسُ شَاهِدِي الأَمِينُ الَّذِي قُتِلَ عِنْدَكُمْ حَيْثُ يَسْكُنُ الشَّيْطَانُ. وَلَكِنْ عِنْدِي عَلَيْكَ قَلِيلٌ: أَنَّ عِنْدَكَ هُنَاكَ قَوْمًا مُتَمَسِّكِينَ بِتَعْلِيمِ بَلْعَامَ، الَّذِي كَانَ يُعَلِّمُ بَالاَقَ أَنْ يُلْقِيَ مَعْثَرَةً أَمَامَ بَنِي إِسْرَائِيلَ: أَنْ يَأْكُلُوا مَا ذُبِحَ لِلأَوْثَانِ وَيَزْنُوا." (الرؤيا 2: 13-14)</p>
+                        <h3>المعنى:</h3>
+                        <p>كنيسة برغامس كانت تعيش في "حيث كرسي الشيطان" (مركز عبادة الأوثان)، وكانت متمسكة بالإيمان. لكن بعض أعضائها سمحوا بتعاليم خاطئة (مثل تعليم بلعام) تتسلل إليهم، مما أدى إلى **الخطايا الأخلاقية وعبادة الأوثان**.</p>
+                        <h3>الدرس:</h3>
+                        <p>حتى في بيئة صعبة، يجب على المؤمنين التمسك بالحق ورفض أي تسوية مع الشر أو التعاليم الخاطئة. الطاعة لكلمة الله أهم من مجرد الحفاظ على الاسم.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="احدى الكنائس السبعه بسفر الرؤيا ( برغامس).jpg" alt="كنيسة برغامس">
+                        <p class="image-caption">صورة لكنيسة برغامس.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="thyatira" class="feature-section">
+                <h2>كنيسة ثياتيرا: تسامح مع الشر</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>النص الكتابي:</h3>
+                        <p>"وَلَكِنْ عِنْدِي عَلَيْكَ قَلِيلٌ: أَنَّكَ تُسَامِحُ الْمَرْأَةَ إِيزَابَلَ الَّتِي تَقُولُ إِنَّهَا نَبِيَّةٌ، وَتُعَلِّمُ وَتُغْوِي عَبِيدِي حَتَّى يَزْنُوا وَيَأْكُلُوا مَا ذُبِحَ لِلأَوْثَانِ." (الرؤيا 2: 20)</p>
+                        <h3>المعنى:</h3>
+                        <p>تميزت كنيسة ثياتيرا بالأعمال الكثيرة والمحبة والخدمة، لكنها تسامحت مع امرأة تدعي النبوة (إيزابل) وكانت تقود المؤمنين إلى **الخطية الأخلاقية وعبادة الأوثان**.</p>
+                        <h3>الدرس:</h3>
+                        <p>ليس كافيًا أن تكون لديك أعمال صالحة، بل يجب أيضًا أن تكون صارمًا ضد الشر والتعاليم الخاطئة داخل الكنيسة. التساهل مع الخطية يقود إلى الفساد الروحي.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="image.jpg" alt="كنيسة ثياتيرا">
+                        <p class="image-caption">صورة لكنيسة ثياتيرا.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
 
     <footer>
         <p>&copy; 2025 Marc-Tech. All rights reserved.</p>
     </footer>
 
-    <script src="j.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const chapterNavigationContainer = document.getElementById('chapterNavigationContainer');
+            const welcomeChapterButtons = welcomeScreen.querySelectorAll('.chapter-nav-button');
+            const mainChapterButtons = chapterNavigationContainer.querySelectorAll('.chapter-nav-button');
+            const allChapterContents = document.querySelectorAll('.chapter-content');
+
+            // Function to show a specific chapter content and hide others
+            const showChapterContent = (chapterId) => {
+                allChapterContents.forEach(chapter => {
+                    if (chapter.id === chapterId) {
+                        chapter.classList.add('active');
+                        // Scroll to the top of the chapter content
+                        chapter.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                        // Activate the first feature section and its button within the newly active chapter
+                        const firstFeatureSection = chapter.querySelector('.feature-section');
+                        if (firstFeatureSection) {
+                            // Find all nav-buttons within this specific chapter
+                            const chapterSpecificNavButtons = chapter.querySelectorAll('.nav-button');
+                            chapterSpecificNavButtons.forEach(btn => btn.classList.remove('active')); // Deactivate all
+                            const firstNavButton = chapter.querySelector(`.nav-button[data-target="${firstFeatureSection.id}"]`);
+                            if (firstNavButton) {
+                                firstNavButton.classList.add('active');
+                            }
+                            firstFeatureSection.classList.add('active');
+                        }
+                    } else {
+                        chapter.classList.remove('active');
+                    }
+                });
+
+                // Activate the corresponding chapter button in the main navigation
+                mainChapterButtons.forEach(button => {
+                    if (button.dataset.chapter === chapterId) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+            };
+
+            // Function to show a specific section within an active chapter and activate its button
+            const showSection = (targetId, parentChapterId) => {
+                const currentChapter = document.getElementById(parentChapterId);
+                if (!currentChapter) return; // Ensure the parent chapter exists
+
+                const featureSections = currentChapter.querySelectorAll('.feature-section');
+                const navButtons = currentChapter.querySelectorAll('.nav-button');
+
+                featureSections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                navButtons.forEach(button => {
+                    if (button.dataset.target === targetId) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+            };
+
+            // Handle chapter selection from welcome screen or main navigation
+            const handleChapterSelection = (chapterId) => {
+                welcomeScreen.style.display = 'none'; // Hide welcome screen
+                chapterNavigationContainer.style.display = 'flex'; // Show main chapter nav
+                showChapterContent(chapterId); // Show selected chapter content
+                window.location.hash = chapterId; // Update URL hash
+            };
+
+            // Add click event listeners to welcome screen chapter buttons
+            welcomeChapterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const chapterId = button.dataset.chapter;
+                    handleChapterSelection(chapterId);
+                });
+            });
+
+            // Add click event listeners to main chapter navigation buttons
+            mainChapterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const chapterId = button.dataset.chapter;
+                    handleChapterSelection(chapterId);
+                });
+            });
+
+            // Add click event listeners to section navigation buttons within each chapter
+            allChapterContents.forEach(chapter => {
+                const navButtons = chapter.querySelectorAll('.nav-button');
+                navButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const targetId = button.dataset.target;
+                        showSection(targetId, chapter.id);
+                        // Optionally update URL hash for sections within a chapter
+                        // window.location.hash = `${chapter.id}-${targetId}`;
+                    });
+                });
+            });
+
+            // Initial load logic based on URL hash
+            const initialHash = window.location.hash.substring(1); // Remove the '#'
+            if (initialHash) {
+                // Check if the hash corresponds to a chapter ID
+                if (document.getElementById(initialHash)) {
+                    handleChapterSelection(initialHash);
+                } else {
+                    // Check if it's a section within a chapter (e.g., "revelation1-sonOfMan")
+                    const parts = initialHash.split('-');
+                    if (parts.length > 1 && document.getElementById(parts[0] + '-content')) {
+                        const chapterIdFromHash = parts[0] + '-content';
+                        const sectionIdFromHash = initialHash;
+                        handleChapterSelection(chapterIdFromHash); // Show chapter first
+                        // Allow time for chapter to display before scrolling to section
+                        setTimeout(() => showSection(sectionIdFromHash, chapterIdFromHash), 100);
+                    }
+                }
+            } else {
+                // If no hash, just show the welcome screen
+                welcomeScreen.style.display = 'flex';
+                chapterNavigationContainer.style.display = 'none';
+                allChapterContents.forEach(chapter => chapter.classList.remove('active')); // Ensure all chapters are hidden
+            }
+        });
+    </script>
 </body>
 </html>
