@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صفات الذات الإلهية في سفر الرؤيا</title>
     <link rel="shortcut icon" href="upscalemedia-transformed.jpg" type="image/x-icon">
+    <!-- Font Awesome for search icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* General Styling */
         body {
@@ -21,23 +23,22 @@
         header {
             background-color: #2c3e50;
             color: #fff;
-            padding: 20px 0;
-            text-align: center;
+            padding: 20px; /* Uniform padding */
+            text-align: center; /* Still for the h1 within header-content */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            position: sticky; /* Make header sticky */
+            position: sticky;
             top: 0;
-            z-index: 1000; /* Ensure it's above other content */
-            display: flex; /* لتموضع اللوجو والعنوان */
-            justify-content: center; /* لتموضع العنوان في المنتصف */
-            align-items: center; /* لمحاذاة العناصر رأسياً */
-            padding-right: 80px; /* مساحة للوجو في اليمين */
-            padding-left: 80px; /* للحفاظ على التوازن */
-            position: relative; /* لتموضع اللوجو بداخله بشكل مطلق */
+            z-index: 1000;
+            display: flex; /* Make header a flex container */
+            justify-content: space-between; /* Distribute items: search left, title center, logo right (for RTL) */
+            align-items: center;
         }
 
         .header-content {
+            flex-grow: 1; /* Allows title to take central space */
             text-align: center;
-            flex-grow: 1; /* للسماح للمحتوى بأخذ المساحة المتاحة */
+            order: 2; /* Visual order for RTL: 1=left, 2=center, 3=right */
+            margin: 0 20px; /* Add horizontal margin around title */
         }
 
         header h1 {
@@ -53,14 +54,97 @@
         }
 
         .header-logo {
-            position: absolute; /* وضع اللوجو بشكل مطلق */
-            top: 50%; /* في منتصف الارتفاع */
-            right: 20px; /* 20 بكسل من اليمين */
-            transform: translateY(-50%); /* لضبط المحاذاة الرأسية تمامًا */
-            width: 60px; /* حجم اللوجو، يمكنك تعديله */
+            width: 60px;
             height: auto;
-            /* للحفاظ على الألوان الأصلية للوجو الشفاف */
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3)); /* لإضافة ظل خفيف */
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+            order: 3; /* Visual order for RTL: 1=left, 2=center, 3=right */
+        }
+
+        /* Search Area Wrapper Styling - now directly in header flow */
+        .search-area-wrapper {
+            display: flex; /* Always flex to contain icon/bar */
+            align-items: center;
+            gap: 10px; /* Space between icon and bar */
+            order: 1; /* Visual order for RTL: 1=left, 2=center, 3=right */
+            /* No absolute positioning here */
+        }
+
+        .search-icon-container {
+            display: block; /* Always block within wrapper */
+        }
+
+        #searchIcon {
+            background: none;
+            border: none;
+            color: #fff; /* White icon on dark header */
+            font-size: 1.5em; /* Adjust size for header */
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+
+        #searchIcon:hover {
+            color: #f0f0f0;
+        }
+
+        .search-bar {
+            display: none; /* Hidden by default */
+            background-color: #f9f9f9;
+            padding: 5px 10px; /* Smaller padding for header bar */
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            gap: 5px; /* Smaller gap inside bar */
+            align-items: center;
+            width: 200px; /* Default width for search bar */
+            box-sizing: border-box;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .search-bar.active {
+            display: flex;
+        }
+
+        #searchInput {
+            flex-grow: 1; /* Allow input to take available space */
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        #searchCloseButton {
+            background: none;
+            border: none;
+            color: #e74c3c; /* Red color for close button */
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+
+        #searchCloseButton:hover {
+            color: #c0392b;
+        }
+
+        /* Highlight style for search results */
+        .highlight {
+            background-color: #ffeb3b; /* Bright yellow for highlighting */
+            padding: 2px 0;
+            border-radius: 3px;
+        }
+
+        /* No results message */
+        #noResultsMessage {
+            display: none; /* Hidden by default */
+            text-align: center;
+            color: #e74c3c;
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #e74c3c;
+            background-color: #fce4e4;
+            border-radius: 8px;
         }
 
         main {
@@ -82,13 +166,11 @@
             text-align: center;
             padding: 20px;
             animation: fadeIn 1s ease-out;
-
-            /* **تم إزالة اللوجو كخلفية من هنا** */
             background-image: none;
-            opacity: 1; /* إعادة الشفافية الطبيعية للشاشة */
+            opacity: 1;
         }
 
-        .welcome-screen h2 {
+        .welcome-screen h1 { /* Changed from h2 to h1 for consistency */
             color: #2c3e50;
             font-size: 3em;
             margin-bottom: 20px;
@@ -289,20 +371,35 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             header {
-                flex-direction: column; /* Stack logo and title vertically */
-                padding: 15px 0; /* Adjust padding for stacked layout */
-                position: relative; /* Ensure position for absolute logo */
+                flex-direction: column; /* Stack items */
+                padding: 15px 10px; /* Adjust padding */
+                align-items: center; /* Center items when stacked */
             }
 
             .header-logo {
-                position: static; /* Reset position for smaller screens */
                 width: 50px; /* Adjust size for smaller screens */
-                margin-bottom: 10px; /* Space between logo and title */
-                transform: none; /* Remove transform */
+                margin-top: 10px; /* Space above logo */
             }
             
             .header-content {
-                order: 2; /* Put content below the logo */
+                order: 1; /* Title first */
+                margin: 0 0 15px 0; /* Space below title */
+            }
+
+            .search-area-wrapper {
+                order: 2; /* Search below title */
+                width: 100%; /* Take full width */
+                justify-content: center; /* Center search elements */
+                margin-bottom: 10px; /* Space below search */
+            }
+
+            .search-icon-container {
+                margin-bottom: 10px; /* Adjust spacing */
+            }
+
+            .search-bar {
+                width: 90%; /* Adjust width for mobile */
+                max-width: none; /* Remove max-width constraint */
             }
 
             header h1 {
@@ -328,7 +425,7 @@
                 order: -1; /* Image appears before text in column layout */
             }
 
-            .welcome-screen h2 {
+            .welcome-screen h1 { /* Changed from h2 to h1 for consistency */
                 font-size: 2em;
             }
 
@@ -355,8 +452,22 @@
 </head>
 <body>
     <header>
+        <!-- Search elements moved to header -->
+        <div class="search-area-wrapper" id="searchAreaWrapper">
+            <div class="search-icon-container">
+                <button id="searchIcon" aria-label="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="search-bar" id="searchBar">
+                <input type="text" id="searchInput" placeholder="ابحث في المحتوى...">
+                <button id="searchCloseButton" aria-label="إغلاق البحث">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
         <div class="header-content">
-            <h1>الكتاب المقدس مع ال ABS</h1>
+            <h1>صفات الذات الإلهية في سفر الرؤيا</h1>
         </div>
         <img src="upscalemedia-transformed-removebg-preview.png" alt="Marc-Tech Logo" class="header-logo">
     </header>
@@ -373,9 +484,13 @@
         </div>
 
         <div id="chapterNavigationContainer" class="chapter-navigation">
-            <button class="chapter-nav-button" data-chapter="revelation1-content">صفات الذات الإلهية في سفر الرؤيا 1</button>
+            <button class="chapter-nav-button" data-chapter="revelation1-content">سفر الرؤيا 1</button>
             <button class="chapter-nav-button" data-chapter="revelation2-content">الكنائس الأربعة في سفر الرؤيا 2</button>
-            <button class="chapter-nav-button" data-chapter="acts-content">حياة الآباء الرسل وأهم الأحداث من سفر أعمال الرسل</button>
+            <button class="chapter-nav-button" data-chapter="acts-content">أعمال الرسل (1-14)</button>
+        </div>
+
+        <div id="noResultsMessage">
+            <p>لا توجد نتائج مطابقة لبحثك.</p>
         </div>
 
         <div id="revelation1-content" class="chapter-content">
@@ -970,6 +1085,44 @@
             const mainChapterButtons = chapterNavigationContainer.querySelectorAll('.chapter-nav-button');
             const allChapterContents = document.querySelectorAll('.chapter-content');
 
+            // Get search elements
+            const searchAreaWrapper = document.getElementById('searchAreaWrapper');
+            const searchIcon = document.getElementById('searchIcon');
+            const searchBar = document.getElementById('searchBar');
+            const searchInput = document.getElementById('searchInput');
+            const searchCloseButton = document.getElementById('searchCloseButton');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+
+            // Store original content of sections to restore later
+            const originalSectionContents = {};
+            allChapterContents.forEach(chapter => {
+                chapter.querySelectorAll('.feature-section').forEach(section => {
+                    originalSectionContents[section.id] = section.querySelector('.text-content').innerHTML;
+                });
+            });
+
+            // Function to highlight text
+            const highlightText = (text, query) => {
+                if (!query) return text;
+                // Use a regular expression to find all occurrences of the query, case-insensitive
+                const regex = new RegExp(`(${query})`, 'gi');
+                // Replace matched occurrences with a span for highlighting
+                return text.replace(regex, '<span class="highlight">$&</span>');
+            };
+
+            // Function to remove all highlights
+            const removeHighlights = () => {
+                allChapterContents.forEach(chapter => {
+                    chapter.querySelectorAll('.feature-section').forEach(section => {
+                        const textContentDiv = section.querySelector('.text-content');
+                        // Restore the original content from the stored map
+                        if (originalSectionContents[section.id]) {
+                            textContentDiv.innerHTML = originalSectionContents[section.id];
+                        }
+                    });
+                });
+            };
+
             // Function to show a specific chapter content and hide others
             const showChapterContent = (chapterId) => {
                 allChapterContents.forEach(chapter => {
@@ -1031,12 +1184,95 @@
                 });
             };
 
+            // Function to apply search filter within the active chapter
+            let searchTimeout; // Debounce variable
+            const applySearchFilter = () => {
+                clearTimeout(searchTimeout); // Clear previous timeout
+                searchTimeout = setTimeout(() => { // Set a new timeout
+                    const query = searchInput.value.toLowerCase().trim();
+                    const activeChapterContent = document.querySelector('.chapter-content.active');
+                    const navButtons = activeChapterContent ? activeChapterContent.querySelectorAll('.navigation .nav-button') : [];
+                    
+                    let visibleSectionsCount = 0;
+
+                    if (!activeChapterContent) {
+                        noResultsMessage.style.display = 'none';
+                        return;
+                    }
+
+                    removeHighlights(); // Always remove previous highlights before applying new ones or clearing
+
+                    const featureSections = activeChapterContent.querySelectorAll('.feature-section');
+
+                    featureSections.forEach(section => {
+                        const textContentDiv = section.querySelector('.text-content');
+                        const originalContent = originalSectionContents[section.id]; // Get original content
+
+                        if (query === '') {
+                            // If query is empty, restore original content and show section
+                            textContentDiv.innerHTML = originalContent;
+                            section.style.display = 'block';
+                            visibleSectionsCount++;
+                        } else {
+                            // Create a temporary div to parse HTML and highlight specific elements
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = originalContent;
+                            let foundMatchInSection = false;
+
+                            // Iterate over relevant text elements (p and h3) to apply highlighting
+                            tempDiv.querySelectorAll('p, h3').forEach(element => {
+                                const originalElementText = element.textContent;
+                                if (originalElementText.toLowerCase().includes(query)) {
+                                    element.innerHTML = highlightText(originalElementText, query);
+                                    foundMatchInSection = true;
+                                }
+                            });
+
+                            if (foundMatchInSection) {
+                                section.style.display = 'block';
+                                textContentDiv.innerHTML = tempDiv.innerHTML; // Update with highlighted content
+                                visibleSectionsCount++;
+                            } else {
+                                section.style.display = 'none';
+                            }
+                        }
+                    });
+
+                    // Show/hide no results message
+                    if (visibleSectionsCount === 0 && query !== '') {
+                        noResultsMessage.style.display = 'block';
+                    } else {
+                        noResultsMessage.style.display = 'none';
+                    }
+
+                    // Manage section navigation buttons visibility
+                    if (query !== '') {
+                        navButtons.forEach(btn => btn.style.display = 'none'); // Hide all nav buttons during search
+                    } else {
+                        navButtons.forEach(btn => btn.style.display = 'inline-block'); // Show all nav buttons when search is clear
+                        // Re-activate the first section's button if search is cleared and a chapter is active
+                        if (activeChapterContent) {
+                            const firstSectionInChapter = activeChapterContent.querySelector('.feature-section');
+                            if (firstSectionInChapter) {
+                                showSection(firstSectionInChapter.id, activeChapterContent.id);
+                            }
+                        }
+                    }
+                }, 300); // Debounce time: 300ms
+            };
+
             // Handle chapter selection from welcome screen or main navigation
             const handleChapterSelection = (chapterId) => {
                 welcomeScreen.style.display = 'none'; // Hide welcome screen
                 chapterNavigationContainer.style.display = 'flex'; // Show main chapter nav
+                searchAreaWrapper.style.display = 'flex'; // Show search area wrapper (now always visible in header)
                 showChapterContent(chapterId); // Show selected chapter content
                 window.location.hash = chapterId; // Update URL hash
+
+                // Clear search input and re-apply filter to show all sections of the new chapter
+                searchInput.value = '';
+                removeHighlights(); // Ensure highlights are removed when changing chapters
+                applySearchFilter(); // This will also show all nav buttons for the new chapter
             };
 
             // Add click event listeners to welcome screen chapter buttons
@@ -1060,6 +1296,13 @@
                 const navButtons = chapter.querySelectorAll('.nav-button');
                 navButtons.forEach(button => {
                     button.addEventListener('click', () => {
+                        // Ensure search bar is hidden and input is cleared when using regular navigation
+                        searchBar.classList.remove('active');
+                        searchIcon.style.display = 'block'; // Ensure search icon is visible
+                        searchInput.value = '';
+                        removeHighlights(); // Reset highlights when navigating via section buttons
+                        applySearchFilter(); // Reset filter to show all sections
+
                         const targetId = button.dataset.target;
                         showSection(targetId, chapter.id);
                         // Optionally update URL hash for sections within a chapter
@@ -1068,29 +1311,73 @@
                 });
             });
 
-            // Initial load logic based on URL hash
-            const initialHash = window.location.hash.substring(1); // Remove the '#'
-            if (initialHash) {
-                // Check if the hash corresponds to a chapter ID
-                if (document.getElementById(initialHash)) {
-                    handleChapterSelection(initialHash);
-                } else {
-                    // Check if it's a section within a chapter (e.g., "revelation1-sonOfMan")
-                    const parts = initialHash.split('-');
-                    if (parts.length > 1 && document.getElementById(parts[0] + '-content')) {
-                        const chapterIdFromHash = parts[0] + '-content';
-                        const sectionIdFromHash = initialHash;
-                        handleChapterSelection(chapterIdFromHash); // Show chapter first
-                        // Allow time for chapter to display before scrolling to section
-                        setTimeout(() => showSection(sectionIdFromHash, chapterIdFromHash), 100);
+            // Toggle search bar visibility
+            searchIcon.addEventListener('click', () => {
+                searchBar.classList.toggle('active');
+                if (searchBar.classList.contains('active')) {
+                    searchInput.focus(); // Focus on input when visible
+                    searchIcon.style.display = 'none'; // Hide the search icon when the bar is active
+                    // Hide section navigation buttons when search bar is active
+                    const activeChapterContent = document.querySelector('.chapter-content.active');
+                    if (activeChapterContent) {
+                        const navButtons = activeChapterContent.querySelectorAll('.navigation .nav-button');
+                        navButtons.forEach(btn => btn.style.display = 'none');
                     }
+                } else {
+                    // When closing search bar, clear input and reset filter
+                    searchInput.value = '';
+                    removeHighlights(); // Clear highlights when closing search bar
+                    applySearchFilter(); // This will re-show section nav buttons
+                    searchIcon.style.display = 'block'; // Show the search icon when the bar is hidden
                 }
-            } else {
-                // If no hash, just show the welcome screen
-                welcomeScreen.style.display = 'flex';
-                chapterNavigationContainer.style.display = 'none';
-                allChapterContents.forEach(chapter => chapter.classList.remove('active')); // Ensure all chapters are hidden
-            }
+            });
+
+            // Close search bar and clear search
+            searchCloseButton.addEventListener('click', () => {
+                searchBar.classList.remove('active');
+                searchInput.value = '';
+                removeHighlights(); // Reset highlights when closing search bar
+                applySearchFilter(); // Reset filter to show all sections and re-show nav buttons
+                searchIcon.style.display = 'block'; // Ensure search icon is visible
+            });
+
+            // Live search on keyup
+            searchInput.addEventListener('keyup', applySearchFilter);
+
+            // Initial load logic based on URL hash
+            document.addEventListener('DOMContentLoaded', () => {
+                // Store original content on initial load
+                allChapterContents.forEach(chapter => {
+                    chapter.querySelectorAll('.feature-section').forEach(section => {
+                        originalSectionContents[section.id] = section.querySelector('.text-content').innerHTML;
+                    });
+                });
+
+                const initialHash = window.location.hash.substring(1); // Remove the '#'
+                if (initialHash) {
+                    // Check if the hash corresponds to a chapter ID
+                    if (document.getElementById(initialHash)) {
+                        handleChapterSelection(initialHash);
+                    } else {
+                        // Check if it's a section within a chapter (e.g., "revelation1-sonOfMan")
+                        const parts = initialHash.split('-');
+                        if (parts.length > 1 && document.getElementById(parts[0] + '-content')) {
+                            const chapterIdFromHash = parts[0] + '-content';
+                            const sectionIdFromHash = initialHash;
+                            handleChapterSelection(chapterIdFromHash); // Show chapter first
+                            // Allow time for chapter to display before scrolling to section
+                            setTimeout(() => showSection(sectionIdFromHash, chapterIdFromHash), 100);
+                        }
+                    }
+                } else {
+                    // If no hash, just show the welcome screen
+                    welcomeScreen.style.display = 'flex';
+                    chapterNavigationContainer.style.display = 'none';
+                    searchAreaWrapper.style.display = 'none'; // Ensure search area is hidden initially
+                    allChapterContents.forEach(chapter => chapter.classList.remove('active')); // Ensure all chapters are hidden
+                }
+                removeHighlights(); // Ensure no leftover highlights on first load
+            });
         });
     </script>
 </body>
