@@ -96,8 +96,10 @@
 
         .welcome-buttons {
             display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap */
             gap: 20px;
             margin-top: 30px; /* Space between welcome message and buttons */
+            justify-content: center;
         }
 
         /* Unified Button Styling for Welcome Screen and Main Navigation */
@@ -139,6 +141,7 @@
         .chapter-navigation {
             display: none; /* Hidden by default, shown after welcome */
             justify-content: center;
+            flex-wrap: wrap; /* Allow buttons to wrap */
             gap: 15px;
             margin-bottom: 30px;
             padding-bottom: 20px;
@@ -353,24 +356,26 @@
 <body>
     <header>
         <div class="header-content">
-            <h1>صفات الذات الإلهية في سفر الرؤيا</h1>
+            <h1>الكتاب المقدس مع ال ABS</h1>
         </div>
         <img src="upscalemedia-transformed-removebg-preview.png" alt="Marc-Tech Logo" class="header-logo">
     </header>
 
     <main>
         <div class="welcome-screen" id="welcomeScreen">
-            <h1>أهلاً بك في دراسة سفر الرؤيا مع أسرة أبونا فلتاؤس</h1>
-            <p>اختار الإصحاح الي عاوز تشوفوا:</p>
+            <h1>أهلاً بك في دراسة الكتاب مع أسرة أبونا فلتاؤس</h1>
+            <p>اختار الجزء الذي تريد رؤيته:</p>
             <div class="welcome-buttons">
-                <button class="chapter-nav-button" data-chapter="revelation1-content">سفر الرؤيا 1</button>
-                <button class="chapter-nav-button" data-chapter="revelation2-content">سفر الرؤيا 2</button>
+                <button class="chapter-nav-button" data-chapter="revelation1-content">صفات الذات الإلهية في سفر الرؤيا 1</button>
+                <button class="chapter-nav-button" data-chapter="revelation2-content">الكنائس الأربعة في سفر الرؤيا 2</button>
+                <button class="chapter-nav-button" data-chapter="acts-content">حياة الآباء الرسل وأهم الأحداث من سفر أعمال الرسل</button>
             </div>
         </div>
 
         <div id="chapterNavigationContainer" class="chapter-navigation">
-            <button class="chapter-nav-button" data-chapter="revelation1-content">سفر الرؤيا 1</button>
-            <button class="chapter-nav-button" data-chapter="revelation2-content">سفر الرؤيا 2</button>
+            <button class="chapter-nav-button" data-chapter="revelation1-content">صفات الذات الإلهية في سفر الرؤيا 1</button>
+            <button class="chapter-nav-button" data-chapter="revelation2-content">الكنائس الأربعة في سفر الرؤيا 2</button>
+            <button class="chapter-nav-button" data-chapter="acts-content">حياة الآباء الرسل وأهم الأحداث من سفر أعمال الرسل</button>
         </div>
 
         <div id="revelation1-content" class="chapter-content">
@@ -397,7 +402,7 @@
                         <p>يرمز إلى **الملك المتربع على عرشه**، والذي يتمتع بسلطان كامل ومجد لا يوصف، وهو جاهز للقيام بعمله الإلهي في الدينونة والرعاية.</p>
                     </div>
                     <div class="image-content">
-                        <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="رسم توضيحي لشخصية قوية بهالة ذهبية ومنطقة ذهبية">
+                        <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="صورة تصور شخصية قوية بهالة ذهبية وحزام ذهبي">
                         <p class="image-caption">تعبير عن المجد والسلطان الإلهي.</p>
                     </div>
                 </div>
@@ -415,7 +420,7 @@
                         <p>يشبه **شيخوخة حكيمة وكريمة**، لكنها هنا تشير إلى كمال وجوده الأزلي الذي لا يعرف بداية أو نهاية، وأنه هو **القديم الأيام** الذي يمتلك كل المعرفة والحكمة.</p>
                     </div>
                     <div class="image-content">
-                        <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="رسم توضيحي لرأس بشعر أبيض ناصع">
+                        <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="صورة رأس بشعر أبيض لامع">
                         <p class="image-caption">رسم يوضح نقاء وحكمة الأزلية.</p>
                     </div>
                 </div>
@@ -433,7 +438,7 @@
                         <p>مثل **النار التي تكشف وتطهر وتحرق كل ما هو غير نقي**، عينيه تخترقان أعماق القلوب وتكشف الحقائق، كما أنها تعبر عن **غيرة الله المقدسة** ضد الشر والخطيئة.</p>
                     </div>
                     <div class="image-content">
-                        <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="رسم توضيحي لعينين تشتعلان بلهيب النار">
+                        <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="صورة عيون متوهجة بالنار">
                         <p class="image-caption">تجسيد للقوة الإلهية التي تخترق كل خفاء.</p>
                     </div>
                 </div>
@@ -451,7 +456,7 @@
                         <p>يشبه **أساسًا قويًا وثابتًا لا يمكن زعزعته**، ويرمز أيضًا إلى قدرته على الدوس على الشر والدينونة العادلة. كما يشير إلى **نقاوة طرق الله** وعمله الذي لا تشوبه شائبة.</p>
                     </div>
                     <div class="image-content">
-                        <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="رسم توضيحي لأقدام قوية من النحاس المتوهج">
+                        <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="صورة أقدام قوية مصنوعة من البرونز المتوهج">
                         <p class="image-caption">قوة وثبات لا يتزعزعان.</p>
                     </div>
                 </div>
@@ -469,7 +474,7 @@
                         <p>مثل **شلالات عظيمة أو أمواج المحيط الهادرة**، صوته قوي ومهيب، لا يمكن تجاهله أو مقاومته. يعبر عن **السيادة المطلقة** لله الذي بكلمته خلق السماوات والأرض.</p>
                     </div>
                     <div class="image-content">
-                        <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="رسم توضيحي لشلالات مياه ضخمة">
+                        <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="صورة لشلالات مياه ضخمة">
                         <p class="image-caption">صوت مهيب يملأ الكون.</p>
                     </div>
                 </div>
@@ -487,7 +492,7 @@
                         <p>مثل **السيف الذي يقطع ويخترق كل شيء**، كلمة الله قاطعة وحاسمة، تفصل بين النور والظلمة. إنها **كلمة الله التي تدين** الخطية وتكشف الزيف، وتعلن الحق المطلق.</p>
                     </div>
                     <div class="image-content">
-                        <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_.jpg" alt="رسم توضيحي لسيف حاد يخرج من فم">
+                        <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_.jpg" alt="صورة سيف حاد يخرج من فم">
                         <p class="image-caption">قوة كلمة الله الفاصلة.</p>
                     </div>
                 </div>
@@ -505,7 +510,7 @@
                         <p>يشبه **الشمس في أوج قوتها وسطوعها**، لا يمكن لأحد أن ينظر إليها مباشرة بسبب شدة ضوئها، وهذا يرمز إلى بهاء مجد الله الذي لا يمكن إدراكه بشكل كامل، وإلى **نوره الذي يبدد كل ظلمة**.</p>
                     </div>
                     <div class="image-content">
-                        <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="رسم توضيحي لوجه يشع نورًا كالشمس">
+                        <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="صورة وجه يشع نوراً كالشمس">
                         <p class="image-caption">مجد وبهاء النور الإلهي.</p>
                     </div>
                 </div>
@@ -523,7 +528,7 @@
                         <p>يشبه هذا الظهور **الرؤى العظيمة للأنبياء** التي تدل على حضور الله وقوته. إنه يرمز إلى **مجد المسيح بعد القيامة والصعود**، وسلطانه على كل شيء، وأنه هو الرب الحقيقي الذي له كل السيادة والقوة.</p>
                     </div>
                     <div class="image-content">
-                        <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="رسم يوحنا يسقط أمام المسيح المجيد">
+                        <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="صورة يوحنا يسقط أمام المسيح المجيد">
                         <p class="image-caption">مشهد مهيب لظهور المسيح ليوحنا، رمزاً للمجد والسلطان.</p>
                     </div>
                 </div>
@@ -550,7 +555,7 @@
                         <p>الأعمال الصالحة مهمة، لكن يجب أن تكون مدفوعة بالمحبة الخالصة للمسيح. يدعو الرب للتوبة والعودة إلى الشغف والحيوية الروحية الأولى.</p>
                     </div>
                     <div class="image-content">
-                        <img src="9-saint-mary_s-basilica-the-double-church-where-the-council-of-ephesusd983d986d98ad8b3d8a9-d8a7d984d8a8d8a7d8b2d98ad984d98ad983-d985d8a7d8b1d98a-d8add98ad8ab.jpg" alt="كنيسة أفسس">
+                        <img src="9-saint-mary_s-basilica-the-double-church-where-the-council-of-ephesusd983d986d98ad8b3d8a9-d8a7d984d8a8d8a7d8b2d98ad984d98ad983-d985d8a7d8b1d98a-d8add98ad8ab.jpg" alt="صورة لكنيسة أفسس">
                         <p class="image-caption">صورة لكنيسة أفسس.</p>
                     </div>
                 </div>
@@ -568,7 +573,7 @@
                         <p>الأمانة في وجه الاضطهاد تجلب مكافأة عظيمة، وهي إكليل الحياة. الضيقات قد تكون قصيرة الأمد، لكن الأمانة لله تدوم إلى الأبد.</p>
                     </div>
                     <div class="image-content">
-                        <img src="images.jpg" alt="كنيسة سميرنا">
+                        <img src="images.jpg" alt="صورة لكنيسة سميرنا">
                         <p class="image-caption">صورة لكنيسة سميرنا.</p>
                     </div>
                 </div>
@@ -586,7 +591,7 @@
                         <p>حتى في بيئة صعبة، يجب على المؤمنين التمسك بالحق ورفض أي تسوية مع الشر أو التعاليم الخاطئة. الطاعة لكلمة الله أهم من مجرد الحفاظ على الاسم.</p>
                     </div>
                     <div class="image-content">
-                        <img src="احدى الكنائس السبعه بسفر الرؤيا ( برغامس).jpg" alt="كنيسة برغامس">
+                        <img src="احدى الكنائس السبعه بسفر الرؤيا ( برغامس).jpg" alt="صورة لكنيسة برغامس">
                         <p class="image-caption">صورة لكنيسة برغامس.</p>
                     </div>
                 </div>
@@ -604,8 +609,349 @@
                         <p>ليس كافيًا أن تكون لديك أعمال صالحة، بل يجب أيضًا أن تكون صارمًا ضد الشر والتعاليم الخاطئة داخل الكنيسة. التساهل مع الخطية يقود إلى الفساد الروحي.</p>
                     </div>
                     <div class="image-content">
-                        <img src="image.jpg" alt="كنيسة ثياتيرا">
+                        <img src="image.jpg" alt="صورة لكنيسة ثياتيرا">
                         <p class="image-caption">صورة لكنيسة ثياتيرا.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- New Section: Acts of the Apostles -->
+        <div id="acts-content" class="chapter-content">
+            <div class="navigation">
+                <button class="nav-button active" data-target="acts1">أعمال الرسل 1</button>
+                <button class="nav-button" data-target="acts2">أعمال الرسل 2</button>
+                <button class="nav-button" data-target="acts3">أعمال الرسل 3</button>
+                <button class="nav-button" data-target="acts4">أعمال الرسل 4</button>
+                <button class="nav-button" data-target="acts5">أعمال الرسل 5</button>
+                <button class="nav-button" data-target="acts6">أعمال الرسل 6</button>
+                <button class="nav-button" data-target="acts7">أعمال الرسل 7</button>
+                <button class="nav-button" data-target="acts8">أعمال الرسل 8</button>
+                <button class="nav-button" data-target="acts9">أعمال الرسل 9</button>
+                <button class="nav-button" data-target="acts10">أعمال الرسل 10</button>
+                <button class="nav-button" data-target="acts11">أعمال الرسل 11</button>
+                <button class="nav-button" data-target="acts12">أعمال الرسل 12</button>
+                <button class="nav-button" data-target="acts13">أعمال الرسل 13</button>
+                <button class="nav-button" data-target="acts14">أعمال الرسل 14</button>
+            </div>
+
+            <section id="acts1" class="feature-section active">
+                <h2>أعمال الرسل 1: صعود المسيح واختيار متياس</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>وصية يسوع لتلاميذه بالبقاء في أورشليم حتى يلبسوا قوة من الأعالي.</li>
+                            <li>صعود المسيح إلى السماء أمام أعين تلاميذه.</li>
+                            <li>ظهور رجلين بثياب بيض ووعدهما بعودة المسيح.</li>
+                            <li>اجتماع الرسل مع مريم وبعض النساء للصلاة.</li>
+                            <li>اختيار متياس بدلاً من يهوذا الإسخريوطي ليكمل عدد الرسل الاثني عشر.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يعلمنا هذا الإصحاح أهمية الانتظار والصلاة قبل البدء في الخدمة، والثقة في وعود الرب، وأهمية الوحدة في الكنيسة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-st-takla-org--sweet-bible-Ac_01_01.jpg" alt="[Image depicting the Ascension of Christ and the selection of Matthias] صورة تصور صعود المسيح واختيار متياس">
+                        <p class="image-caption">صعود المسيح واختيار متياس.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="acts2" class="feature-section">
+                <h2>أعمال الرسل 2: حلول الروح القدس ويوم الخمسين</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>حلول الروح القدس على التلاميذ في يوم الخمسين وظهور ألسنة كأنها من نار.</li>
+                            <li>بدء التلاميذ يتكلمون بألسنة أخرى حسبما أتاهم الروح أن ينطقوا.</li>
+                            <li>اندهاش الجموع وسماع كل منهم لغة بلده.</li>
+                            <li>خطبة بطرس القوية التي أدت إلى توبة حوالي ثلاثة آلاف نفس.</li>
+                            <li>التزام المؤمنين بتعليم الرسل، والشركة، وكسر الخبز، والصلوات.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يبرز هذا الإصحاح قوة الروح القدس في تجديد الحياة والشهادة، وأهمية الكرازة بكلمة الله، ودور الشركة المسيحية في نمو الكنيسة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="download.jpeg" alt="[Image depicting the descent of the Holy Spirit on Pentecost] صورة تصور نزول الروح القدس في يوم الخمسين">
+                        <p class="image-caption">حلول الروح القدس.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts3" class="feature-section">
+                <h2>أعمال الرسل 3: شفاء الأعرج عند باب الجميل</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>بطرس ويوحنا يصعدان إلى الهيكل في ساعة الصلاة.</li>
+                            <li>شفاء رجل أعرج من بطن أمه عند باب الهيكل المسمى "الجميل" باسم يسوع المسيح.</li>
+                            <li>دهشة الناس واجتماعهم حول بطرس ويوحنا.</li>
+                            <li>خطبة بطرس الثانية التي يدعو فيها الشعب إلى التوبة والإيمان بالمسيح.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يظهر قوة اسم يسوع المسيح في الشفاء والخلاص، وأهمية الشهادة الجريئة للمسيح، ودعوة الله المستمرة للتوبة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-St-Takla-org--PETEHEAL.jpg" alt="[Image depicting the healing of the lame man at the Beautiful Gate] صورة تصور شفاء الأعرج عند الباب الجميل">
+                        <p class="image-caption">شفاء الأعرج.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts4" class="feature-section">
+                <h2>أعمال الرسل 4: شجاعة بطرس ويوحنا أمام السنهدريم</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>قبض السلطات الدينية على بطرس ويوحنا بسبب كرازتهما بالقيامة.</li>
+                            <li>شهادة بطرس الجريئة أمام السنهدريم بأن الخلاص ليس بغير اسم يسوع المسيح.</li>
+                            <li>تهديدات السلطات للرسل ومنعهما من التكلم أو التعليم باسم يسوع.</li>
+                            <li>صلاة الرسل والمؤمنين بقوة وامتلاء المكان من الروح القدس.</li>
+                            <li>المؤمنون يبيعون أملاكهم ويضعون الأثمان عند أقدام الرسل لتوزيعها على المحتاجين.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يعلمنا هذا الإصحاح الشجاعة في الشهادة للمسيح رغم الاضطهاد، وقوة الصلاة الجماعية، وأهمية الشركة والاهتمام بالفقراء في الكنيسة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-st-takla-org--sweet-bible-Ac_04_01.jpg" alt="[Image depicting Peter and John before the Sanhedrin] صورة تصور بطرس ويوحنا أمام السنهدريم">
+                        <p class="image-caption">بطرس ويوحنا أمام السنهدريم.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts5" class="feature-section">
+                <h2>أعمال الرسل 5: حنانيا وسفيرة وسجن الرسل</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>قصة حنانيا وسفيرة وموتهما بسبب الكذب على الروح القدس.</li>
+                            <li>كثرة الآيات والعجائب التي يجريها الرسل بين الشعب.</li>
+                            <li>سجن الرسل بواسطة رئيس الكهنة والحسد، وإخراج ملاك الرب لهم من السجن ليلاً.</li>
+                            <li>وقوف الرسل في الهيكل وتعليم الشعب، وتوبيخهم للسنهدريم لرفضهم الحق.</li>
+                            <li>قرار السنهدريم بقتل الرسل، وتدخل غمالائيل الذي نصح بتركهم.</li>
+                            <li>ضرب الرسل وإطلاق سراحهم، وفرحهم لأنهم استأهلوا أن يهانون من أجل اسم المسيح.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يؤكد هذا الإصحاح على قدسية الروح القدس وخطورة الكذب عليه، وقوة الله في حماية خدامه، والشجاعة في مواجهة الظلم.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-st-takla-org--sweet-bible-Ac_04_02.jpg" alt="[Image depicting Ananias and Sapphira, and the apostles in prison] صورة تصور حنانيا وسفيرة، والرسل في السجن">
+                        <p class="image-caption">حنانيا وسفيرة وسجن الرسل.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts6" class="feature-section">
+                <h2>أعمال الرسل 6: اختيار الشمامسة واستشهاد استفانوس</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>تذمر اليونانيين على العبرانيين بسبب إهمال أراملهم في الخدمة اليومية.</li>
+                            <li>اقتراح الرسل اختيار سبعة رجال مملوئين من الروح القدس وحكمة لخدمة الموائد.</li>
+                            <li>اختيار استفانوس وفيليبس وبروخورس ونيكانور وتيمون وبرميناس ونيقولاوس.</li>
+                            <li>استفانوس يفعل آيات وعجائب عظيمة ويواجه مقاومة من اليهود.</li>
+                            <li>اتهام استفانوس بالتجديف واقتياده إلى السنهدريم.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يظهر أهمية التنظيم في الكنيسة لضمان العدالة في الخدمة، وأهمية اختيار خدام مملوئين من الروح القدس والحكمة، وشجاعة الشهادة للمسيح حتى في مواجهة الموت.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-St-Takla-org--The-Seven-Deacons.gif" alt="[Image depicting the selection of deacons and Stephen's martyrdom] صورة تصور اختيار الشمامسة واستشهاد استفانوس">
+                        <p class="image-caption">اختيار الشمامسة.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts7" class="feature-section">
+                <h2>أعمال الرسل 7: خطبة استفانوس واستشهاده</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>خطبة استفانوس الدفاعية أمام السنهدريم، التي يستعرض فيها تاريخ إسرائيل من إبراهيم حتى المسيح.</li>
+                            <li>توبيخ استفانوس لليهود على مقاومتهم الروح القدس وقتلهم الأنبياء والمسيح.</li>
+                            <li>رؤية استفانوس للسماء مفتوحة وابن الإنسان قائماً عن يمين الله.</li>
+                            <li>رجم استفانوس، وصلاته من أجل الذين يرجمونه "يا رب، لا تقم لهم هذه الخطية".</li>
+                            <li>شاول (بولس) يحرس ثياب الذين رجموا استفانوس.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يعلمنا هذا الإصحاح قوة الشهادة الجريئة للحق حتى النهاية، وغفران الأعداء، وأن الألم من أجل المسيح هو طريق للمجد.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-St-Takla-org--Coptic-Saints-Saint-Stephen-02-01.jpg" alt="[Image depicting Stephen's sermon and his martyrdom] صورة تصور خطبة استفانوس واستشهاده">
+                        <p class="image-caption">خطبة استفانوس واستشهاده.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts8" class="feature-section">
+                <h2>أعمال الرسل 8: الاضطهاد وتبشير فيلبس في السامرة</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>بدء اضطهاد عظيم على الكنيسة في أورشليم وتشتت المؤمنين.</li>
+                            <li>شاول يبدأ في اضطهاد الكنيسة بعنف.</li>
+                            <li>ذهاب فيلبس إلى السامرة وبشارته بالمسيح، وعمل آيات وعجائب عظيمة.</li>
+                            <li>إيمان السامريين وتعمديهم، وقصة سيمون الساحر الذي حاول شراء موهبة الروح القدس.</li>
+                            <li>ذهاب بطرس ويوحنا إلى السامرة لوضع الأيدي على المؤمنين لينالوا الروح القدس.</li>
+                            <li>فيلبس يبشر الخصي الحبشي ويعمده بعد أن شرح له نبوءة إشعياء.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يظهر أن الاضطهاد يمكن أن يكون وسيلة لانتشار الإنجيل، وأهمية التبشير لكل الأمم، وخطورة محاولة الحصول على البركات الروحية بالمال.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-st-takla-org--sweet-bible-Ac_08_04.jpg" alt="[Image depicting Philip preaching in Samaria and the Ethiopian eunuch] صورة تصور فيلبس يبشر في السامرة والخصي الحبشي">
+                        <p class="image-caption">تبشير فيلبس في السامرة.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts9" class="feature-section">
+                <h2>أعمال الرسل 9: اهتداء شاول وبطرس يقيم طابيثا</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>شاول يذهب إلى دمشق لاضطهاد المسيحيين، وفي الطريق يظهر له المسيح.</li>
+                            <li>عمى شاول لمدة ثلاثة أيام، ودعوة حنانيا لشفائه.</li>
+                            <li>شفاء شاول وامتلائه بالروح القدس وتعمديه، وبدء بشارته بالمسيح في دمشق.</li>
+                            <li>محاولة اليهود قتل شاول وهروبه.</li>
+                            <li>بطرس يشفي إينياس في اللد، ويقيم طابيثا (غزالة) من الأموات في يافا.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يبرز هذا الإصحاح قوة الله في تحويل أعظم المضطهدين إلى أعظم المبشرين، وأهمية الطاعة لدعوة الله حتى لو كانت غير متوقعة، وقوة الصلاة في إقامة الأموات.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-st-takla-org--sweet-bible-Ac_09_01.jpg" alt="[Image depicting the conversion of Saul and Peter raising Tabitha] صورة تصور اهتداء شاول وبطرس يقيم طابيثا">
+                        <p class="image-caption">اهتداء شاول.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts10" class="feature-section">
+                <h2>أعمال الرسل 10: اهتداء كرنيليوس</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>كرنيليوس، قائد المئة الروماني التقي، يرى رؤيا تأمره بإرسال رجال إلى بطرس.</li>
+                            <li>رؤيا بطرس في يافا عن الملاءة التي فيها جميع أنواع الحيوانات النجس والطاهرة، والأمر بأن يأكل.</li>
+                            <li>وصول رجال كرنيليوس إلى بطرس.</li>
+                            <li>ذهاب بطرس إلى قيصرية ودخوله بيت كرنيليوس والتبشير بالمسيح.</li>
+                            <li>حلول الروح القدس على كرنيليوس وأهل بيته وهم يستمعون إلى كلام بطرس.</li>
+                            <li>تعميد كرنيليوس وأهل بيته، مما يفتح الباب لدخول الأمم إلى الكنيسة.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يظهر أن الله لا يحابي الوجوه، وأن الإنجيل متاح لكل الأمم، وأهمية الطاعة للرؤى الإلهية حتى لو كانت تخالف المفاهيم التقليدية.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-St-Takla-org--Peter-Baptizing-the-Centurion-Cornelius-by-Francesco-Trevisani-1709.jpg" alt="[Image depicting the conversion of Cornelius and his household] صورة تصور اهتداء كرنيليوس وعائلته">
+                        <p class="image-caption">اهتداء كرنيليوس.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts11" class="feature-section">
+                <h2>أعمال الرسل 11: دفاع بطرس وانتشار الإنجيل في أنطاكية</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>الرسل والإخوة في اليهودية يسمعون أن الأمم أيضاً قبلوا كلمة الله.</li>
+                            <li>بطرس يشرح لهم الرؤيا التي رآها وزيارته لبيت كرنيليوس وحلول الروح القدس عليهم.</li>
+                            <li>اقتناعهم وتمجيدهم الله لأن الأمم أيضاً أعطاهم الله توبة للحياة.</li>
+                            <li>انتشار الإنجيل إلى أنطاكية وبشارة اليونانيين هناك.</li>
+                            <li>إرسال برنابا إلى أنطاكية، وفرحه بما رأى من نعمة الله.</li>
+                            <li>برنابا يذهب إلى طرسوس ليطلب شاول، ويحضره إلى أنطاكية، حيث يعلمان الكنيسة لمدة سنة.</li>
+                            <li>دعوة التلاميذ لأول مرة "مسيحيين" في أنطاكية.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يؤكد هذا الإصحاح على أن الخلاص ليس مقتصراً على شعب معين، وأهمية قبول الآخر، ودور المعلمين في بناء الكنيسة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-st-takla-org--sweet-bible-Ac_12_03.jpg" alt="[Image depicting Peter's defense and the spread of the Gospel in Antioch] صورة تصور دفاع بطرس وانتشار الإنجيل في أنطاكية">
+                        <p class="image-caption">انتشار الإنجيل في أنطاكية.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts12" class="feature-section">
+                <h2>أعمال الرسل 12: سجن بطرس وموت هيرودس</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>هيرودس الملك يمد يديه ليؤذي أناساً من الكنيسة.</li>
+                            <li>قتل يعقوب أخي يوحنا بالسيف.</li>
+                            <li>قبض هيرودس على بطرس وسجنه، وعزمه على تقديمه للشعب بعد الفصح.</li>
+                            <li>صلاة الكنيسة الحارة من أجل بطرس.</li>
+                            <li>ملاك الرب يحرر بطرس من السجن بشكل معجزي.</li>
+                            <li>ذهاب بطرس إلى بيت مريم أم يوحنا، حيث كان كثيرون مجتمعين يصلون.</li>
+                            <li>موت هيرودس بضربة ملاك الرب بعد أن قبل المجد الإلهي لنفسه.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يظهر قوة الصلاة الجماعية في تحرير السجناء، وحماية الله لخدامه، وعقابه للمتكبرين الذين يغتصبون مجد الله.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-St-Takla-org--10-Peter-Released-from-Prison-by-an-Angel.jpg" alt="[Image depicting Peter in prison and the death of Herod] صورة تصور بطرس في السجن وموت هيرودس">
+                        <p class="image-caption">سجن بطرس وموت هيرودس.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts13" class="feature-section">
+                <h2>أعمال الرسل 13: رحلة بولس وبرنابا التبشيرية الأولى</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>فصل الروح القدس لبرنابا وشاول للعمل الذي دعاهما إليه.</li>
+                            <li>ذهابهما إلى سلوكية ومنها بالإبحار إلى قبرص.</li>
+                            <li>تبشيرهما في سلاميس، وتعمية ساحر اسمه أليماس في بافوس.</li>
+                            <li>ذهابهما إلى برجة بمفيلية، ثم إلى أنطاكية بيسيدية.</li>
+                            <li>خطبة بولس في المجمع اليهودي في أنطاكية بيسيدية، التي يستعرض فيها تاريخ الخلاص بالمسيح.</li>
+                            <li>بعض اليهود يقبلون الإنجيل، والبعض الآخر يقاوم.</li>
+                            <li>تحول بولس وبرنابا إلى الأمم بسبب رفض اليهود.</li>
+                            <li>اضطهاد بولس وبرنابا وطردهما من المدينة.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يبدأ هذا الإصحاح رحلة التبشير للأمم، ويظهر أهمية قيادة الروح القدس للخدمة، والشجاعة في مواجهة المقاومة.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="images.jpeg" alt="[Image depicting Paul and Barnabas on their first missionary journey] صورة تصور بولس وبرنابا في رحلتهما التبشيرية الأولى">
+                        <p class="image-caption">رحلة بولس وبرنابا التبشيرية الأولى.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="acts14" class="feature-section">
+                <h2>أعمال الرسل 14: التبشير في أيقونية ولسترة ودربة</h2>
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h3>أهم الأحداث:</h3>
+                        <ul>
+                            <li>تبشير بولس وبرنابا في أيقونية وعمل آيات وعجائب.</li>
+                            <li>انقسام المدينة بين مؤمنين وغير مؤمنين، ومحاولة رجمهما.</li>
+                            <li>ذهابهما إلى لسترة ودربة.</li>
+                            <li>شفاء بولس لرجل أعرج في لسترة، وظن الناس أنهما إلهان (زفس وهرمس).</li>
+                            <li>محاولة أهل لسترة أن يذبحوا لهما، ومنع بولس وبرنابا لهم.</li>
+                            <li>وصول يهود من أنطاكية وأيقونية وإثارتهم الجموع، ورجمهم لبولس وتركه كالميت.</li>
+                            <li>قيام بولس ودخوله المدينة في اليوم التالي وذهابه مع برنابا إلى دربة.</li>
+                            <li>عودتهما إلى لسترة وأيقونية وأنطاكية لتقوية النفوس وتعيين شيوخ.</li>
+                            <li>عودتهما إلى أنطاكية سوريا حيث ابتدأا.</li>
+                        </ul>
+                        <h3>التطبيق الروحي:</h3>
+                        <p>يظهر أن الخدمة الحقيقية تتطلب الصبر في الضيقات، وعدم قبول المجد البشري، وأهمية متابعة المؤمنين الجدد وتقوية الكنائس.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="www-St-Takla-org--232--Paul-&-Barnabas-Treated-as-Gods.jpg" alt="[Image depicting Paul and Barnabas preaching in Iconium, Lystra, and Derbe] صورة تصور بولس وبرنابا يبشران في أيقونية ولسترة ودربة">
+                        <p class="image-caption">التبشير في أيقونية ولسترة ودربة.</p>
                     </div>
                 </div>
             </section>
