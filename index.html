@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دراسة الكتاب مع ال ABS</title>
     <link rel="shortcut icon" href="upscalemedia-transformed.jpg" type="image/x-icon">
-    <!-- Font Awesome for search icon -->
+    <!-- Font Awesome for search icon and chat icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* General Styling */
@@ -18,6 +18,9 @@
             line-height: 1.6;
             direction: rtl; /* Right-to-left for Arabic */
             text-align: right; /* Align text to the right for Arabic */
+            scroll-behavior: smooth; /* Smooth scrolling for the entire page */
+            /* Add scroll-padding-top to account for the sticky header height */
+            scroll-padding-top: 100px; /* Adjust this value if header height changes */
         }
 
         header {
@@ -30,7 +33,7 @@
             top: 0;
             z-index: 1000;
             display: flex; /* Make header a flex container */
-            justify-content: space-between; /* Distribute items: search left, title center, logo right (for RTL) */
+            justify-content: space-between;
             align-items: center;
         }
 
@@ -232,13 +235,13 @@
 
 
         /* Chapter Content Containers */
+        /* These will now primarily hold navigation, not the sections themselves */
         .chapter-content {
             display: none; /* Hide all chapter content by default */
         }
 
         .chapter-content.active {
-            display: block; /* Show active chapter content */
-            animation: fadeIn 0.8s ease-out; /* Fade-in effect */
+            display: block; /* Show active chapter content (mainly its navigation) */
         }
 
         /* Navigation Buttons (for sections within a chapter) */
@@ -260,7 +263,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1.05em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, padding 0.3s ease, font-size 0.3s ease, border-radius 0.3s ease; /* Added padding, font-size, border-radius for smooth transition */
             flex-shrink: 0; /* Prevent buttons from shrinking */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow */
         }
@@ -276,7 +279,15 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        /* Feature Sections */
+        /* New class for larger navigation buttons */
+        .nav-button-large {
+            padding: 18px 30px; /* Larger padding */
+            font-size: 1.5em; /* Larger font size */
+            border-radius: 8px; /* Slightly more rounded */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+        }
+
+        /* Feature Sections - now act as individual pages */
         .feature-section {
             display: none; /* Hidden by default */
             padding: 20px;
@@ -284,11 +295,11 @@
             background-color: #fcfcfc;
             border: 1px solid #eee;
             margin-bottom: 20px;
+            animation: fadeIn 0.8s ease-out; /* Fade-in effect */
         }
 
-        .feature-section.active {
+        .feature-section.active-page { /* New class to denote the currently active "page" */
             display: block; /* Show active section */
-            animation: fadeIn 0.8s ease-out; /* Fade-in effect */
         }
 
         .feature-section h2 {
@@ -448,6 +459,284 @@
                 width: 40px; /* Further reduce size for very small screens */
             }
         }
+
+        /* Chatbot FAB and Modal Styles */
+        .chat-fab {
+            position: fixed;
+            bottom: 20px;
+            left: 20px; /* Position on the left for RTL */
+            background-color: #3498db;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            z-index: 1001; /* Above header */
+        }
+
+        .chat-fab:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .chat-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            bottom: 90px; /* Above the FAB */
+            left: 20px; /* Aligned with FAB */
+            width: 350px;
+            height: 500px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1002; /* Above FAB */
+            animation: slideInUp 0.3s ease-out;
+            border: 1px solid #ddd;
+        }
+
+        .chat-modal.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .chat-header .close-button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .chat-header .close-button:hover {
+            color: #f0f0f0;
+        }
+
+        .chat-header .clear-chat-button {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-right: 10px; /* Space between clear and close */
+        }
+
+        .chat-header .clear-chat-button:hover {
+            background-color: #fff;
+            color: #2c3e50;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.4;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message {
+            background-color: #e0f7fa; /* Light blue */
+            align-self: flex-end; /* Align to the right for RTL */
+            border-bottom-left-radius: 5px;
+            border-top-right-radius: 18px;
+            border-bottom-right-radius: 18px;
+        }
+
+        .bot-message {
+            background-color: #e8f5e9; /* Light green */
+            align-self: flex-start; /* Align to the left for RTL */
+            border-bottom-right-radius: 5px;
+            border-top-left-radius: 18px;
+            border-bottom-left-radius: 18px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: #fff;
+            gap: 10px;
+        }
+
+        .chat-input-container textarea {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 1em;
+            resize: none; /* Disable manual resizing */
+            min-height: 40px;
+            max-height: 80px; /* Limit height to prevent excessive expansion */
+            overflow-y: auto;
+            direction: rtl; /* Ensure input is RTL */
+            text-align: right; /* Ensure input text is right-aligned */
+        }
+
+        .chat-input-container button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-input-container button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Typing indicator styles */
+        .loading-indicator {
+            display: flex; /* Changed to flex to align dots */
+            justify-content: center; /* Center the dots */
+            align-items: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: #7f8c8d;
+            height: 20px; /* Give it some height */
+        }
+
+        .typing-dots {
+            display: flex;
+            align-items: center;
+            gap: 4px; /* Space between dots */
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #7f8c8d;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+        }
+
+        /* Toast Notification Styles */
+        .toast-notification {
+            position: fixed;
+            bottom: 90px; /* Above FAB */
+            left: 20px; /* Aligned with FAB */
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Start slightly below */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            z-index: 1003; /* Above chat modal if it's not active */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments for chat modal and toast */
+        @media (max-width: 600px) {
+            .chat-modal {
+                width: 90%;
+                height: 80%;
+                bottom: 10px;
+                left: 5%;
+                right: 5%;
+                margin: auto;
+            }
+            .chat-fab {
+                bottom: 10px;
+                left: 10px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5em;
+            }
+            .toast-notification {
+                width: calc(100% - 40px); /* Full width minus padding */
+                left: 20px;
+                right: 20px;
+                bottom: 70px; /* Adjust if FAB size changes */
+                box-sizing: border-box;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -477,21 +766,24 @@
             <p>اختار الجزء الذي تريد رؤيته:</p>
             <div class="welcome-buttons">
                 <button class="chapter-nav-button" data-chapter="revelation1-content">صفات الذات الإلهية في سفر الرؤيا 1</button>
-                <button class="chapter-nav-button" data-chapter="revelation2-content">الكنائس الأربعة في سفر الرؤيا 2</button>
+                <button class="chapter-nav-button" data-chapter="revelation2-content">الكنائس السبع في سفر الرؤيا 2 و 3</button>
                 <button class="chapter-nav-button" data-chapter="acts-content">حياة الآباء الرسل وأهم الأحداث من سفر أعمال الرسل</button>
+                <button class="chapter-nav-button" data-chapter="my-church-content">معلومات عن كنيستي</button> <!-- New button for church info -->
             </div>
         </div>
 
         <div id="chapterNavigationContainer" class="chapter-navigation">
             <button class="chapter-nav-button" data-chapter="revelation1-content">صفات الذات الإلهية في سفر الرؤيا 1</button>
-            <button class="chapter-nav-button" data-chapter="revelation2-content">الكنائس الأربعة في سفر الرؤيا 2</button>
+            <button class="chapter-nav-button" data-chapter="revelation2-content">الكنائس السبع في سفر الرؤيا 2 و 3</button>
             <button class="chapter-nav-button" data-chapter="acts-content">حياة الآباء الرسل وأهم الأحداث من سفر أعمال الرسل</button>
+            <button class="chapter-nav-button" data-chapter="my-church-content">معلومات عن كنيستي</button> <!-- New button for church info -->
         </div>
 
         <div id="noResultsMessage">
             <p>لا توجد نتائج مطابقة لبحثك.</p>
         </div>
 
+        <!-- Chapter: Revelation 1 - Divine Attributes -->
         <div id="revelation1-content" class="chapter-content">
             <div class="navigation">
                 <button class="nav-button active" data-target="sonOfMan">متمنطقًا بمنطقة ذهب</button>
@@ -503,234 +795,290 @@
                 <button class="nav-button" data-target="shiningFace">وجهه كالشمس وهي تضيء</button>
                 <button class="nav-button" data-target="appearedChrist">ظهور السيد المسيح ليوحنا</button>
             </div>
-
-            <section id="sonOfMan" class="feature-section active">
-                <h2>متمنطقًا بمنطقة من ذهب</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"...مُتَمَنْطِقًا عِنْدَ ثَدْيَيْهِ بِمِنْطَقَةٍ مِنْ ذَهَبٍ." (الرؤيا 1: 13)</p>
-                        <h3>المعنى:</h3>
-                        <p>هذا التشبيه يدل على **مجد لاهوته** و**الاستعداد للخدمة والسلطة**. المنطقة الذهبية تشير إلى **الكرامة، النبل، والغنى المطلق** الذي يميز الذات الإلهية. عادة ما كانت الأحزمة (المناطق) تستخدم لتجميع الثياب استعداداً للعمل أو للسلطة.</p>
-                        <h3>التشبيه:</h3>
-                        <p>يرمز إلى **الملك المتربع على عرشه**، والذي يتمتع بسلطان كامل ومجد لا يوصف، وهو جاهز للقيام بعمله الإلهي في الدينونة والرعاية.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="صورة تصور شخصية قوية بهالة ذهبية وحزام ذهبي">
-                        <p class="image-caption">تعبير عن المجد والسلطان الإلهي.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="whiteHair" class="feature-section">
-                <h2>رأسه وشعره أبيضان كالصوف الأبيض، كالثلج</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"وَرَأْسُهُ وَشَعْرُهُ أَبْيَضَانِ كَالصُّوفِ الأَبْيَضِ، كَالثَّلْجِ..." (الرؤيا 1: 14)</p>
-                        <h3>المعنى:</h3>
-                        <p>يدل هذا على **الأزلية، القدم، الحكمة، والنقاوة المطلقة**. اللون الأبيض يرمز إلى الطهارة والنقاء، والشعر الأبيض يرمز إلى الحكمة والخبرة الطويلة التي لا بداية لها ولا نهاية. هذه الصفة تشير إلى **الله الأزلي الأبدي** الذي كان قبل كل الدهور ولا يتغير.</p>
-                        <h3>التشبيه:</h3>
-                        <p>يشبه **شيخوخة حكيمة وكريمة**، لكنها هنا تشير إلى كمال وجوده الأزلي الذي لا يعرف بداية أو نهاية، وأنه هو **القديم الأيام** الذي يمتلك كل المعرفة والحكمة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="صورة رأس بشعر أبيض لامع">
-                        <p class="image-caption">رسم يوضح نقاء وحكمة الأزلية.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="flameEyes" class="feature-section">
-                <h2>عَيْنَاهُ كَلَهِيبِ نَارٍ</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"...وَعَيْنَاهُ كَلَهِيبِ نَارٍ." (الرؤيا 1: 14)</p>
-                        <h3>المعنى:</h3>
-                        <p>ترمز إلى **المعرفة الكلية، الاختراق، الدينونة، والقدرة على فحص كل شيء**. لا يوجد شيء مخفي عن عينيه، فهو يرى كل خفي وظاهر. تشير هذه العيون إلى **بصيرة الله التي تميز بين الحق والباطل**، وتكشف النوايا الخفية. ترمز لـ **تفحص كل شيء**.</p>
-                        <h3>التشبيه:</h3>
-                        <p>مثل **النار التي تكشف وتطهر وتحرق كل ما هو غير نقي**، عينيه تخترقان أعماق القلوب وتكشف الحقائق، كما أنها تعبر عن **غيرة الله المقدسة** ضد الشر والخطيئة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="صورة عيون متوهجة بالنار">
-                        <p class="image-caption">تجسيد للقوة الإلهية التي تخترق كل خفاء.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="bronzeFeet" class="feature-section">
-                <h2>رِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"وَرِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ..." (الرؤيا 1: 15)</p>
-                        <h3>المعنى:</h3>
-                        <p>يدل هذا على **الاستقرار، الثبات، قوة الدينونة، والقدرة على سحق الأعداء**. النحاس النقي المحمى يشير إلى المتانة والقوة التي لا تتزعزع. هذه الصفة تظهر **عدل الله الذي يدوس على الشر** ويقيم مملكة البر. دليل على **المتانة والثبات**.</p>
-                        <h3>التشبيه:</h3>
-                        <p>يشبه **أساسًا قويًا وثابتًا لا يمكن زعزعته**، ويرمز أيضًا إلى قدرته على الدوس على الشر والدينونة العادلة. كما يشير إلى **نقاوة طرق الله** وعمله الذي لا تشوبه شائبة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="صورة أقدام قوية مصنوعة من البرونز المتوهج">
-                        <p class="image-caption">قوة وثبات لا يتزعزعان.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="voiceWater" class="feature-section">
-                <h2>وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"...وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ." (الرؤيا 1: 15)</p>
-                        <h3>المعنى:</h3>
-                        <p>يشير إلى **القوة، السلطة، المهابة، والشمولية**. صوت الله له تأثير عظيم ويصل إلى كل مكان، فهو يغطي كل شيء. هذا التشبيه يعبر عن **كلمة الله الفعالة** التي تحدث وتخلق وتدين، ولا يمكن لأحد أن يقف أمامها. دليل على **القوة والرهبة**.</p>
-                        <h3>التشبيه:</h3>
-                        <p>مثل **شلالات عظيمة أو أمواج المحيط الهادرة**، صوته قوي ومهيب، لا يمكن تجاهله أو مقاومته. يعبر عن **السيادة المطلقة** لله الذي بكلمته خلق السماوات والأرض.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="صورة لشلالات مياه ضخمة">
-                        <p class="image-caption">صوت مهيب يملأ الكون.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="twoEdgedSword" class="feature-section">
-                <h2>وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"...وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ..." (الرؤيا 1: 16)</p>
-                        <h3>المعنى:</h3>
-                        <p>يرمز إلى **كلمة الله الحية والفعالة، القادرة على الفصل بين الحق والباطل، والحكم والدينونة**. هذه الكلمة تخترق النفوس والأرواح، وتميز الخفي من الظاهر. هي **كلمة القوة والتغيير** التي تنفذ وتدين.</p>
-                        <h3>التشبيه:</h3>
-                        <p>مثل **السيف الذي يقطع ويخترق كل شيء**، كلمة الله قاطعة وحاسمة، تفصل بين النور والظلمة. إنها **كلمة الله التي تدين** الخطية وتكشف الزيف، وتعلن الحق المطلق.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_.jpg" alt="صورة سيف حاد يخرج من فم">
-                        <p class="image-caption">قوة كلمة الله الفاصلة.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="shiningFace" class="feature-section">
-                <h2>وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"...وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا." (الرؤيا 1: 16)</p>
-                        <h3>المعنى:</h3>
-                        <p>يدل على **المجد المطلق، النور الإلهي، البريق، والقداسة**. وجه الله يشع نورًا لا يطاق في مجده وعظمته. هذه الصفة تؤكد **بهاء الله وكماله** الذي لا يمكن إدراكه بالكامل بالعين البشرية. دليل على **الضياء الشديد**.</p>
-                        <h3>التشبيه:</h3>
-                        <p>يشبه **الشمس في أوج قوتها وسطوعها**، لا يمكن لأحد أن ينظر إليها مباشرة بسبب شدة ضوئها، وهذا يرمز إلى بهاء مجد الله الذي لا يمكن إدراكه بشكل كامل، وإلى **نوره الذي يبدد كل ظلمة**.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="صورة وجه يشع نوراً كالشمس">
-                        <p class="image-caption">مجد وبهاء النور الإلهي.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="appearedChrist" class="feature-section">
-                <h2>ظهور السيد المسيح ليوحنا</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"فَلَمَّا رَأَيْتُهُ سَقَطْتُ عِنْدَ رِجْلَيْهِ كَمَيْتٍ، فَوَضَعَ يَدَهُ الْيُمْنَى عَلَيَّ قَائِلاً لِي: لاَ تَخَفْ، أَنَا هُوَ الأَوَّلُ وَالآخِرُ، وَالْحَيُّ. وَكُنْتُ مَيْتًا، وَهَا أَنَا حَيٌّ إِلَى أَبَدِ الآبِدِينَ. آمِينَ. وَلِي مَفَاتِيحُ الْهَاوِيَةِ وَالْمَوْتِ." (الرؤيا 1: 17-18)</p>
-                        <h3>المعنى:</h3>
-                        <p>هذا الظهور يرمز إلى **المهابة والمجد العظيم للسيد المسيح في لاهوته**. رد فعل يوحنا بالسقوط كالميت يدل على عظمة هذا الظهور وعدم قدرة الإنسان على تحمل بهاء المجد الإلهي. تأكيد المسيح أنه "الأول والآخر والحي" وله مفاتيح الهاوية والموت يؤكد على **أزليته، أبدية، قيامته، وسلطانه المطلق على الحياة والموت**.</p>
-                        <h3>التشبيه:</h3>
-                        <p>يشبه هذا الظهور **الرؤى العظيمة للأنبياء** التي تدل على حضور الله وقوته. إنه يرمز إلى **مجد المسيح بعد القيامة والصعود**، وسلطانه على كل شيء، وأنه هو الرب الحقيقي الذي له كل السيادة والقوة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="صورة يوحنا يسقط أمام المسيح المجيد">
-                        <p class="image-caption">مشهد مهيب لظهور المسيح ليوحنا، رمزاً للمجد والسلطان.</p>
-                    </div>
-                </div>
-            </section>
         </div>
+        <section id="sonOfMan" class="feature-section">
+            <h2>متمنطقًا بمنطقة من ذهب</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"...مُتَمَنْطِقًا عِنْدَ ثَدْيَيْهِ بِمِنْطَقَةٍ مِنْ ذَهَبٍ." (الرؤيا 1: 13)</p>
+                    <h3>المعنى:</h3>
+                    <p>هذا التشبيه يدل على **مجد لاهوته** و**الاستعداد للخدمة والسلطة**. المنطقة الذهبية تشير إلى **الكرامة، النبل، والغنى المطلق** الذي يميز الذات الإلهية. عادة ما كانت الأحزمة (المناطق) تستخدم لتجميع الثياب استعداداً للعمل أو للسلطة.</p>
+                    <h3>التشبيه:</h3>
+                    <p>يرمز إلى **الملك المتربع على عرشه**، والذي يتمتع بسلطان كامل ومجد لا يوصف، وهو جاهز للقيام بعمله الإلهي في الدينونة والرعاية.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="Image of a powerful figure with a golden halo and belt">
+                    <p class="image-caption">تعبير عن المجد والسلطان الإلهي.</p>
+                </div>
+            </div>
+        </section>
 
+        <section id="whiteHair" class="feature-section">
+            <h2>رأسه وشعره أبيضان كالصوف الأبيض، كالثلج</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"وَرَأْسُهُ وَشَعْرُهُ أَبْيَضَانِ كَالصُّوفِ الأَبْيَضِ، كَالثَّلْجِ..." (الرؤيا 1: 14)</p>
+                    <h3>المعنى:</h3>
+                    <p>يدل هذا على **الأزلية، القدم، الحكمة، والنقاوة المطلقة**. اللون الأبيض يرمز إلى الطهارة والنقاء، والشعر الأبيض يرمز إلى الحكمة والخبرة الطويلة التي لا بداية لها ولا نهاية. هذه الصفة تشير إلى **الله الأزلي الأبدي** الذي كان قبل كل الدهور ولا يتغير.</p>
+                    <h3>التشبيه:</h3>
+                    <p>يشبه **شيخوخة حكيمة وكريمة**، لكنها هنا تشير إلى كمال وجوده الأزلي الذي لا يعرف بداية أو نهاية، وأنه هو **القديم الأيام** الذي يمتلك كل المعرفة والحكمة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="Image of a head with shining white hair">
+                    <p class="image-caption">رسم يوضح نقاء وحكمة الأزلية.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="flameEyes" class="feature-section">
+            <h2>عَيْنَاهُ كَلَهِيبِ نَارٍ</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"...وَعَيْنَاهُ كَلَهِيبِ نَارٍ." (الرؤيا 1: 14)</p>
+                    <h3>المعنى:</h3>
+                    <p>ترمز إلى **المعرفة الكلية، الاختراق، الدينونة، والقدرة على فحص كل شيء**. لا يوجد شيء مخفي عن عينيه، فهو يرى كل خفي وظاهر. تشير هذه العيون إلى **بصيرة الله التي تميز بين الحق والباطل**، وتكشف النوايا الخفية. ترمز لـ **تفحص كل شيء**.</p>
+                    <h3>التشبيه:</h3>
+                    <p>مثل **النار التي تكشف وتطهر وتحرق كل ما هو غير نقي**، عينيه تخترقان أعماق القلوب وتكشف الحقائق، كما أنها تعبر عن **غيرة الله المقدسة** ضد الشر والخطيئة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="Image of glowing eyes with fire">
+                    <p class="image-caption">تجسيد للقوة الإلهية التي تخترق كل خفاء.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="bronzeFeet" class="feature-section">
+            <h2>رِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"وَرِجْلاَهُ شِبْهُ النُّحَاسِ النَّقِيِّ، كَأَنَّهُمَا مَحْمِيَّتَانِ فِي أَتُونٍ..." (الرؤيا 1: 15)</p>
+                    <h3>المعنى:</h3>
+                    <p>يدل هذا على **الاستقرار، الثبات، قوة الدينونة، والقدرة على سحق الأعداء**. النحاس النقي المحمى يشير إلى المتانة والقوة التي لا تتزعزع. هذه الصفة تظهر **عدل الله الذي يدوس على الشر** ويقيم مملكة البر. دليل على **المتانة والثبات**.</p>
+                    <h3>التشبيه:</h3>
+                    <p>يشبه **أساسًا قويًا وثابتًا لا يمكن زعزعته**، ويرمز أيضًا إلى قدرته على الدوس على الشر والدينونة العادلة. كما يشير إلى **نقاوة طرق الله** وعمله الذي لا تشوبه شائبة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="Image of strong feet made of glowing bronze">
+                    <p class="image-caption">قوة وثبات لا يتزعزعان.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="voiceWater" class="feature-section">
+            <h2>وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"...وَصَوْتُهُ كَصَوْتِ مِيَاهٍ كَثِيرَةٍ." (الرؤيا 1: 15)</p>
+                    <h3>المعنى:</h3>
+                    <p>يشير إلى **القوة، السلطة، المهابة، والشمولية**. صوت الله له تأثير عظيم ويصل إلى كل مكان، فهو يغطي كل شيء. هذا التشبيه يعبر عن **كلمة الله الفعالة** التي تحدث وتخلق وتدين، ولا يمكن لأحد أن يقف أمامها. دليل على **القوة والرهبة**.</p>
+                    <h3>التشبيه:</h3>
+                    <p>مثل **شلالات عظيمة أو أمواج المحيط الهادرة**، صوته قوي ومهيب، لا يمكن تجاهله أو مقاومته. يعبر عن **السيادة المطلقة** لله الذي بكلمته خلق السماوات والأرض.</p>
+                </div>
+                <div class="image-content">
+                    <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="Image of large waterfalls">
+                    <p class="image-caption">صوت مهيب يملأ الكون.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="twoEdgedSword" class="feature-section">
+            <h2>وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"...وَمِنْ فَمِهِ يَخْرُجُ سَيْفٌ مَاضٍ ذُو حَدَّيْنِ..." (الرؤيا 1: 16)</p>
+                    <h3>المعنى:</h3>
+                    <p>يرمز إلى **كلمة الله الحية والفعالة، القادرة على الفصل بين الحق والباطل، والحكم والدينونة**. هذه الكلمة تخترق النفوس والأرواح، وتميز الخفي من الظاهر. هي **كلمة القوة والتغيير** التي تنفذ وتدين.</p>
+                    <h3>التشبيه:</h3>
+                    <p>مثل **السيف الذي يقطع ويخترق كل شيء**، كلمة الله قاطعة وحاسمة، تفصل بين النور والظلمة. إنها **كلمة الله التي تدين** الخطية وتكشف الزيف، وتعلن الحق المطلق.</p>
+                </div>
+                <div class="image-content">
+                    <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_.jpg" alt="Image of a sharp sword coming out of a mouth">
+                    <p class="image-caption">قوة كلمة الله الفاصلة.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="shiningFace" class="feature-section">
+            <h2>وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"...وَوَجْهُهُ كَالشَّمْسِ وَهِيَ تُضِيءُ فِي قُوَّتِهَا." (الرؤيا 1: 16)</p>
+                    <h3>المعنى:</h3>
+                    <p>يدل على **المجد المطلق، النور الإلهي، البريق، والقداسة**. وجه الله يشع نورًا لا يطاق في مجده وعظمته. هذه الصفة تؤكد **بهاء الله وكماله** الذي لا يمكن إدراكه بالكامل بالعين البشرية. دليل على **الضياء الشديد**.</p>
+                    <h3>التشبيه:</h3>
+                    <p>يشبه **الشمس في أوج قوتها وسطوعها**، لا يمكن لأحد أن ينظر إليها مباشرة بسبب شدة ضوئها، وهذا يرمز إلى بهاء مجد الله الذي لا يمكن إدراكه بشكل كامل، وإلى **نوره الذي يبدد كل ظلمة**.</p>
+                </div>
+                <div class="image-content">
+                    <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="Image of a face radiating light like the sun">
+                    <p class="image-caption">مجد وبهاء النور الإلهي.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="appearedChrist" class="feature-section">
+            <h2>ظهور السيد المسيح ليوحنا</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"فَلَمَّا رَأَيْتُهُ سَقَطْتُ عِنْدَ رِجْلَيْهِ كَمَيْتٍ، فَوَضَعَ يَدَهُ الْيُمْنَى عَلَيَّ قَائِلاً لِي: لاَ تَخَفْ، أَنَا هُوَ الأَوَّلُ وَالآخِرُ، وَالْحَيُّ. وَكُنْتُ مَيْتًا، وَهَا أَنَا حَيٌّ إِلَى أَبَدِ الآبِدِينَ. آمِينَ. وَلِي مَفَاتِيحُ الْهَاوِيَةِ وَالْمَوْتِ." (الرؤيا 1: 17-18)</p>
+                    <h3>المعنى:</h3>
+                    <p>هذا الظهور يرمز إلى **المهابة والمجد العظيم للسيد المسيح في لاهوته**. رد فعل يوحنا بالسقوط كالميت يدل على عظمة هذا الظهور وعدم قدرة الإنسان على تحمل بهاء المجد الإلهي. تأكيد المسيح أنه "الأول والآخر والحي" وله مفاتيح الهاوية والموت يؤكد على **أزليته، أبدية، قيامته، وسلطانه المطلق على الحياة والموت**.</p>
+                    <h3>التشبيه:</h3>
+                    <p>يشبه هذا الظهور **الرؤى العظيمة للأنبياء** التي تدل على حضور الله وقوته. إنه يرمز إلى **مجد المسيح بعد القيامة والصعود**، وسلطانه على كل شيء، وأنه هو الرب الحقيقي الذي له كل السيادة والقوة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="Image of John falling before the glorious Christ">
+                    <p class="image-caption">مشهد مهيب لظهور المسيح ليوحنا، رمزاً للمجد والسلطان.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter: Revelation 2 & 3 - The Seven Churches -->
         <div id="revelation2-content" class="chapter-content">
             <div class="navigation">
                 <button class="nav-button active" data-target="ephesus">كنيسة أفسس</button>
                 <button class="nav-button" data-target="smyrna">كنيسة سميرنا</button>
                 <button class="nav-button" data-target="pergamos">كنيسة برغامس</button>
                 <button class="nav-button" data-target="thyatira">كنيسة ثياتيرا</button>
+                <button class="nav-button" data-target="sardis">كنيسة ساردس</button>
+                <button class="nav-button" data-target="philadelphia">كنيسة فيلادلفيا</button>
+                <button class="nav-button" data-target="laodicea">كنيسة لاودكية</button>
             </div>
-
-            <section id="ephesus" class="feature-section active">
-                <h2>كنيسة أفسس: فقدان المحبة الأولى</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"أَنَا عَارِفٌ أَعْمَالَكَ وَتَعَبَكَ وَصَبْرَكَ، وَأَنَّكَ لاَ تَقْدِرُ أَنْ تَحْتَمِلَ الأَشْرَارَ، وَقَدْ جَرَّبْتَ الْقَائِلِينَ إِنَّهُمْ رُسُلٌ وَلَيْسُوا رُسُلاً فَوَجَدْتَهُمْ كَاذِبِينَ. وَقَدِ احْتَمَلْتَ وَلَكَ صَبْرٌ، وَلَمْ تَتْعَبْ مِنْ أَجْلِ اسْمِي. لكِنْ عِنْدِي عَلَيْكَ أَنَّكَ تَرَكْتَ مَحَبَّتَكَ الأُولَى. فَاذْكُرْ مِنْ أَيْنَ سَقَطْتَ وَتُبْ، وَاعْمَلِ الأَعْمَالَ الأُولَى، وَإِلاَّ فَإِنِّي آتِيكَ عَنْ قَرِيبٍ وَأُزَحْزِحْ مَنَارَتَكَ مِنْ مَكَانِهَا، إِنْ لَمْ تَتُبْ." (الرؤيا 2: 2-5)</p>
-                        <h3>المعنى:</h3>
-                        <p>كانت كنيسة أفسس تتميز بالأعمال الجيدة والصبر وعدم تحمل الشر، لكنها فقدت **محبتها الأولى** للمسيح وللآخرين. هذا يشير إلى خطر الروتين الديني وفقدان الشغف الروحي.</p>
-                        <h3>الدرس:</h3>
-                        <p>الأعمال الصالحة مهمة، لكن يجب أن تكون مدفوعة بالمحبة الخالصة للمسيح. يدعو الرب للتوبة والعودة إلى الشغف والحيوية الروحية الأولى.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="9-saint-mary_s-basilica-the-double-church-where-the-council-of-ephesusd983d986d98ad8b3d8a9-d8a7d984d8a8d8a7d8b2d98ad984d98ad983-d985d8a7d8b1d98a-d8add98ad8ab.jpg" alt="صورة لكنيسة أفسس">
-                        <p class="image-caption">صورة لكنيسة أفسس.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="smyrna" class="feature-section">
-                <h2>كنيسة سميرنا: الصبر في الضيق</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"أَنَا عَارِفٌ أَعْمَالَكَ وَضِيقَتَكَ وَفَقْرَكَ، وَأَنْتَ غَنِيٌّ! وَتَجْدِيفَ الْقَائِلِينَ إِنَّهُمْ يَهُودٌ وَلَيْسُوا يَهُودًا، بَلْ مَجْمَعُ الشَّيْطَانِ. لاَ تَخَفْ الْبَتَّةَ مِمَّا أَنْتَ مُزْمِعٌ أَنْ تَتَأَلَّمَ بِهِ. هُوَذَا إِبْلِيسُ مُزْمِعٌ أَنْ يُلْقِيَ بَعْضًا مِنْكُمْ فِي السِّجْنِ لِكَيْ تُجَرَّبُوا، وَيَكُونَ لَكُمْ ضِيقَةُ عَشَرَةِ أَيَّامٍ. كُنْ أَمِينًا إِلَى الْمَوْتِ فَسَأُعْطِيكَ إِكْلِيلَ الْحَيَاةِ." (الرؤيا 2: 9-10)</p>
-                        <h3>المعنى:</h3>
-                        <p>كنيسة سميرنا كانت تعاني من الضيق والفقر والاضطهاد، لكن الرب يصفها بأنها **غنية روحيًا**. يشجعهم على الثبات والأمانة حتى الموت.</p>
-                        <h3>الدرس:</h3>
-                        <p>الأمانة في وجه الاضطهاد تجلب مكافأة عظيمة، وهي إكليل الحياة. الضيقات قد تكون قصيرة الأمد، لكن الأمانة لله تدوم إلى الأبد.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="images.jpg" alt="صورة لكنيسة سميرنا">
-                        <p class="image-caption">صورة لكنيسة سميرنا.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="pergamos" class="feature-section">
-                <h2>كنيسة برغامس: التنازل عن الحق</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"أَنَا عَارِفٌ أَيْنَ تَسْكُنُ، حَيْثُ كُرْسِيُّ الشَّيْطَانِ، وَأَنْتَ مُتَمَسِّكٌ بِاسْمِي وَلَمْ تُنْكِرْ إِيمَانِي حَتَّى فِي الأَيَّامِ الَّتِي فِيهَا كَانَ أَنْتِيبَاسُ شَاهِدِي الأَمِينُ الَّذِي قُتِلَ عِنْدَكُمْ حَيْثُ يَسْكُنُ الشَّيْطَانُ. وَلَكِنْ عِنْدِي عَلَيْكَ قَلِيلٌ: أَنَّ عِنْدَكَ هُنَاكَ قَوْمًا مُتَمَسِّكِينَ بِتَعْلِيمِ بَلْعَامَ، الَّذِي كَانَ يُعَلِّمُ بَالاَقَ أَنْ يُلْقِيَ مَعْثَرَةً أَمَامَ بَنِي إِسْرَائِيلَ: أَنْ يَأْكُلُوا مَا ذُبِحَ لِلأَوْثَانِ وَيَزْنُوا." (الرؤيا 2: 13-14)</p>
-                        <h3>المعنى:</h3>
-                        <p>كنيسة برغامس كانت تعيش في "حيث كرسي الشيطان" (مركز عبادة الأوثان)، وكانت متمسكة بالإيمان. لكن بعض أعضائها سمحوا بتعاليم خاطئة (مثل تعليم بلعام) تتسلل إليهم، مما أدى إلى **الخطايا الأخلاقية وعبادة الأوثان**.</p>
-                        <h3>الدرس:</h3>
-                        <p>حتى في بيئة صعبة، يجب على المؤمنين التمسك بالحق ورفض أي تسوية مع الشر أو التعاليم الخاطئة. الطاعة لكلمة الله أهم من مجرد الحفاظ على الاسم.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="احدى الكنائس السبعه بسفر الرؤيا ( برغامس).jpg" alt="صورة لكنيسة برغامس">
-                        <p class="image-caption">صورة لكنيسة برغامس.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="thyatira" class="feature-section">
-                <h2>كنيسة ثياتيرا: تسامح مع الشر</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>النص الكتابي:</h3>
-                        <p>"وَلَكِنْ عِنْدِي عَلَيْكَ قَلِيلٌ: أَنَّكَ تُسَامِحُ الْمَرْأَةَ إِيزَابَلَ الَّتِي تَقُولُ إِنَّهَا نَبِيَّةٌ، وَتُعَلِّمُ وَتُغْوِي عَبِيدِي حَتَّى يَزْنُوا وَيَأْكُلُوا مَا ذُبِحَ لِلأَوْثَانِ." (الرؤيا 2: 20)</p>
-                        <h3>المعنى:</h3>
-                        <p>تميزت كنيسة ثياتيرا بالأعمال الكثيرة والمحبة والخدمة، لكنها تسامحت مع امرأة تدعي النبوة (إيزابل) وكانت تقود المؤمنين إلى **الخطية الأخلاقية وعبادة الأوثان**.</p>
-                        <h3>الدرس:</h3>
-                        <p>ليس كافيًا أن تكون لديك أعمال صالحة، بل يجب أيضًا أن تكون صارمًا ضد الشر والتعاليم الخاطئة داخل الكنيسة. التساهل مع الخطية يقود إلى الفساد الروحي.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="image.jpg" alt="صورة لكنيسة ثياتيرا">
-                        <p class="image-caption">صورة لكنيسة ثياتيرا.</p>
-                    </div>
-                </div>
-            </section>
         </div>
+        <section id="ephesus" class="feature-section">
+            <h2>كنيسة أفسس: فقدان المحبة الأولى</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"أَنَا عَارِفٌ أَعْمَالَكَ وَتَعَبَكَ وَصَبْرَكَ، وَأَنَّكَ لاَ تَقْدِرُ أَنْ تَحْتَمِلَ الأَشْرَارَ، وَقَدْ جَرَّبْتَ الْقَائِلِينَ إِنَّهُمْ رُسُلٌ وَلَيْسُوا رُسُلاً فَوَجَدْتَهُمْ كَاذِبِينَ. وَقَدِ احْتَمَلْتَ وَلَكَ صَبْرٌ، وَلَمْ تَتْعَبْ مِنْ أَجْلِ اسْمِي. لكِنْ عِنْدِي عَلَيْكَ أَنَّكَ تَرَكْتَ مَحَبَّتَكَ الأُولَى. فَاذْكُرْ مِنْ أَيْنَ سَقَطْتَ وَتُبْ، وَاعْمَلِ الأَعْمَالَ الأُولَى، وَإِلاَّ فَإِنِّي آتِيكَ عَنْ قَرِيبٍ وَأُزَحْزِحْ مَنَارَتَكَ مِنْ مَكَانِهَا، إِنْ لَمْ تَتُبْ." (الرؤيا 2: 2-5)</p>
+                    <h3>المعنى:</h3>
+                    <p>كانت كنيسة أفسس تتميز بالأعمال الجيدة والصبر وعدم تحمل الشر، لكنها فقدت **محبتها الأولى** للمسيح وللآخرين. هذا يشير إلى خطر الروتين الديني وفقدان الشغف الروحي.</p>
+                    <h3>الدرس:</h3>
+                    <p>الأعمال الصالحة مهمة، لكن يجب أن تكون مدفوعة بالمحبة الخالصة للمسيح. يدعو الرب للتوبة والعودة إلى الشغف والحيوية الروحية الأولى.</p>
+                </div>
+                <div class="image-content">
+                    <img src="9-saint-mary_s-basilica-the-double-church-where-the-council-of-ephesusd983d986d98ad8b3d8a9-d8a7d984d8a8d8a7d8b2d98ad984d98ad983-d985d8a7d8b1d98a-d8add98ad8ab.jpg" alt="Image of the Church of Ephesus">
+                    <p class="image-caption">صورة لكنيسة أفسس.</p>
+                </div>
+            </div>
+        </section>
 
-        <!-- New Section: Acts of the Apostles -->
+        <section id="smyrna" class="feature-section">
+            <h2>كنيسة سميرنا: الصبر في الضيق</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"أَنَا عَارِفٌ أَعْمَالَكَ وَضِيقَتَكَ وَفَقْرَكَ، وَأَنْتَ غَنِيٌّ! وَتَجْدِيفَ الْقَائِلِينَ إِنَّهُمْ يَهُودٌ وَلَيْسُوا يَهُودًا، بَلْ مَجْمَعُ الشَّيْطَانِ. لاَ تَخَفْ الْبَتَّةَ مِمَّا أَنْتَ مُزْمِعٌ أَنْ تَتَأَلَّمَ بِهِ. هُوَذَا إِبْلِيسُ مُزْمِعٌ أَنْ يُلْقِيَ بَعْضًا مِنْكُمْ فِي السِّجْنِ لِكَيْ تُجَرَّبُوا، وَيَكُونَ لَكُمْ ضِيقَةُ عَشَرَةِ أَيَّامٍ. كُنْ أَمِينًا إِلَى الْمَوْتِ فَسَأُعْطِيكَ إِكْلِيلَ الْحَيَاةِ." (الرؤيا 2: 9-10)</p>
+                    <h3>المعنى:</h3>
+                    <p>كنيسة سميرنا كانت تعاني من الضيق والفقر والاضطهاد، لكن الرب يصفها بأنها **غنية روحيًا**. يشجعهم على الثبات والأمانة حتى الموت.</p>
+                    <h3>الدرس:</h3>
+                    <p>الأمانة في وجه الاضطهاد تجلب مكافأة عظيمة، وهي إكليل الحياة. الضيقات قد تكون قصيرة الأمد، لكن الأمانة لله تدوم إلى الأبد.</p>
+                </div>
+                <div class="image-content">
+                    <img src="images.jpg" alt="Image of the Church of Smyrna">
+                    <p class="image-caption">صورة لكنيسة سميرنا.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pergamos" class="feature-section">
+            <h2>كنيسة برغامس: التنازل عن الحق</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"أَنَا عَارِفٌ أَيْنَ تَسْكُنُ، حَيْثُ كُرْسِيُّ الشَّيْطَانِ، وَأَنْتَ مُتَمَسِّكٌ بِاسْمِي وَلَمْ تُنْكِرْ إِيمَانِي حَتَّى فِي الأَيَّامِ الَّتِي فِيهَا كَانَ أَنْتِيبَاسُ شَاهِدِي الأَمِينُ الَّذِي قُتِلَ عِنْدَكُمْ حَيْثُ يَسْكُنُ الشَّيْطَانُ. وَلَكِنْ عِنْدِي عَلَيْكَ قَلِيلٌ: أَنَّ عِنْدَكَ هُنَاكَ قَوْمًا مُتَمَسِّكِينَ بِتَعْلِيمِ بَلْعَامَ، الَّذِي كَانَ يُعَلِّمُ بَالاَقَ أَنْ يُلْقِيَ مَعْثَرَةً أَمَامَ بَنِي إِسْرَائِيلَ: أَنْ يَأْكُلُوا مَا ذُبِحَ لِلأَوْثَانِ وَيَزْنُوا." (الرؤيا 2: 13-14)</p>
+                    <h3>المعنى:</h3>
+                    <p>كنيسة برغامس كانت تعيش في "حيث كرسي الشيطان" (مركز عبادة الأوثان)، وكانت متمسكة بالإيمان. لكن بعض أعضائها سمحوا بتعاليم خاطئة (مثل تعليم بلعام) تتسلل إليهم، مما أدى إلى **الخطايا الأخلاقية وعبادة الأوثان**.</p>
+                    <h3>الدرس:</h3>
+                    <p>حتى في بيئة صعبة، يجب على المؤمنين التمسك بالحق ورفض أي تسوية مع الشر أو التعاليم الخاطئة. الطاعة لكلمة الله أهم من مجرد الحفاظ على الاسم.</p>
+                </div>
+                <div class="image-content">
+                    <img src="احدى الكنائس السبعه بسفر الرؤيا ( برغامس).jpg" alt="Image of the Church of Pergamum">
+                    <p class="image-caption">صورة لكنيسة برغامس.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="thyatira" class="feature-section">
+            <h2>كنيسة ثياتيرا: تسامح مع الشر</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"وَلَكِنْ عِنْدِي عَلَيْكَ قَلِيلٌ: أَنَّكَ تُسَامِحُ الْمَرْأَةَ إِيزَابَلَ الَّتِي تَقُولُ إِنَّهَا نَبِيَّةٌ، وَتُعَلِّمُ وَتُغْوِي عَبِيدِي حَتَّى يَزْنُوا وَيَأْكُلُوا مَا ذُبِحَ لِلأَوْثَانِ." (الرؤيا 2: 20)</p>
+                    <h3>المعنى:</h3>
+                    <p>تميزت كنيسة ثياتيرا بالأعمال الكثيرة والمحبة والخدمة، لكنها تسامحت مع امرأة تدعي النبوة (إيزابل) وكانت تقود المؤمنين إلى **الخطية الأخلاقية وعبادة الأوثان**.</p>
+                    <h3>الدرس:</h3>
+                    <p>ليس كافيًا أن تكون لديك أعمال صالحة، بل يجب أيضًا أن تكون صارمًا ضد الشر والتعاليم الخاطئة داخل الكنيسة. التساهل مع الخطية يقود إلى الفساد الروحي.</p>
+                </div>
+                <div class="image-content">
+                    <img src="image.jpg" alt="Image of the Church of Thyatira">
+                    <p class="image-caption">صورة لكنيسة ثياتيرا.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sardis" class="feature-section">
+            <h2>كنيسة ساردس: الموت الروحي</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"وَاكْتُبْ إِلَى مَلاَكِ كَنِيسَةِ سَارْدِسَ: «هذَا يَقُولُهُ الَّذِي لَهُ سَبْعَةُ أَرْوَاحِ اللهِ وَالسَّبْعَةُ الْكَوَاكِبُ: أَنَا عَارِفٌ أَعْمَالَكَ، أَنَّ لَكَ اسْمًا أَنَّكَ حَيٌّ وَأَنْتَ مَيْتٌ. كُنْ سَاهِرًا، وَشَدِّدْ مَا بَقِيَ وَهُوَ مُزْمِعٌ أَنْ يَمُوتَ، لأَنِّي لَمْ أَجِدْ أَعْمَالَكَ كَامِلَةً أَمَامَ اللهِ. فَاذْكُرْ كَيْفَ أَخَذْتَ وَسَمِعْتَ، وَاحْفَظْ وَتُبْ. فَإِنْ لَمْ تَسْهَرْ، أُقْدِمْ عَلَيْكَ كَلِصٍّ، وَلاَ تَعْلَمُ أَيَّةَ سَاعَةٍ أُقْدِمُ عَلَيْكَ." (الرؤيا 3: 1-3)</p>
+                    <h3>المعنى:</h3>
+                    <p>كنيسة ساردس كان لها سمعة بأنها حية، لكنها في الحقيقة كانت ميتة روحيًا. كانت أعمالها غير كاملة أمام الله، ودعاها الرب إلى اليقظة والتوبة.</p>
+                    <h3>الدرس:</h3>
+                    <p>السمعة الخارجية لا تعني شيئًا بدون حيوية روحية داخلية. يجب على المؤمنين أن يكونوا ساهرين ومستعدين، وأن يكملوا أعمالهم بالإيمان والمحبة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+ساردس" alt="Image of the Church of Sardis">
+                    <p class="image-caption">صورة لكنيسة ساردس.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="philadelphia" class="feature-section">
+            <h2>كنيسة فيلادلفيا: الأمانة في القوة القليلة</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"وَاكْتُبْ إِلَى مَلاَكِ كَنِيسَةِ فِيلادَلْفِيَةَ: «هذَا يَقُولُهُ الْقُدُّوسُ الْحَقُّ، الَّذِي لَهُ مِفْتَاحُ دَاوُدَ، الَّذِي يَفْتَحُ وَلاَ أَحَدٌ يُغْلِقُ، وَيُغْلِقُ وَلاَ أَحَدٌ يَفْتَحُ: أَنَا عَارِفٌ أَعْمَالَكَ. هَا أَنَا قَدْ جَعَلْتُ أَمَامَكَ بَابًا مَفْتُوحًا وَلاَ يَسْتَطِيعُ أَحَدٌ أَنْ يُغْلِقَهُ، لأَنَّ لَكَ قُوَّةً يَسِيرَةً، وَقَدْ حَفِظْتَ كَلِمَتِي وَلَمْ تُنْكِرِ اسْمِي." (الرؤيا 3: 7-8)</p>
+                    <h3>المعنى:</h3>
+                    <p>كنيسة فيلادلفيا كانت تتميز بالأمانة لكلمة الله وعدم إنكار اسمه، على الرغم من قوتها القليلة. وعدها الرب بباب مفتوح للخدمة وحماية من ساعة التجربة.</p>
+                    <h3>الدرس:</h3>
+                    <p>الأمانة لله، حتى في الظروف الصعبة أو مع موارد قليلة، تكافئ بفرص خدمة عظيمة وحماية إلهية. الرب يقدر الإخلاص أكثر من القدرات البشرية.</p>
+                </div>
+                <div class="image-content">
+                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+فيلادلفيا" alt="Image of the Church of Philadelphia">
+                    <p class="image-caption">صورة لكنيسة فيلادلفيا.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="laodicea" class="feature-section">
+            <h2>كنيسة لاودكية: الفتور الروحي</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"وَاكْتُبْ إِلَى مَلاَكِ كَنِيسَةِ اللَّاوُدِكِيِّينَ: «هذَا يَقُولُهُ الآمِينُ، الشَّاهِدُ الأَمِينُ الصَّادِقُ، بَدَاءَةُ خَلِيقَةِ اللهِ: أَنَا عَارِفٌ أَعْمَالَكَ، أَنَّكَ لَسْتَ بَارِدًا وَلاَ حَارًّا. لَيْتَكَ كُنْتَ بَارِدًا أَوْ حَارًّا! هكَذَا لأَنَّكَ فَتِرٌ، وَلَسْتَ بَارِدًا وَلاَ حَارًّا، أَنَا مُزْمِعٌ أَنْ أَتَقَيَّأَكَ مِنْ فَمِي." (الرؤيا 3: 14-16)</p>
+                    <h3>المعنى:</h3>
+                    <p>كنيسة لاودكية كانت فاترة روحيًا، لا هي باردة ولا هي حارة. كانت غنية ماديًا لكنها فقيرة روحيًا، ودعاها الرب إلى التوبة وشراء ذهب مصفى بالنار وثياب بيض وكحل للعيون.</p>
+                    <h3>الدرس:</h3>
+                    <p>الفتور الروحي أخطر من البرودة الصريحة، لأنه يعطي شعورًا زائفًا بالرضا. يجب على المؤمنين أن يسعوا للحرارة الروحية الحقيقية وأن يعتمدوا على غنى المسيح لا على غناهم المادي.</p>
+                </div>
+                <div class="image-content">
+                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+لاودكية" alt="Image of the Church of Laodicea">
+                    <p class="image-caption">صورة لكنيسة لاودكية.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter: Acts of the Apostles -->
         <div id="acts-content" class="chapter-content">
             <div class="navigation">
                 <button class="nav-button active" data-target="acts1">أعمال الرسل 1</button>
@@ -748,405 +1096,502 @@
                 <button class="nav-button" data-target="acts13">أعمال الرسل 13</button>
                 <button class="nav-button" data-target="acts14">أعمال الرسل 14</button>
             </div>
-
-            <section id="acts1" class="feature-section active">
-                <h2>أعمال الرسل 1: صعود المسيح واختيار متياس</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>وصية يسوع لتلاميذه بالبقاء في أورشليم حتى يلبسوا قوة من الأعالي.</li>
-                            <li>صعود المسيح إلى السماء أمام أعين تلاميذه.</li>
-                            <li>ظهور رجلين بثياب بيض ووعدهما بعودة المسيح.</li>
-                            <li>اجتماع الرسل مع مريم وبعض النساء للصلاة.</li>
-                            <li>اختيار متياس بدلاً من يهوذا الإسخريوطي ليكمل عدد الرسل الاثني عشر.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يعلمنا هذا الإصحاح أهمية الانتظار والصلاة قبل البدء في الخدمة، والثقة في وعود الرب، وأهمية الوحدة في الكنيسة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-st-takla-org--sweet-bible-Ac_01_01.jpg" alt="صورة تصور صعود المسيح واختيار متياس">
-                        <p class="image-caption">صعود المسيح واختيار متياس.</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="acts2" class="feature-section">
-                <h2>أعمال الرسل 2: حلول الروح القدس ويوم الخمسين</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>حلول الروح القدس على التلاميذ في يوم الخمسين وظهور ألسنة كأنها من نار.</li>
-                            <li>بدء التلاميذ يتكلمون بألسنة أخرى حسبما أتاهم الروح أن ينطقوا.</li>
-                            <li>اندهاش الجموع وسماع كل منهم لغة بلده.</li>
-                            <li>خطبة بطرس القوية التي أدت إلى توبة حوالي ثلاثة آلاف نفس.</li>
-                            <li>التزام المؤمنين بتعليم الرسل، والشركة، وكسر الخبز، والصلوات.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يبرز هذا الإصحاح قوة الروح القدس في تجديد الحياة والشهادة، وأهمية الكرازة بكلمة الله، ودور الشركة المسيحية في نمو الكنيسة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="download.jpeg" alt="صورة تصور نزول الروح القدس في يوم الخمسين">
-                        <p class="image-caption">حلول الروح القدس.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts3" class="feature-section">
-                <h2>أعمال الرسل 3: شفاء الأعرج عند باب الجميل</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>بطرس ويوحنا يصعدان إلى الهيكل في ساعة الصلاة.</li>
-                            <li>شفاء رجل أعرج من بطن أمه عند باب الهيكل المسمى "الجميل" باسم يسوع المسيح.</li>
-                            <li>دهشة الناس واجتماعهم حول بطرس ويوحنا.</li>
-                            <li>خطبة بطرس الثانية التي يدعو فيها الشعب إلى التوبة والإيمان بالمسيح.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يظهر قوة اسم يسوع المسيح في الشفاء والخلاص، وأهمية الشهادة الجريئة للمسيح، ودعوة الله المستمرة للتوبة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-St-Takla-org--PETEHEAL.jpg" alt="صورة تصور شفاء الأعرج عند الباب الجميل">
-                        <p class="image-caption">شفاء الأعرج.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts4" class="feature-section">
-                <h2>أعمال الرسل 4: شجاعة بطرس ويوحنا أمام السنهدريم</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>قبض السلطات الدينية على بطرس ويوحنا بسبب كرازتهما بالقيامة.</li>
-                            <li>شهادة بطرس الجريئة أمام السنهدريم بأن الخلاص ليس بغير اسم يسوع المسيح.</li>
-                            <li>تهديدات السلطات للرسل ومنعهما من التكلم أو التعليم باسم يسوع.</li>
-                            <li>صلاة الرسل والمؤمنين بقوة وامتلاء المكان من الروح القدس.</li>
-                            <li>المؤمنون يبيعون أملاكهم ويضعون الأثمان عند أقدام الرسل لتوزيعها على المحتاجين.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يعلمنا هذا الإصحاح الشجاعة في الشهادة للمسيح رغم الاضطهاد، وقوة الصلاة الجماعية، وأهمية الشركة والاهتمام بالفقراء في الكنيسة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-st-takla-org--sweet-bible-Ac_04_01.jpg" alt="صورة تصور بطرس ويوحنا أمام السنهدريم">
-                        <p class="image-caption">بطرس ويوحنا أمام السنهدريم.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts5" class="feature-section">
-                <h2>أعمال الرسل 5: حنانيا وسفيرة وسجن الرسل</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>قصة حنانيا وسفيرة وموتهما بسبب الكذب على الروح القدس.</li>
-                            <li>كثرة الآيات والعجائب التي يجريها الرسل بين الشعب.</li>
-                            <li>سجن الرسل بواسطة رئيس الكهنة والحسد، وإخراج ملاك الرب لهم من السجن ليلاً.</li>
-                            <li>وقوف الرسل في الهيكل وتعليم الشعب، وتوبيخهم للسنهدريم لرفضهم الحق.</li>
-                            <li>قرار السنهدريم بقتل الرسل، وتدخل غمالائيل الذي نصح بتركهم.</li>
-                            <li>ضرب الرسل وإطلاق سراحهم، وفرحهم لأنهم استأهلوا أن يهانون من أجل اسم المسيح.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يؤكد هذا الإصحاح على قدسية الروح القدس وخطورة الكذب عليه، وقوة الله في حماية خدامه، والشجاعة في مواجهة الظلم.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-st-takla-org--sweet-bible-Ac_04_02.jpg" alt="صورة تصور حنانيا وسفيرة، والرسل في السجن">
-                        <p class="image-caption">حنانيا وسفيرة وسجن الرسل.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts6" class="feature-section">
-                <h2>أعمال الرسل 6: اختيار الشمامسة واستشهاد استفانوس</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>تذمر اليونانيين على العبرانيين بسبب إهمال أراملهم في الخدمة اليومية.</li>
-                            <li>اقتراح الرسل اختيار سبعة رجال مملوئين من الروح القدس وحكمة لخدمة الموائد.</li>
-                            <li>اختيار استفانوس وفيليبس وبروخورس ونيكانور وتيمون وبرميناس ونيقولاوس.</li>
-                            <li>استفانوس يفعل آيات وعجائب عظيمة ويواجه مقاومة من اليهود.</li>
-                            <li>اتهام استفانوس بالتجديف واقتياده إلى السنهدريم.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يظهر أهمية التنظيم في الكنيسة لضمان العدالة في الخدمة، وأهمية اختيار خدام مملوئين من الروح القدس والحكمة، وشجاعة الشهادة للمسيح حتى في مواجهة الموت.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-St-Takla-org--The-Seven-Deacons.gif" alt="صورة تصور اختيار الشمامسة واستشهاد استفانوس">
-                        <p class="image-caption">اختيار الشمامسة.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts7" class="feature-section">
-                <h2>أعمال الرسل 7: خطبة استفانوس واستشهاده</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>خطبة استفانوس الدفاعية أمام السنهدريم، التي يستعرض فيها تاريخ إسرائيل من إبراهيم حتى المسيح.</li>
-                            <li>توبيخ استفانوس لليهود على مقاومتهم الروح القدس وقتلهم الأنبياء والمسيح.</li>
-                            <li>رؤية استفانوس للسماء مفتوحة وابن الإنسان قائماً عن يمين الله.</li>
-                            <li>رجم استفانوس، وصلاته من أجل الذين يرجمونه "يا رب، لا تقم لهم هذه الخطية".</li>
-                            <li>شاول (بولس) يحرس ثياب الذين رجموا استفانوس.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يعلمنا هذا الإصحاح قوة الشهادة الجريئة للحق حتى النهاية، وغفران الأعداء، وأن الألم من أجل المسيح هو طريق للمجد.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-St-Takla-org--Coptic-Saints-Saint-Stephen-02-01.jpg" alt="صورة تصور خطبة استفانوس واستشهاده">
-                        <p class="image-caption">خطبة استفانوس واستشهاده.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts8" class="feature-section">
-                <h2>أعمال الرسل 8: الاضطهاد وتبشير فيلبس في السامرة</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>بدء اضطهاد عظيم على الكنيسة في أورشليم وتشتت المؤمنين.</li>
-                            <li>شاول يبدأ في اضطهاد الكنيسة بعنف.</li>
-                            <li>ذهاب فيلبس إلى السامرة وبشارته بالمسيح، وعمل آيات وعجائب عظيمة.</li>
-                            <li>إيمان السامريين وتعمديهم، وقصة سيمون الساحر الذي حاول شراء موهبة الروح القدس.</li>
-                            <li>ذهاب بطرس ويوحنا إلى السامرة لوضع الأيدي على المؤمنين لينالوا الروح القدس.</li>
-                            <li>فيلبس يبشر الخصي الحبشي ويعمده بعد أن شرح له نبوءة إشعياء.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يظهر أن الاضطهاد يمكن أن يكون وسيلة لانتشار الإنجيل، وأهمية التبشير لكل الأمم، وخطورة محاولة الحصول على البركات الروحية بالمال.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-st-takla-org--sweet-bible-Ac_08_04.jpg" alt="صورة تصور فيلبس يبشر في السامرة والخصي الحبشي">
-                        <p class="image-caption">تبشير فيلبس في السامرة.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts9" class="feature-section">
-                <h2>أعمال الرسل 9: اهتداء شاول وبطرس يقيم طابيثا</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>شاول يذهب إلى دمشق لاضطهاد المسيحيين، وفي الطريق يظهر له المسيح.</li>
-                            <li>عمى شاول لمدة ثلاثة أيام، ودعوة حنانيا لشفائه.</li>
-                            <li>شفاء شاول وامتلائه بالروح القدس وتعمديه، وبدء بشارته بالمسيح في دمشق.</li>
-                            <li>محاولة اليهود قتل شاول وهروبه.</li>
-                            <li>بطرس يشفي إينياس في اللد، ويقيم طابيثا (غزالة) من الأموات في يافا.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يبرز هذا الإصحاح قوة الله في تحويل أعظم المضطهدين إلى أعظم المبشرين، وأهمية الطاعة لدعوة الله حتى لو كانت غير متوقعة، وقوة الصلاة في إقامة الأموات.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-st-takla-org--sweet-bible-Ac_09_01.jpg" alt="صورة تصور اهتداء شاول وبطرس يقيم طابيثا">
-                        <p class="image-caption">اهتداء شاول.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts10" class="feature-section">
-                <h2>أعمال الرسل 10: اهتداء كرنيليوس</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>كرنيليوس، قائد المئة الروماني التقي، يرى رؤيا تأمره بإرسال رجال إلى بطرس.</li>
-                            <li>رؤيا بطرس في يافا عن الملاءة التي فيها جميع أنواع الحيوانات النجس والطاهرة، والأمر بأن يأكل.</li>
-                            <li>وصول رجال كرنيليوس إلى بطرس.</li>
-                            <li>ذهاب بطرس إلى قيصرية ودخوله بيت كرنيليوس والتبشير بالمسيح.</li>
-                            <li>حلول الروح القدس على كرنيليوس وأهل بيته وهم يستمعون إلى كلام بطرس.</li>
-                            <li>تعميد كرنيليوس وأهل بيته، مما يفتح الباب لدخول الأمم إلى الكنيسة.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يظهر أن الله لا يحابي الوجوه، وأن الإنجيل متاح لكل الأمم، وأهمية الطاعة للرؤى الإلهية حتى لو كانت تخالف المفاهيم التقليدية.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-St-Takla-org--Peter-Baptizing-the-Centurion-Cornelius-by-Francesco-Trevisani-1709.jpg" alt="صورة تصور اهتداء كرنيليوس وعائلته">
-                        <p class="image-caption">اهتداء كرنيليوس.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts11" class="feature-section">
-                <h2>أعمال الرسل 11: دفاع بطرس وانتشار الإنجيل في أنطاكية</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>الرسل والإخوة في اليهودية يسمعون أن الأمم أيضاً قبلوا كلمة الله.</li>
-                            <li>بطرس يشرح لهم الرؤيا التي رآها وزيارته لبيت كرنيليوس وحلول الروح القدس عليهم.</li>
-                            <li>اقتناعهم وتمجيدهم الله لأن الأمم أيضاً أعطاهم الله توبة للحياة.</li>
-                            <li>انتشار الإنجيل إلى أنطاكية وبشارة اليونانيين هناك.</li>
-                            <li>إرسال برنابا إلى أنطاكية، وفرحه بما رأى من نعمة الله.</li>
-                            <li>برنابا يذهب إلى طرسوس ليطلب شاول، ويحضره إلى أنطاكية، حيث يعلمان الكنيسة لمدة سنة.</li>
-                            <li>دعوة التلاميذ لأول مرة "مسيحيين" في أنطاكية.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يؤكد هذا الإصحاح على أن الخلاص ليس مقتصراً على شعب معين، وأهمية قبول الآخر، ودور المعلمين في بناء الكنيسة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-st-takla-org--sweet-bible-Ac_12_03.jpg" alt="صورة تصور دفاع بطرس وانتشار الإنجيل في أنطاكية">
-                        <p class="image-caption">انتشار الإنجيل في أنطاكية.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts12" class="feature-section">
-                <h2>أعمال الرسل 12: سجن بطرس وموت هيرودس</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>هيرودس الملك يمد يديه ليؤذي أناساً من الكنيسة.</li>
-                            <li>قتل يعقوب أخي يوحنا بالسيف.</li>
-                            <li>قبض هيرودس على بطرس وسجنه، وعزمه على تقديمه للشعب بعد الفصح.</li>
-                            <li>صلاة الكنيسة الحارة من أجل بطرس.</li>
-                            <li>ملاك الرب يحرر بطرس من السجن بشكل معجزي.</li>
-                            <li>ذهاب بطرس إلى بيت مريم أم يوحنا، حيث كان كثيرون مجتمعين يصلون.</li>
-                            <li>موت هيرودس بضربة ملاك الرب بعد أن قبل المجد الإلهي لنفسه.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يظهر قوة الصلاة الجماعية في تحرير السجناء، وحماية الله لخدامه، وعقابه للمتكبرين الذين يغتصبون مجد الله.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-St-Takla-org--10-Peter-Released-from-Prison-by-an-Angel.jpg" alt="صورة تصور بطرس في السجن وموت هيرودس">
-                        <p class="image-caption">سجن بطرس وموت هيرودس.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts13" class="feature-section">
-                <h2>أعمال الرسل 13: رحلة بولس وبرنابا التبشيرية الأولى</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>فصل الروح القدس لبرنابا وشاول للعمل الذي دعاهما إليه.</li>
-                            <li>ذهابهما إلى سلوكية ومنها بالإبحار إلى قبرص.</li>
-                            <li>تبشيرهما في سلاميس، وتعمية ساحر اسمه أليماس في بافوس.</li>
-                            <li>ذهابهما إلى برجة بمفيلية، ثم إلى أنطاكية بيسيدية.</li>
-                            <li>خطبة بولس في المجمع اليهودي في أنطاكية بيسيدية، التي يستعرض فيها تاريخ الخلاص بالمسيح.</li>
-                            <li>بعض اليهود يقبلون الإنجيل، والبعض الآخر يقاوم.</li>
-                            <li>تحول بولس وبرنابا إلى الأمم بسبب رفض اليهود.</li>
-                            <li>اضطهاد بولس وبرنابا وطردهما من المدينة.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يبدأ هذا الإصحاح رحلة التبشير للأمم، ويظهر أهمية قيادة الروح القدس للخدمة، والشجاعة في مواجهة المقاومة.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="images.jpeg" alt="صورة تصور بولس وبرنابا في رحلتهما التبشيرية الأولى">
-                        <p class="image-caption">رحلة بولس وبرنابا التبشيرية الأولى.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="acts14" class="feature-section">
-                <h2>أعمال الرسل 14: التبشير في أيقونية ولسترة ودربة</h2>
-                <div class="content-wrapper">
-                    <div class="text-content">
-                        <h3>أهم الأحداث:</h3>
-                        <ul>
-                            <li>تبشير بولس وبرنابا في أيقونية وعمل آيات وعجائب.</li>
-                            <li>انقسام المدينة بين مؤمنين وغير مؤمنين، ومحاولة رجمهما.</li>
-                            <li>ذهابهما إلى لسترة ودربة.</li>
-                            <li>شفاء بولس لرجل أعرج في لسترة، وظن الناس أنهما إلهان (زفس وهرمس).</li>
-                            <li>محاولة أهل لسترة أن يذبحوا لهما، ومنع بولس وبرنابا لهم.</li>
-                            <li>وصول يهود من أنطاكية وأيقونية وإثارتهم الجموع، ورجمهم لبولس وتركه كالميت.</li>
-                            <li>قيام بولس ودخوله المدينة في اليوم التالي وذهابه مع برنابا إلى دربة.</li>
-                            <li>عودتهما إلى لسترة وأيقونية وأنطاكية لتقوية النفوس وتعيين شيوخ.</li>
-                            <li>عودتهما إلى أنطاكية سوريا حيث ابتدأا.</li>
-                        </ul>
-                        <h3>التطبيق الروحي:</h3>
-                        <p>يظهر أن الخدمة الحقيقية تتطلب الصبر في الضيقات، وعدم قبول المجد البشري، وأهمية متابعة المؤمنين الجدد وتقوية الكنائس.</p>
-                    </div>
-                    <div class="image-content">
-                        <img src="www-St-Takla-org--232--Paul-&-Barnabas-Treated-as-Gods.jpg" alt="صورة تصور بولس وبرنابا يبشران في أيقونية ولسترة ودربة">
-                        <p class="image-caption">التبشير في أيقونية ولسترة ودربة.</p>
-                    </div>
-                </div>
-            </section>
         </div>
+        <section id="acts1" class="feature-section">
+            <h2>أعمال الرسل 1: صعود المسيح واختيار متياس</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>وصية يسوع لتلاميذه بالبقاء في أورشليم حتى يلبسوا قوة من الأعالي.</li>
+                        <li>صعود المسيح إلى السماء أمام أعين تلاميذه.</li>
+                        <li>ظهور رجلين بثياب بيض ووعدهما بعودة المسيح.</li>
+                        <li>اجتماع الرسل مع مريم وبعض النساء للصلاة.</li>
+                        <li>اختيار متياس بدلاً من يهوذا الإسخريوطي ليكمل عدد الرسل الاثني عشر.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يعلمنا هذا الإصحاح أهمية الانتظار والصلاة قبل البدء في الخدمة، والثقة في وعود الرب، وأهمية الوحدة في الكنيسة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-st-takla-org--sweet-bible-Ac_01_01.jpg" alt="Image of the Ascension of Christ and the election of Matthias">
+                    <p class="image-caption">صعود المسيح واختيار متياس.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="acts2" class="feature-section">
+            <h2>أعمال الرسل 2: حلول الروح القدس ويوم الخمسين</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>حلول الروح القدس على التلاميذ في يوم الخمسين وظهور ألسنة كأنها من نار.</li>
+                        <li>بدء التلاميذ يتكلمون بألسنة أخرى حسبما أتاهم الروح أن ينطقوا.</li>
+                        <li>اندهاش الجموع وسماع كل منهم لغة بلده.</li>
+                        <li>خطبة بطرس القوية التي أدت إلى توبة حوالي ثلاثة آلاف نفس.</li>
+                        <li>التزام المؤمنين بتعليم الرسل، والشركة، وكسر الخبز، والصلوات.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يبرز هذا الإصحاح قوة الروح القدس في تجديد الحياة والشهادة، وأهمية الكرازة بكلمة الله، ودور الشركة المسيحية في نمو الكنيسة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="download.jpeg" alt="Image of the descent of the Holy Spirit on Pentecost">
+                    <p class="image-caption">حلول الروح القدس.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts3" class="feature-section">
+            <h2>أعمال الرسل 3: شفاء الأعرج عند باب الجميل</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>بطرس ويوحنا يصعدان إلى الهيكل في ساعة الصلاة.</li>
+                        <li>شفاء رجل أعرج من بطن أمه عند باب الهيكل المسمى "الجميل" باسم يسوع المسيح.</li>
+                        <li>دهشة الناس واجتماعهم حول بطرس ويوحنا.</li>
+                        <li>خطبة بطرس الثانية التي يدعو فيها الشعب إلى التوبة والإيمان بالمسيح.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يظهر قوة اسم يسوع المسيح في الشفاء والخلاص، وأهمية الشهادة الجريئة للمسيح، ودعوة الله المستمرة للتوبة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-St-Takla-org--PETEHEAL.jpg" alt="Image of the healing of the lame man at the Beautiful Gate">
+                    <p class="image-caption">شفاء الأعرج.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts4" class="feature-section">
+            <h2>أعمال الرسل 4: شجاعة بطرس ويوحنا أمام السنهدريم</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>قبض السلطات الدينية على بطرس ويوحنا بسبب كرازتهما بالقيامة.</li>
+                        <li>شهادة بطرس الجريئة أمام السنهدريم بأن الخلاص ليس بغير اسم يسوع المسيح.</li>
+                        <li>تهديدات السلطات للرسل ومنعهما من التكلم أو التعليم باسم يسوع.</li>
+                        <li>صلاة الرسل والمؤمنين بقوة وامتلاء المكان من الروح القدس.</li>
+                        <li>المؤمنون يبيعون أملاكهم ويضعون الأثمان عند أقدام الرسل لتوزيعها على المحتاجين.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يعلمنا هذا الإصحاح الشجاعة في الشهادة للمسيح رغم الاضطهاد، وقوة الصلاة الجماعية، وأهمية الشركة والاهتمام بالفقراء في الكنيسة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-st-takla-org--sweet-bible-Ac_04_01.jpg" alt="Image of Peter and John before the Sanhedrin">
+                    <p class="image-caption">بطرس ويوحنا أمام السنهدريم.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts5" class="feature-section">
+            <h2>أعمال الرسل 5: حنانيا وسفيرة وسجن الرسل</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>قصة حنانيا وسفيرة وموتهما بسبب الكذب على الروح القدس.</li>
+                        <li>كثرة الآيات والعجائب التي يجريها الرسل بين الشعب.</li>
+                        <li>سجن الرسل بواسطة رئيس الكهنة والحسد، وإخراج ملاك الرب لهم من السجن ليلاً.</li>
+                        <li>وقوف الرسل في الهيكل وتعليم الشعب، وتوبيخهم للسنهدريم لرفضهم الحق.</li>
+                        <li>قرار السنهدريم بقتل الرسل، وتدخل غمالائيل الذي نصح بتركهم.</li>
+                        <li>ضرب الرسل وإطلاق سراحهم، وفرحهم لأنهم استأهلوا أن يهانون من أجل اسم المسيح.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يؤكد هذا الإصحاح على قدسية الروح القدس وخطورة الكذب عليه، وقوة الله في حماية خدامه، والشجاعة في مواجهة الظلم.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-st-takla-org--sweet-bible-Ac_04_02.jpg" alt="Image of Ananias and Sapphira, and the apostles in prison">
+                    <p class="image-caption">حنانيا وسفيرة وسجن الرسل.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts6" class="feature-section">
+            <h2>أعمال الرسل 6: اختيار الشمامسة واستشهاد استفانوس</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>تذمر اليونانيين على العبرانيين بسبب إهمال أراملهم في الخدمة اليومية.</li>
+                        <li>اقتراح الرسل اختيار سبعة رجال مملوئين من الروح القدس وحكمة لخدمة الموائد.</li>
+                        <li>اختيار استفانوس وفيليبس وبروخورس ونيكانور وتيمون وبرميناس ونيقولاوس.</li>
+                        <li>استفانوس يفعل آيات وعجائب عظيمة ويواجه مقاومة من اليهود.</li>
+                        <li>اتهام استفانوس بالتجديف واقتياده إلى السنهدريم.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يظهر أهمية التنظيم في الكنيسة لضمان العدالة في الخدمة، وأهمية اختيار خدام مملوئين من الروح القدس والحكمة، وشجاعة الشهادة للمسيح حتى في مواجهة الموت.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-St-Takla-org--The-Seven-Deacons.gif" alt="Image of the selection of deacons and the martyrdom of Stephen">
+                    <p class="image-caption">اختيار الشمامسة.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts7" class="feature-section">
+            <h2>أعمال الرسل 7: خطبة استفانوس واستشهاده</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النص الكتابي:</h3>
+                    <p>"خطبة استفانوس الدفاعية أمام السنهدريم، التي يستعرض فيها تاريخ إسرائيل من إبراهيم حتى المسيح. توبيخ استفانوس لليهود على مقاومتهم الروح القدس وقتلهم الأنبياء والمسيح. رؤية استفانوس للسماء مفتوحة وابن الإنسان قائماً عن يمين الله. رجم استفانوس، وصلاته من أجل الذين يرجمونه "يا رب، لا تقم لهم هذه الخطية". شاول (بولس) يحرس ثياب الذين رجموا استفانوس." (أعمال الرسل 7)</p>
+                    <h3>المعنى:</h3>
+                    <p>يعلمنا هذا الإصحاح قوة الشهادة الجريئة للحق حتى النهاية، وغفران الأعداء، وأن الألم من أجل المسيح هو طريق للمجد.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-St-Takla-org--Coptic-Saints-Saint-Stephen-02-01.jpg" alt="Image of Stephen's sermon and martyrdom">
+                    <p class="image-caption">خطبة استفانوس واستشهاده.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts8" class="feature-section">
+            <h2>أعمال الرسل 8: الاضطهاد وتبشير فيلبس في السامرة</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>بدء اضطهاد عظيم على الكنيسة في أورشليم وتشتت المؤمنين.</li>
+                        <li>شاول يبدأ في اضطهاد الكنيسة بعنف.</li>
+                        <li>ذهاب فيلبس إلى السامرة وبشارته بالمسيح، وعمل آيات وعجائب عظيمة.</li>
+                        <li>إيمان السامريين وتعمديهم، وقصة سيمون الساحر الذي حاول شراء موهبة الروح القدس.</li>
+                        <li>ذهاب بطرس ويوحنا إلى السامرة لوضع الأيدي على المؤمنين لينالوا الروح القدس.</li>
+                        <li>فيلبس يبشر الخصي الحبشي ويعمده بعد أن شرح له نبوءة إشعياء.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يظهر أن الاضطهاد يمكن أن يكون وسيلة لانتشار الإنجيل، وأهمية التبشير لكل الأمم، وخطورة محاولة الحصول على البركات الروحية بالمال.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-st-takla-org--sweet-bible-Ac_08_04.jpg" alt="Image of Philip preaching in Samaria and the Ethiopian eunuch">
+                    <p class="image-caption">تبشير فيلبس في السامرة.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts9" class="feature-section">
+            <h2>أعمال الرسل 9: اهتداء شاول وبطرس يقيم طابيثا</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>شاول يذهب إلى دمشق لاضطهاد المسيحيين، وفي الطريق يظهر له المسيح.</li>
+                        <li>عمى شاول لمدة ثلاثة أيام، ودعوة حنانيا لشفائه.</li>
+                        <li>شفاء شاول وامتلائه بالروح القدس وتعمديه، وبدء بشارته بالمسيح في دمشق.</li>
+                        <li>محاولة اليهود قتل شاول وهروبه.</li>
+                        <li>بطرس يشفي إينياس في اللد، ويقيم طابيثا (غزالة) من الأموات في يافا.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يبرز هذا الإصحاح قوة الله في تحويل أعظم المضطهدين إلى أعظم المبشرين، وأهمية الطاعة لدعوة الله حتى لو كانت غير متوقعة، وقوة الصلاة في إقامة الأموات.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-st-takla-org--sweet-bible-Ac_09_01.jpg" alt="Image of Saul's conversion and Peter raising Tabitha">
+                    <p class="image-caption">اهتداء شاول.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts10" class="feature-section">
+            <h2>أعمال الرسل 10: اهتداء كرنيليوس</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>كرنيليوس، قائد المئة الروماني التقي، يرى رؤيا تأمره بإرسال رجال إلى بطرس.</li>
+                        <li>رؤيا بطرس في يافا عن الملاءة التي فيها جميع أنواع الحيوانات النجس والطاهرة، والأمر بأن يأكل.</li>
+                        <li>وصول رجال كرنيليوس إلى بطرس.</li>
+                        <li>ذهاب بطرس إلى قيصرية ودخوله بيت كرنيليوس والتبشير بالمسيح.</li>
+                        <li>حلول الروح القدس على كرنيليوس وأهل بيته وهم يستمعون إلى كلام بطرس.</li>
+                        <li>تعميد كرنيليوس وأهل بيته، مما يفتح الباب لدخول الأمم إلى الكنيسة.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يظهر أن الله لا يحابي الوجوه، وأن الإنجيل متاح لكل الأمم، وأهمية الطاعة للرؤى الإلهية حتى لو كانت تخالف المفاهيم التقليدية.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-St-Takla-org--Peter-Baptizing-the-Centurion-Cornelius-by-Francesco-Trevisani-1709.jpg" alt="Image of the conversion of Cornelius and his family">
+                    <p class="image-caption">اهتداء كرنيليوس.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts11" class="feature-section">
+            <h2>أعمال الرسل 11: دفاع بطرس وانتشار الإنجيل في أنطاكية</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>الرسل والإخوة في اليهودية يسمعون أن الأمم أيضاً قبلوا كلمة الله.</li>
+                        <li>بطرس يشرح لهم الرؤيا التي رآها وزيارته لبيت كرنيليوس وحلول الروح القدس عليهم.</li>
+                        <li>اقتناعهم وتمجيدهم الله لأن الأمم أيضاً أعطاهم الله توبة للحياة.</li>
+                        <li>انتشار الإنجيل إلى أنطاكية وبشارة اليونانيين هناك.</li>
+                        <li>إرسال برنابا إلى أنطاكية، وفرحه بما رأى من نعمة الله.</li>
+                        <li>برنابا يذهب إلى طرسوس ليطلب شاول، ويحضره إلى أنطاكية، حيث يعلمان الكنيسة لمدة سنة.</li>
+                        <li>دعوة التلاميذ لأول مرة "مسيحيين" في أنطاكية.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يؤكد هذا الإصحاح على أن الخلاص ليس مقتصراً على شعب معين، وأهمية قبول الآخر، ودور المعلمين في بناء الكنيسة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-st-takla-org--sweet-bible-Ac_12_03.jpg" alt="Image of Peter's defense and the spread of the Gospel in Antioch">
+                    <p class="image-caption">انتشار الإنجيل في أنطاكية.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts12" class="feature-section">
+            <h2>أعمال الرسل 12: سجن بطرس وموت هيرودس</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>هيرودس الملك يمد يديه ليؤذي أناساً من الكنيسة.</li>
+                        <li>قتل يعقوب أخي يوحنا بالسيف.</li>
+                        <li>قبض هيرودس على بطرس وسجنه، وعزمه على تقديمه للشعب بعد الفصح.</li>
+                        <li>صلاة الكنيسة الحارة من أجل بطرس.</li>
+                        <li>ملاك الرب يحرر بطرس من السجن بشكل معجزي.</li>
+                        <li>ذهاب بطرس إلى بيت مريم أم يوحنا، حيث كان كثيرون مجتمعين يصلون.</li>
+                        <li>موت هيرودس بضربة ملاك الرب بعد أن قبل المجد الإلهي لنفسه.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يظهر قوة الصلاة الجماعية في تحرير السجناء، وحماية الله لخدامه، وعقابه للمتكبرين الذين يغتصبون مجد الله.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-St-Takla-org--10-Peter-Released-from-Prison-by-an-Angel.jpg" alt="Image of Peter in prison and the death of Herod">
+                    <p class="image-caption">سجن بطرس وموت هيرودس.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts13" class="feature-section">
+            <h2>أعمال الرسل 13: رحلة بولس وبرنابا التبشيرية الأولى</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>فصل الروح القدس لبرنابا وشاول للعمل الذي دعاهما إليه.</li>
+                        <li>ذهابهما إلى سلوكية ومنها بالإبحار إلى قبرص.</li>
+                        <li>تبشيرهما في سلاميس، وتعمية ساحر اسمه أليماس في بافوس.</li>
+                        <li>ذهابهما إلى برجة بمفيلية، ثم إلى أنطاكية بيسيدية.</li>
+                        <li>خطبة بولس في المجمع اليهودي في أنطاكية بيسيدية، التي يستعرض فيها تاريخ الخلاص بالمسيح.</li>
+                        <li>بعض اليهود يقبلون الإنجيل، والبعض الآخر يقاوم.</li>
+                        <li>تحول بولس وبرنابا إلى الأمم بسبب رفض اليهود.</li>
+                        <li>اضطهاد بولس وبرنابا وطردهما من المدينة.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يبدأ هذا الإصحاح رحلة التبشير للأمم، ويظهر أهمية قيادة الروح القدس للخدمة، والشجاعة في مواجهة المقاومة.</p>
+                </div>
+                <div class="image-content">
+                    <img src="images.jpeg" alt="Image of Paul and Barnabas on their first missionary journey">
+                    <p class="image-caption">رحلة بولس وبرنابا التبشيرية الأولى.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="acts14" class="feature-section">
+            <h2>أعمال الرسل 14: التبشير في أيقونية ولسترة ودربة</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>أهم الأحداث:</h3>
+                    <ul>
+                        <li>تبشير بولس وبرنابا في أيقونية وعمل آيات وعجائب.</li>
+                        <li>انقسام المدينة بين مؤمنين وغير مؤمنين، ومحاولة رجمهما.</li>
+                        <li>ذهابهما إلى لسترة ودربة.</li>
+                        <li>شفاء بولس لرجل أعرج في لسترة، وظن الناس أنهما إلهان (زفس وهرمس).</li>
+                        <li>محاولة أهل لسترة أن يذبحوا لهما، ومنع بولس وبرنابا لهم.</li>
+                        <li>وصول يهود من أنطاكية وأيقونية وإثارتهم الجموع، ورجمهم لبولس وتركه كالميت.</li>
+                        <li>قيام بولس ودخوله المدينة في اليوم التالي وذهابه مع برنابا إلى دربة.</li>
+                        <li>عودتهما إلى لسترة وأيقونية وأنطاكية لتقوية النفوس وتعيين شيوخ.</li>
+                        <li>عودتهما إلى أنطاكية سوريا حيث ابتدأا.</li>
+                    </ul>
+                    <h3>التطبيق الروحي:</h3>
+                    <p>يظهر أن الخدمة الحقيقية تتطلب الصبر في الضيقات، وعدم قبول المجد البشري، وأهمية متابعة المؤمنين الجدد وتقوية الكنائس.</p>
+                </div>
+                <div class="image-content">
+                    <img src="www-St-Takla-org--232--Paul-&-Barnabas-Treated-as-Gods.jpg" alt="Image of Paul and Barnabas preaching in Iconium, Lystra, and Derbe">
+                    <p class="image-caption">التبشير في أيقونية ولسترة ودربة.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Section: My Church Information -->
+        <div id="my-church-content" class="chapter-content">
+            <div class="navigation">
+                <button class="nav-button active" data-target="church-history">تاريخ الكنيسة</button>
+                <button class="nav-button" data-target="church-beliefs">عقائد الكنيسة</button>
+            </div>
+        </div>
+        <section id="church-history" class="feature-section">
+            <h2>تاريخ كنيستي: كنيسة لاودكية الأثرية</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>النشأة والتأسيس:</h3>
+                    <p>تأسست كنيسة لاودكية الأثرية في مدينة لاودكية القديمة، وهي إحدى الكنائس السبع المذكورة في سفر الرؤيا (الرؤيا 3: 14-22). على الرغم من أنها كانت غنية ماديًا، إلا أنها وُبخت من الرب على فتورها الروحي. تاريخها يمتد إلى العصور الرسولية، حيث كانت مركزًا مسيحيًا مهمًا في آسيا الصغرى.</p>
+                    <h3>المراحل الرئيسية:</h3>
+                    <ul>
+                        <li>**القرن الأول الميلادي:** تأسيس الكنيسة على يد الرسل أو تلاميذهم، وربما على يد أبفراس (كولوسي 4: 12-13).</li>
+                        <li>**حوالي 95 م:** توجيه رسالة الرب يسوع المسيح إلى كنيسة لاودكية عبر يوحنا اللاهوتي، والتي انتقدت فتورها الروحي ودعتها للتوبة.</li>
+                        <li>**العصور البيزنطية:** استمرت الكنيسة في الوجود والتأثير، وشهدت فترات من الازدهار والتحديات.</li>
+                        <li>**العصور اللاحقة:** تعرضت المدينة والكنيسة للعديد من الزلازل والتغيرات السياسية، مما أدى إلى تدهورها تدريجياً.</li>
+                    </ul>
+                    <h3>التأثير الروحي:</h3>
+                    <p>تظل قصة كنيسة لاودكية تحذيرًا روحيًا للمؤمنين عبر العصور، مؤكدة على أهمية الحرارة الروحية، والاعتماد على غنى المسيح الحقيقي بدلاً من الغنى المادي الزائف، والسعي الدائم للتوبة والنمو في الإيمان.</p>
+                </div>
+                <div class="image-content">
+                    <img src="laodicea-2.jpg" alt="Image of Laodicea Historical Church ruins">
+                    <p class="image-caption">آثار كنيسة لاودكية القديمة.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="church-beliefs" class="feature-section">
+            <h2>عقائد الكنيسة: الأرثوذكسية القبطية</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3>الإيمان المسيحي الأرثوذكسي:</h3>
+                    <p>تتبع كنيسة لاودكية الأثرية، في سياق دراستنا، الإيمان المسيحي الأرثوذكسي القبطي، وهو إيمان رسولي محافظ على التقليد الكنسي الذي تسلمته من الرسل الأطهار. نؤمن بإله واحد مثلث الأقانيم: الآب والابن والروح القدس، إله واحد في الجوهر، متمايز في الأقانيم.</p>
+                    <h3>النقاط العقائدية الأساسية:</h3>
+                    <ul>
+                        <li>**التجسد والفداء:** نؤمن بتجسد الابن الوحيد، ربنا يسوع المسيح، الذي صار إنسانًا كاملًا وإلهًا كاملًا، وصلب ومات وقام في اليوم الثالث ليخلص البشرية من الخطية والموت.</li>
+                        <li>**الأسرار الكنسية:** نمارس الأسرار السبعة المقدسة (المعمودية، الميرون، التناول، التوبة والاعتراف، مسحة المرضى، الزيجة، الكهنوت) كوسائل للنعمة الإلهية.</li>
+                        <li>**الكتاب المقدس:** نعتبر الكتاب المقدس (العهد القديم والعهد الجديد) كلمة الله الموحى بها، وهو المصدر الأساسي لعقيدتنا وحياتنا.</li>
+                        <li>**التقليد الكنسي:** نتمسك بالتقليد الكنسي المقدس، الذي يشمل كتابات الآباء القديسين، قرارات المجامع المسكونية، والطقوس الليتورجية، كجزء لا يتجزأ من فهمنا للإيمان.</li>
+                        <li>**شفاعة القديسين:** نؤمن بشفاعة السيدة العذراء مريم والملائكة والقديسين، ونطلب صلواتهم عنا أمام عرش النعمة.</li>
+                    </ul>
+                    <h3>الهدف الروحي:</h3>
+                    <p>هدفنا هو النمو في معرفة الله ومحبته، والعيش حياة مسيحية أصيلة تعكس قيم الإنجيل، والاستعداد للمجيء الثاني للسيد المسيح.</p>
+                </div>
+                <div class="image-content">
+                    <img src="christ-pantokrator-icon.jpg" alt="Image of Church Beliefs">
+                    <p class="image-caption">أيقونة أو رمز يمثل العقيدة الأرثوذكسية.</p>
+                </div>
+            </div>
+        </section>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2025 Marc-Tech. All rights reserved.</p>
     </footer>
 
+    <!-- Chatbot FAB -->
+    <div class="chat-fab" id="chatFab">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <!-- Chatbot Modal -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-header">
+            <span>مارك - مساعدك الآلي</span>
+            <div>
+                <button class="clear-chat-button" id="clearChatButton">مسح المحادثة</button>
+                <button class="close-button" id="closeChatButton"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be appended here -->
+        </div>
+        <div class="loading-indicator" id="chatLoadingIndicator">
+            <div class="typing-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <textarea id="chatInput" placeholder="اكتب سؤالك هنا..." dir="rtl"></textarea>
+            <button id="sendMessageButton"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="chatNotification">
+        <i class="fas fa-robot"></i>
+        <span>مرحباً! اضغط هنا للدردشة مع مارك.</span>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
             const welcomeScreen = document.getElementById('welcomeScreen');
             const chapterNavigationContainer = document.getElementById('chapterNavigationContainer');
             const welcomeChapterButtons = welcomeScreen.querySelectorAll('.chapter-nav-button');
             const mainChapterButtons = chapterNavigationContainer.querySelectorAll('.chapter-nav-button');
             const allChapterContents = document.querySelectorAll('.chapter-content');
-
-            // Get search elements
+            const allFeatureSections = document.querySelectorAll('.feature-section'); // Get all feature sections globally
             const searchAreaWrapper = document.getElementById('searchAreaWrapper');
             const searchIcon = document.getElementById('searchIcon');
             const searchBar = document.getElementById('searchBar');
             const searchInput = document.getElementById('searchInput');
             const searchCloseButton = document.getElementById('searchCloseButton');
             const noResultsMessage = document.getElementById('noResultsMessage');
+            const main = document.querySelector('main'); // Defined main here
 
-            // Store original content of sections to restore later
+            // Chatbot DOM Elements
+            const chatFab = document.getElementById('chatFab');
+            const chatModal = document.getElementById('chatModal');
+            const closeChatButton = document.getElementById('closeChatButton');
+            const clearChatButton = document.getElementById('clearChatButton'); // New clear chat button
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendMessageButton = document.getElementById('sendMessageButton');
+            const chatLoadingIndicator = document.getElementById('chatLoadingIndicator');
+            const chatNotification = document.getElementById('chatNotification');
+
+            // Chatbot state
+            let chatHistory = [];
+            const botName = "مارك";
+            const welcomeMessage = "مرحبا انا مارك صديقكك الالي كيف يمكنني مساعدتك";
+
+            // Store original content of sections to restore later for search functionality
             const originalSectionContents = {};
-            allChapterContents.forEach(chapter => {
-                chapter.querySelectorAll('.feature-section').forEach(section => {
-                    // Store the innerHTML of the entire feature-section to preserve h2, h3, p, etc.
-                    originalSectionContents[section.id] = section.innerHTML;
-                });
+            allFeatureSections.forEach(section => { // Store for all feature sections, not just within chapters
+                originalSectionContents[section.id] = section.innerHTML;
             });
 
-            // Function to highlight text
+            /**
+             * Highlights occurrences of a query string within a given text.
+             * @param {string} text - The original text.
+             * @param {string} query - The search query.
+             * @returns {string} - The text with query occurrences highlighted.
+             */
             const highlightText = (text, query) => {
                 if (!query) return text;
-                // Use a regular expression to find all occurrences of the query, case-insensitive
-                // The 'g' flag for global search, 'i' for case-insensitive
                 const regex = new RegExp(`(${query})`, 'gi');
-                // Replace matched occurrences with a span for highlighting
                 return text.replace(regex, '<span class="highlight">$&</span>');
             };
 
-            // Function to remove all highlights
+            /**
+             * Removes all highlight spans from the content.
+             */
             const removeHighlights = () => {
-                allChapterContents.forEach(chapter => {
-                    chapter.querySelectorAll('.feature-section').forEach(section => {
-                        // Restore the original content for the entire section
-                        if (originalSectionContents[section.id]) {
-                            section.innerHTML = originalSectionContents[section.id];
-                        }
-                    });
+                allFeatureSections.forEach(section => { // Remove highlights from all feature sections
+                    if (originalSectionContents[section.id]) {
+                        section.innerHTML = originalSectionContents[section.id];
+                    }
                 });
             };
 
-            // Function to show a specific chapter content and hide others
+            /**
+             * Shows a specific chapter's navigation and its first section, hiding others.
+             * @param {string} chapterId - The ID of the chapter's navigation to show.
+             */
             const showChapterContent = (chapterId) => {
-                allChapterContents.forEach(chapter => {
-                    if (chapter.id === chapterId) {
-                        chapter.classList.add('active');
-                        // Scroll to the top of the chapter content
-                        chapter.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-                        // Activate the first feature section and its button within the newly active chapter
-                        const firstFeatureSection = chapter.querySelector('.feature-section');
-                        if (firstFeatureSection) {
-                            // Find all nav-buttons within this specific chapter
-                            const chapterSpecificNavButtons = chapter.querySelectorAll('.nav-button');
-                            chapterSpecificNavButtons.forEach(btn => btn.classList.remove('active')); // Deactivate all
-                            const firstNavButton = chapter.querySelector(`.nav-button[data-target="${firstFeatureSection.id}"]`);
-                            if (firstNavButton) {
-                                firstNavButton.classList.add('active');
-                            }
-                            firstFeatureSection.classList.add('active');
-                        }
-                    } else {
-                        chapter.classList.remove('active');
-                    }
+                // Hide all feature sections (pages) when a new chapter is selected
+                allFeatureSections.forEach(section => {
+                    section.classList.remove('active-page');
                 });
+
+                // Hide all chapter navigation containers first
+                allChapterContents.forEach(chapter => {
+                    chapter.classList.remove('active');
+                });
+
+                // Show the selected chapter's navigation
+                const selectedChapterNav = document.getElementById(chapterId);
+                if (selectedChapterNav) {
+                    selectedChapterNav.classList.add('active');
+                }
 
                 // Activate the corresponding chapter button in the main navigation
                 mainChapterButtons.forEach(button => {
@@ -1156,227 +1601,455 @@
                         button.classList.remove('active');
                     }
                 });
+
+                // Make all navigation buttons within the selected chapter large
+                if (selectedChapterNav) {
+                    selectedChapterNav.querySelectorAll('.nav-button').forEach(button => {
+                        button.classList.add('nav-button-large');
+                    });
+                }
             };
 
-            // Function to show a specific section within an active chapter and activate its button
+            /**
+             * Shows a specific section (as a page) and hides all others.
+             * Also activates the corresponding navigation button and shrinks others.
+             * @param {string} targetId - The ID of the section to show.
+             * @param {string} parentChapterId - The ID of the parent chapter (for button activation).
+             */
             const showSection = (targetId, parentChapterId) => {
-                const currentChapter = document.getElementById(parentChapterId);
-                if (!currentChapter) return; // Ensure the parent chapter exists
-
-                const featureSections = currentChapter.querySelectorAll('.feature-section');
-                const navButtons = currentChapter.querySelectorAll('.nav-button');
-
-                featureSections.forEach(section => {
-                    if (section.id === targetId) {
-                        section.classList.add('active');
-                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } else {
-                        section.classList.remove('active');
-                    }
+                // Hide all feature sections (pages) first
+                allFeatureSections.forEach(section => {
+                    section.classList.remove('active-page');
                 });
 
-                navButtons.forEach(button => {
-                    if (button.dataset.target === targetId) {
-                        button.classList.add('active');
-                    } else {
-                        button.classList.remove('active');
-                    }
-                });
+                // Show the target section
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active-page');
+                    // Scroll to the top of the main content area after section is shown
+                    main.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                // Manage active state and size for navigation buttons within the parent chapter
+                const currentChapterNav = document.getElementById(parentChapterId);
+                if (currentChapterNav) {
+                    const navButtons = currentChapterNav.querySelectorAll('.nav-button');
+                    navButtons.forEach(button => {
+                        if (button.dataset.target === targetId) {
+                            button.classList.add('active');
+                        } else {
+                            button.classList.remove('active');
+                        }
+                        // Remove the large class from ALL sub-buttons when a specific section is selected
+                        button.classList.remove('nav-button-large');
+                    });
+                }
             };
 
-            // Function to apply search filter within the active chapter
-            let searchTimeout; // Debounce variable
+            // Debounce variable for search input
+            let searchTimeout;
+
+            /**
+             * Applies a search filter to the content.
+             * Highlights matching text and shows only the first matching section.
+             */
             const applySearchFilter = () => {
-                clearTimeout(searchTimeout); // Clear previous timeout
-                searchTimeout = setTimeout(() => { // Set a new timeout
-                    const query = searchInput.value.trim(); // Keep original case for highlighting if needed, but search case-insensitive
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = searchInput.value.trim();
                     const lowerCaseQuery = query.toLowerCase();
-                    const activeChapterContent = document.querySelector('.chapter-content.active');
-                    const navButtons = activeChapterContent ? activeChapterContent.querySelectorAll('.navigation .nav-button') : [];
                     
-                    let visibleSectionsCount = 0;
+                    removeHighlights(); // Remove previous highlights
 
-                    if (!activeChapterContent) {
-                        noResultsMessage.style.display = 'none';
-                        return;
-                    }
+                    let foundMatch = false;
+                    let firstMatchingSectionId = null;
+                    let firstMatchingChapterId = null;
 
-                    removeHighlights(); // Always remove previous highlights before applying new ones or clearing
-
-                    const featureSections = activeChapterContent.querySelectorAll('.feature-section');
-
-                    featureSections.forEach(section => {
+                    // Iterate through all feature sections to find matches
+                    allFeatureSections.forEach(section => {
                         // Restore original content for the current section before re-applying highlights
                         section.innerHTML = originalSectionContents[section.id];
                         
-                        let foundMatchInSection = false;
-
-                        if (query === '') {
-                            // If query is empty, just show the section (already restored)
-                            section.style.display = 'block';
-                            visibleSectionsCount++;
-                        } else {
-                            // Elements to search within: h2, h3, and p
+                        let sectionHasMatch = false;
+                        if (query !== '') {
                             const elementsToSearch = section.querySelectorAll('h2, h3, p');
-                            
                             elementsToSearch.forEach(element => {
                                 const originalElementText = element.textContent;
                                 if (originalElementText.toLowerCase().includes(lowerCaseQuery)) {
                                     element.innerHTML = highlightText(originalElementText, query);
-                                    foundMatchInSection = true;
+                                    sectionHasMatch = true;
                                 }
                             });
+                        }
 
-                            if (foundMatchInSection) {
-                                section.style.display = 'block';
-                                visibleSectionsCount++;
-                            } else {
-                                section.style.display = 'none';
-                            }
+                        if (sectionHasMatch && !foundMatch) {
+                            firstMatchingSectionId = section.id;
+                            // Determine the parent chapter ID for this section
+                            // This relies on section IDs having a chapter prefix (e.g., revelation1-sonOfMan)
+                            const chapterPrefix = section.id.split('-')[0];
+                            firstMatchingChapterId = chapterPrefix + '-content';
+                            foundMatch = true;
                         }
                     });
 
-                    // Show/hide no results message
-                    if (visibleSectionsCount === 0 && query !== '') {
-                        noResultsMessage.style.display = 'block';
-                    } else {
+                    if (foundMatch && query !== '') {
                         noResultsMessage.style.display = 'none';
-                    }
-
-                    // Manage section navigation buttons visibility
-                    if (query !== '') {
-                        navButtons.forEach(btn => btn.style.display = 'none'); // Hide all nav buttons during search
-                    } else {
-                        navButtons.forEach(btn => btn.style.display = 'inline-block'); // Show all nav buttons when search is clear
-                        // Re-activate the first section's button if search is cleared and a chapter is active
-                        if (activeChapterContent) {
-                            const firstSectionInChapter = activeChapterContent.querySelector('.feature-section');
-                            if (firstSectionInChapter) {
-                                showSection(firstSectionInChapter.id, activeChapterContent.id);
-                            }
+                        // Show the chapter navigation for the found section's chapter
+                        showChapterContent(firstMatchingChapterId);
+                        // Then show the specific matching section
+                        showSection(firstMatchingSectionId, firstMatchingChapterId);
+                        
+                        // Hide all section navigation buttons during active search
+                        const activeChapterNav = document.getElementById(firstMatchingChapterId);
+                        if (activeChapterNav) {
+                            activeChapterNav.querySelectorAll('.nav-button').forEach(btn => btn.style.display = 'none');
                         }
+                    } else if (query === '') {
+                        noResultsMessage.style.display = 'none';
+                        // If search is cleared, revert to initial state (welcome or last chapter/section)
+                        // This logic will be handled by initializePage or handleChapterSelection
+                        const activeChapterContent = document.querySelector('.chapter-content.active');
+                        if (activeChapterContent) {
+                            // When search is cleared, hide all sections
+                            allFeatureSections.forEach(section => section.classList.remove('active-page'));
+                            // Show all nav buttons for the active chapter
+                            activeChapterContent.querySelectorAll('.nav-button').forEach(btn => btn.style.display = 'inline-block');
+                            // Make them large again
+                            activeChapterContent.querySelectorAll('.nav-button').forEach(button => {
+                                button.classList.add('nav-button-large');
+                            });
+                        } else {
+                             // If no active chapter, show welcome screen
+                            welcomeScreen.style.display = 'flex';
+                            chapterNavigationContainer.style.display = 'none';
+                            searchAreaWrapper.style.display = 'none';
+                            allChapterContents.forEach(chapter => chapter.classList.remove('active'));
+                            allFeatureSections.forEach(section => section.classList.remove('active-page'));
+                        }
+                    } else {
+                        // No results found for the query
+                        noResultsMessage.style.display = 'block';
+                        allFeatureSections.forEach(section => section.classList.remove('active-page')); // Hide all sections
+                        allChapterContents.forEach(chapter => chapter.classList.remove('active')); // Hide all chapter navs
+                        chapterNavigationContainer.style.display = 'none'; // Hide main chapter nav
+                        welcomeScreen.style.display = 'none'; // Ensure welcome is hidden
                     }
                 }, 300); // Debounce time: 300ms
             };
 
-            // Handle chapter selection from welcome screen or main navigation
+            /**
+             * Handles the selection of a main chapter button (from welcome screen or main navigation).
+             * Hides welcome screen, shows main navigation, and displays the selected chapter's content.
+             * @param {string} chapterId - The ID of the chapter to navigate to.
+             */
             const handleChapterSelection = (chapterId) => {
-                welcomeScreen.style.display = 'none'; // Hide welcome screen
-                chapterNavigationContainer.style.display = 'flex'; // Show main chapter nav
-                searchAreaWrapper.style.display = 'flex'; // Show search area wrapper (now always visible in header)
-                showChapterContent(chapterId); // Show selected chapter content
-                window.location.hash = chapterId; // Update URL hash
-
-                // Clear search input and re-apply filter to show all sections of the new chapter
+                welcomeScreen.style.display = 'none';
+                chapterNavigationContainer.style.display = 'flex';
+                searchAreaWrapper.style.display = 'flex';
+                showChapterContent(chapterId); // This will show the chapter's navigation and make its sub-buttons large
+                
+                // Clear search input and remove highlights
                 searchInput.value = '';
-                removeHighlights(); // Ensure highlights are removed when changing chapters
-                applySearchFilter(); // This will also show all nav buttons for the new chapter
+                removeHighlights();
+                noResultsMessage.style.display = 'none'; // Hide no results message
+                
+                // Ensure no section is active when a chapter is first selected
+                allFeatureSections.forEach(section => section.classList.remove('active-page'));
             };
 
-            // Add click event listeners to welcome screen chapter buttons
+            // Event Listeners for Chapter Navigation
             welcomeChapterButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    const chapterId = button.dataset.chapter;
-                    handleChapterSelection(chapterId);
+                    handleChapterSelection(button.dataset.chapter);
                 });
             });
 
-            // Add click event listeners to main chapter navigation buttons
             mainChapterButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    const chapterId = button.dataset.chapter;
-                    handleChapterSelection(chapterId);
+                    handleChapterSelection(button.dataset.chapter);
                 });
             });
 
-            // Add click event listeners to section navigation buttons within each chapter
+            // Event Listeners for Section Navigation within chapters
             allChapterContents.forEach(chapter => {
                 const navButtons = chapter.querySelectorAll('.nav-button');
                 navButtons.forEach(button => {
                     button.addEventListener('click', () => {
                         // Ensure search bar is hidden and input is cleared when using regular navigation
                         searchBar.classList.remove('active');
-                        searchIcon.style.display = 'block'; // Ensure search icon is visible
+                        searchIcon.style.display = 'block';
                         searchInput.value = '';
-                        removeHighlights(); // Reset highlights when navigating via section buttons
-                        applySearchFilter(); // Reset filter to show all sections
+                        removeHighlights();
+                        noResultsMessage.style.display = 'none'; // Hide no results message
                         
-                        const targetId = button.dataset.target;
-                        showSection(targetId, chapter.id);
-                        // Optionally update URL hash for sections within a chapter
-                        // window.location.hash = `${chapter.id}-${targetId}`;
+                        showSection(button.dataset.target, chapter.id);
                     });
                 });
             });
 
-            // Toggle search bar visibility
+            // Event Listeners for Search Functionality
             searchIcon.addEventListener('click', () => {
                 searchBar.classList.toggle('active');
                 if (searchBar.classList.contains('active')) {
-                    searchInput.focus(); // Focus on input when visible
-                    searchIcon.style.display = 'none'; // Hide the search icon when the bar is active
-                    // Hide section navigation buttons when search bar is active
-                    const activeChapterContent = document.querySelector('.chapter-content.active');
-                    if (activeChapterContent) {
-                        const navButtons = activeChapterContent.querySelectorAll('.navigation .nav-button');
-                        navButtons.forEach(btn => btn.style.display = 'none');
+                    searchInput.focus();
+                    searchIcon.style.display = 'none';
+                    // Hide all section navigation buttons when search is active
+                    const activeChapterNav = document.querySelector('.chapter-content.active');
+                    if (activeChapterNav) {
+                        activeChapterNav.querySelectorAll('.nav-button').forEach(btn => btn.style.display = 'none');
                     }
                 } else {
-                    // When closing search bar, clear input and reset filter
                     searchInput.value = '';
-                    removeHighlights(); // Clear highlights when closing search bar
-                    applySearchFilter(); // This will re-show section nav buttons
-                    searchIcon.style.display = 'block'; // Show the search icon when the bar is hidden
+                    removeHighlights();
+                    applySearchFilter(); // Reset search and show default view
+                    searchIcon.style.display = 'block';
                 }
             });
 
-            // Close search bar and clear search
             searchCloseButton.addEventListener('click', () => {
                 searchBar.classList.remove('active');
                 searchInput.value = '';
-                removeHighlights(); // Reset highlights when closing search bar
-                applySearchFilter(); // Reset filter to show all sections and re-show nav buttons
-                searchIcon.style.display = 'block'; // Ensure search icon is visible
+                removeHighlights();
+                applySearchFilter(); // Reset search and show default view
+                searchIcon.style.display = 'block';
             });
 
-            // Live search on keyup
             searchInput.addEventListener('keyup', applySearchFilter);
 
-            // Initial load logic based on URL hash
-            document.addEventListener('DOMContentLoaded', () => {
-                // Store original content on initial load
-                allChapterContents.forEach(chapter => {
-                    chapter.querySelectorAll('.feature-section').forEach(section => {
-                        // Store the innerHTML of the entire feature-section to preserve h2, h3, p, etc.
-                        originalSectionContents[section.id] = section.innerHTML;
+            // Chatbot Functions
+            const addMessage = (sender, text) => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message-bubble');
+                if (sender === 'user') {
+                    messageElement.classList.add('user-message');
+                } else {
+                    messageElement.classList.add('bot-message');
+                }
+                messageElement.textContent = text;
+                chatMessages.appendChild(messageElement);
+                // Scroll to the bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+
+            const clearChat = () => {
+                chatMessages.innerHTML = ''; // Clear all messages
+                chatHistory = []; // Reset chat history
+                addMessage('bot', welcomeMessage); // Add welcome message again
+                chatHistory.push({ role: "model", parts: [{ text: welcomeMessage }] });
+            };
+
+            const sendBotMessage = async (userMessage) => {
+                chatLoadingIndicator.style.display = 'flex'; // Show typing indicator
+                sendMessageButton.disabled = true;
+                chatInput.disabled = true;
+
+                // Add user message to history
+                chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+
+                let botResponse = 'عذراً، لم أتمكن من فهم سؤالك. هل يمكنك إعادة الصياغة؟';
+                let foundContent = false;
+
+                // 1. Try to find content within the existing sections of the page
+                let relevantSectionContent = '';
+                let relevantSectionId = null;
+                let relevantChapterId = null;
+
+                const lowerCaseUserMessage = userMessage.toLowerCase();
+
+                for (const section of allFeatureSections) {
+                    const sectionText = section.textContent.toLowerCase();
+                    if (sectionText.includes(lowerCaseUserMessage)) {
+                        relevantSectionContent = section.textContent;
+                        relevantSectionId = section.id;
+                        // Determine parent chapter ID for navigation
+                        const parts = section.id.split('-');
+                        if (parts.length > 1) {
+                            relevantChapterId = parts[0] + '-content';
+                        }
+                        foundContent = true;
+                        break; // Found the first relevant section, stop searching
+                    }
+                }
+
+                try {
+                    const apiKey = ""; // Canvas will provide this
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    let payload;
+
+                    if (foundContent) {
+                        // If relevant content is found, use it as context for the AI model
+                        const contextPrompt = `بناءً على النص التالي من الموقع: "${relevantSectionContent}"، أجب على السؤال التالي: "${userMessage}". إذا لم تجد الإجابة في النص المقدم، يمكنك الإجابة من معرفتك العامة ولكن اذكر أن المعلومات من خارج الموقع.`;
+                        payload = {
+                            contents: [{ role: "user", parts: [{ text: contextPrompt }] }]
+                        };
+                        // Note: We are sending a fresh chat history for contextual questions
+                        // to ensure the model focuses only on the provided context + current question.
+                        // If we want it to maintain broader conversation history AND use context,
+                        // we'd append the contextPrompt to the existing chatHistory.
+                        // For this request, focusing on direct answer from site content is key.
+                    } else {
+                        // If no relevant content found on site, send the regular chat history
+                        payload = {
+                            contents: chatHistory
+                        };
+                    }
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
                     });
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        botResponse = result.candidates[0].content.parts[0].text;
+                        
+                        if (foundContent && relevantChapterId && relevantSectionId) {
+                            // Prepend a message indicating navigation
+                            botResponse = `لقد وجدت معلومات ذات صلة في الموقع. سأقوم بالانتقال إليها الآن.\n\n${botResponse}`;
+                            // Perform navigation
+                            handleChapterSelection(relevantChapterId);
+                            setTimeout(() => {
+                                showSection(relevantSectionId, relevantChapterId);
+                                window.location.hash = relevantSectionId; // Update URL hash for direct linking
+                            }, 500); // Give a slight delay for smooth transition
+                        }
+                    } else {
+                        console.error('Gemini API response structure unexpected:', result);
+                    }
+                } catch (error) {
+                    botResponse = 'حدث خطأ أثناء الاتصال بخدمة الذكاء الاصطناعي. يرجى المحاولة لاحقاً.';
+                    console.error('Error calling Gemini API:', error);
+                } finally {
+                    addMessage('bot', botResponse);
+                    // Only add the bot's response to chat history if it was a general conversation,
+                    // not a contextual one that used a fresh prompt.
+                    // For this implementation, we're keeping chatHistory for general conversation flow.
+                    if (!foundContent) {
+                         chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
+                    } else {
+                        // For contextual responses, we might want to manage history differently
+                        // or just add the final answer to keep the history concise.
+                        // For now, let's just add the final botResponse.
+                        chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
+                    }
+                   
+                    chatLoadingIndicator.style.display = 'none'; // Hide typing indicator
+                    sendMessageButton.disabled = false;
+                    chatInput.disabled = false;
+                    chatInput.focus();
+                }
+            };
+
+            const handleSendMessage = () => {
+                const message = chatInput.value.trim();
+                if (message) {
+                    addMessage('user', message);
+                    sendBotMessage(message);
+                    chatInput.value = '';
+                }
+            };
+
+            // Chatbot Event Listeners
+            chatFab.addEventListener('click', () => {
+                chatModal.classList.toggle('active');
+                if (chatModal.classList.contains('active')) {
+                    // Send welcome message only once when chat is opened for the first time
+                    if (chatHistory.length === 0) {
+                        addMessage('bot', welcomeMessage);
+                        chatHistory.push({ role: "model", parts: [{ text: welcomeMessage }] });
+                    }
+                    chatInput.focus();
+                    chatNotification.classList.remove('show'); // Hide notification when chat is opened
+                }
+            });
+
+            closeChatButton.addEventListener('click', () => {
+                chatModal.classList.remove('active');
+            });
+
+            clearChatButton.addEventListener('click', clearChat); // Event listener for clear chat button
+
+            sendMessageButton.addEventListener('click', handleSendMessage);
+
+            chatInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault(); // Prevent new line
+                    handleSendMessage();
+                }
+            });
+
+            // Notification display logic
+            const showNotification = () => {
+                chatNotification.classList.add('show');
+                setTimeout(() => {
+                    chatNotification.classList.remove('show');
+                }, 5000); // Hide after 5 seconds
+            };
+
+            // Initial Page Load Logic (handles URL hash)
+            const initializePage = () => {
+                // Store original content on initial load
+                allFeatureSections.forEach(section => {
+                    originalSectionContents[section.id] = section.innerHTML;
                 });
 
                 const initialHash = window.location.hash.substring(1); // Remove the '#'
+                let chapterIdFromHash = null;
+                let sectionIdFromHash = null;
+
                 if (initialHash) {
-                    // Check if the hash corresponds to a chapter ID
-                    if (document.getElementById(initialHash)) {
-                        handleChapterSelection(initialHash);
-                    } else {
-                        // Check if it's a section within a chapter (e.g., "revelation1-sonOfMan")
+                    // Check if it's a chapter hash (e.g., #revelation1-content)
+                    if (document.getElementById(initialHash) && document.getElementById(initialHash).classList.contains('chapter-content')) {
+                        chapterIdFromHash = initialHash;
+                        // Do NOT set sectionIdFromHash here. User needs to click a sub-button.
+                    }
+                    // Check if it's a section hash (e.g., #revelation1-sonOfMan)
+                    else if (document.getElementById(initialHash) && document.getElementById(initialHash).classList.contains('feature-section')) {
+                        sectionIdFromHash = initialHash;
                         const parts = initialHash.split('-');
-                        if (parts.length > 1 && document.getElementById(parts[0] + '-content')) {
-                            const chapterIdFromHash = parts[0] + '-content';
-                            const sectionIdFromHash = initialHash;
-                            handleChapterSelection(chapterIdFromHash); // Show chapter first
-                            // Allow time for chapter to display before scrolling to section
-                            setTimeout(() => showSection(sectionIdFromHash, chapterIdFromHash), 100);
+                        if (parts.length > 1) {
+                            chapterIdFromHash = parts[0] + '-content';
                         }
+                    }
+
+                    if (chapterIdFromHash) { // If a chapter is identified (either directly or via a section)
+                        welcomeScreen.style.display = 'none';
+                        chapterNavigationContainer.style.display = 'flex';
+                        searchAreaWrapper.style.display = 'flex';
+                        showChapterContent(chapterIdFromHash); // Show chapter nav and make its buttons large
+
+                        if (sectionIdFromHash) { // If a specific section was also in the hash
+                            // Allow time for chapter nav to display before showing specific section
+                            setTimeout(() => showSection(sectionIdFromHash, chapterIdFromHash), 100);
+                        } else {
+                            // If only chapter was in hash, ensure no section is active
+                            allFeatureSections.forEach(section => section.classList.remove('active-page'));
+                        }
+                    } else {
+                        // If hash is invalid or doesn't match a chapter/section, show welcome screen
+                        welcomeScreen.style.display = 'flex';
+                        chapterNavigationContainer.style.display = 'none';
+                        searchAreaWrapper.style.display = 'none';
+                        allChapterContents.forEach(chapter => chapter.classList.remove('active'));
+                        allFeatureSections.forEach(section => section.classList.remove('active-page'));
                     }
                 } else {
                     // If no hash, just show the welcome screen
                     welcomeScreen.style.display = 'flex';
                     chapterNavigationContainer.style.display = 'none';
-                    searchAreaWrapper.style.display = 'none'; // Ensure search area is hidden initially
-                    allChapterContents.forEach(chapter => chapter.classList.remove('active')); // Ensure all chapters are hidden
+                    searchAreaWrapper.style.display = 'none';
+                    allChapterContents.forEach(chapter => chapter.classList.remove('active'));
+                    allFeatureSections.forEach(section => section.classList.remove('active-page'));
                 }
                 removeHighlights(); // Ensure no leftover highlights on first load
-            });
+                showNotification(); // Show notification on page load
+            };
+
+            initializePage(); // Call the initialization function
         });
     </script>
 </body>
