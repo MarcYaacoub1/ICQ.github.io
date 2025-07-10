@@ -418,7 +418,7 @@
             }
 
             header p {
-                font-size: 1em;
+                font-size: 1.1em;
                 padding: 0 15px;
             }
 
@@ -458,6 +458,23 @@
             .header-logo {
                 width: 40px; /* Further reduce size for very small screens */
             }
+
+            /* Adjust font sizes for smaller screens for readability */
+            main {
+                padding: 10px;
+            }
+
+            .feature-section h2 {
+                font-size: 1.6em;
+            }
+
+            .text-content h3 {
+                font-size: 1.2em;
+            }
+
+            .text-content p {
+                font-size: 1em;
+            }
         }
 
         /* Chatbot FAB and Modal Styles */
@@ -476,13 +493,49 @@
             font-size: 1.8em;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease; /* Changed to all for smooth animation */
             z-index: 1001; /* Above header */
+            animation: pulse 2s infinite; /* Added pulse animation */
+        }
+
+        /* Pulse animation for chat FAB */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+            }
         }
 
         .chat-fab:hover {
             background-color: #2980b9;
-            transform: scale(1.05);
+            transform: scale(1.1); /* More pronounced scale on hover */
+            animation: none; /* Stop pulse on hover */
+        }
+
+        .chat-fab.active {
+            background-color: #e74c3c; /* Red when there are unread messages */
+        }
+
+        /* Notification badge on chat FAB */
+        .chat-fab .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7em;
+            font-weight: bold;
         }
 
         .chat-modal {
@@ -498,8 +551,21 @@
             flex-direction: column;
             overflow: hidden;
             z-index: 1002; /* Above FAB */
-            animation: slideInUp 0.3s ease-out;
+            animation: modalAppear 0.3s ease-out; /* Changed to modalAppear */
             border: 1px solid #ddd;
+            transform-origin: left bottom; /* For modalAppear animation */
+        }
+
+        /* Modal appear animation */
+        @keyframes modalAppear {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .chat-modal.active {
@@ -578,12 +644,28 @@
         }
 
         .message-bubble {
-            max-width: 80%;
-            padding: 10px 15px;
+            max-width: 85%; /* Adjusted for better appearance */
+            padding: 12px 16px; /* Adjusted padding */
             border-radius: 18px;
             word-wrap: break-word;
-            line-height: 1.4;
+            line-height: 1.5; /* Adjusted line height */
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            position: relative; /* For messageAppear animation */
+            opacity: 0; /* Initially hidden for animation */
+            animation: messageAppear 0.3s ease-out forwards; /* Animation for new messages */
+            animation-delay: 0.1s; /* Slight delay for staggered appearance */
+        }
+
+        /* Message appear animation */
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .user-message {
@@ -592,6 +674,7 @@
             border-bottom-left-radius: 5px;
             border-top-right-radius: 18px;
             border-bottom-right-radius: 18px;
+            margin-left: 15%; /* Keep some margin for max-width */
         }
 
         .bot-message {
@@ -600,6 +683,19 @@
             border-bottom-right-radius: 5px;
             border-top-left-radius: 18px;
             border-bottom-left-radius: 18px;
+            margin-right: 15%; /* Keep some margin for max-width */
+        }
+
+        /* Message timestamp */
+        .message-time {
+            font-size: 0.7em;
+            color: #7f8c8d;
+            margin-top: 5px;
+            text-align: left; /* Default for bot messages */
+        }
+
+        .user-message .message-time {
+            text-align: right; /* For user messages */
         }
 
         .chat-input-container {
@@ -608,6 +704,7 @@
             border-top: 1px solid #eee;
             background-color: #fff;
             gap: 10px;
+            align-items: center; /* Align items vertically */
         }
 
         .chat-input-container textarea {
@@ -618,10 +715,16 @@
             font-size: 1em;
             resize: none; /* Disable manual resizing */
             min-height: 40px;
-            max-height: 80px; /* Limit height to prevent excessive expansion */
+            max-height: 100px; /* Limit height to prevent excessive expansion */
             overflow-y: auto;
             direction: rtl; /* Ensure input is RTL */
             text-align: right; /* Ensure input text is right-aligned */
+            transition: border-color 0.3s; /* Smooth transition for focus */
+        }
+
+        .chat-input-container textarea:focus {
+            border-color: #3498db; /* Blue border on focus */
+            outline: none; /* Remove default outline */
         }
 
         .chat-input-container button {
@@ -636,48 +739,100 @@
             align-items: center;
             font-size: 1.2em;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease; /* Changed to all for smooth animation */
         }
 
         .chat-input-container button:hover {
             background-color: #2980b9;
+            transform: scale(1.05); /* Slightly larger on hover */
         }
 
-        /* Typing indicator styles */
+        .chat-input-container button:disabled {
+            background-color: #95a5a6; /* Grey out when disabled */
+            cursor: not-allowed;
+        }
+
+        /* Loading indicator (reverted to text) */
         .loading-indicator {
-            display: flex; /* Changed to flex to align dots */
-            justify-content: center; /* Center the dots */
-            align-items: center;
-            margin-top: 10px;
+            display: none; /* Hidden by default */
+            text-align: center;
+            margin: 10px 0; /* Adjusted margin */
             font-style: italic;
             color: #7f8c8d;
-            height: 20px; /* Give it some height */
         }
 
-        .typing-dots {
+        /* Typing indicator (new) */
+        .typing-indicator {
             display: flex;
             align-items: center;
-            gap: 4px; /* Space between dots */
+            justify-content: flex-start; /* Align to the left for bot typing */
+            margin-bottom: 10px;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.3s;
         }
 
-        .dot {
-            width: 8px;
+        .typing-indicator.active {
+            opacity: 1;
+        }
+
+        .typing-indicator span {
             height: 8px;
+            width: 8px;
             background-color: #7f8c8d;
             border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typingAnimation 1.5s infinite ease-in-out;
         }
 
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
-        .dot:nth-child(3) { animation-delay: 0s; }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
         }
 
-        /* Toast Notification Styles */
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Suggested Questions (new) */
+        .suggested-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #eee;
+        }
+
+        .suggested-question {
+            background-color: #e8f5e9;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-align: right;
+            transition: all 0.2s;
+        }
+
+        .suggested-question:hover {
+            background-color: #d4edda;
+            transform: translateX(-5px);
+        }
+
+        /* Toast Notification Styles (existing, but ensure z-index is correct) */
         .toast-notification {
             position: fixed;
             bottom: 90px; /* Above FAB */
@@ -705,7 +860,7 @@
         @media (max-width: 600px) {
             .chat-modal {
                 width: 90%;
-                height: 80%;
+                height: 70%; /* Adjusted height for better mobile fit */
                 bottom: 10px;
                 left: 5%;
                 right: 5%;
@@ -724,17 +879,6 @@
                 right: 20px;
                 bottom: 70px; /* Adjust if FAB size changes */
                 box-sizing: border-box;
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
             }
         }
     </style>
@@ -808,7 +952,7 @@
                     <p>يرمز إلى **الملك المتربع على عرشه**، والذي يتمتع بسلطان كامل ومجد لا يوصف، وهو جاهز للقيام بعمله الإلهي في الدينونة والرعاية.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="Image of a powerful figure with a golden halo and belt">
+                    <img src="www-St-Takla-org--236--The-Revelation-to-John.jpg" alt="">
                     <p class="image-caption">تعبير عن المجد والسلطان الإلهي.</p>
                 </div>
             </div>
@@ -826,7 +970,7 @@
                     <p>يشبه **شيخوخة حكيمة وكريمة**، لكنها هنا تشير إلى كمال وجوده الأزلي الذي لا يعرف بداية أو نهاية، وأنه هو **القديم الأيام** الذي يمتلك كل المعرفة والحكمة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="Image of a head with shining white hair">
+                    <img src="www-st-takla-org--5-26-dublin-st-patrick-cathedral-b-0009.jpg" alt="">
                     <p class="image-caption">رسم يوضح نقاء وحكمة الأزلية.</p>
                 </div>
             </div>
@@ -844,7 +988,7 @@
                     <p>مثل **النار التي تكشف وتطهر وتحرق كل ما هو غير نقي**، عينيه تخترقان أعماق القلوب وتكشف الحقائق، كما أنها تعبر عن **غيرة الله المقدسة** ضد الشر والخطيئة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="Image of glowing eyes with fire">
+                    <img src="503606517_10082814055088561_6447194419587411826_n.jpg" alt="">
                     <p class="image-caption">تجسيد للقوة الإلهية التي تخترق كل خفاء.</p>
                 </div>
             </div>
@@ -862,7 +1006,7 @@
                     <p>يشبه **أساسًا قويًا وثابتًا لا يمكن زعزعته**، ويرمز أيضًا إلى قدرته على الدوس على الشر والدينونة العادلة. كما يشير إلى **نقاوة طرق الله** وعمله الذي لا تشوبه شائبة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="Image of strong feet made of glowing bronze">
+                    <img src="Leonardo_Phoenix_09_Depict_a_heavenly_apocalyptic_scene_inspir_2.jpg" alt="">
                     <p class="image-caption">قوة وثبات لا يتزعزعان.</p>
                 </div>
             </div>
@@ -880,7 +1024,7 @@
                     <p>مثل **شلالات عظيمة أو أمواج المحيط الهادرة**، صوته قوي ومهيب، لا يمكن تجاهله أو مقاومته. يعبر عن **السيادة المطلقة** لله الذي بكلمته خلق السماوات والأرض.</p>
                 </div>
                 <div class="image-content">
-                    <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="Image of large waterfalls">
+                    <img src="110015342_3343270162390915_8246108657343253211_n.jpg" alt="">
                     <p class="image-caption">صوت مهيب يملأ الكون.</p>
                 </div>
             </div>
@@ -898,7 +1042,7 @@
                     <p>مثل **السيف الذي يقطع ويخترق كل شيء**، كلمة الله قاطعة وحاسمة، تفصل بين النور والظلمة. إنها **كلمة الله التي تدين** الخطية وتكشف الزيف، وتعلن الحق المطلق.</p>
                 </div>
                 <div class="image-content">
-                    <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_.jpg" alt="Image of a sharp sword coming out of a mouth">
+                    <img src="Flux_Dev_A_highly_detailed_and_realistic_illustration_of_a_sha_.jpg" alt="">
                     <p class="image-caption">قوة كلمة الله الفاصلة.</p>
                 </div>
             </div>
@@ -916,7 +1060,7 @@
                     <p>يشبه **الشمس في أوج قوتها وسطوعها**، لا يمكن لأحد أن ينظر إليها مباشرة بسبب شدة ضوئها، وهذا يرمز إلى بهاء مجد الله الذي لا يمكن إدراكه بشكل كامل، وإلى **نوره الذي يبدد كل ظلمة**.</p>
                 </div>
                 <div class="image-content">
-                    <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="Image of a face radiating light like the sun">
+                    <img src="Flux_Dev_a_breathtakingly_detailed_ultrahighresolution_illustr_0.jpg" alt="">
                     <p class="image-caption">مجد وبهاء النور الإلهي.</p>
                 </div>
             </div>
@@ -934,7 +1078,7 @@
                     <p>يشبه هذا الظهور **الرؤى العظيمة للأنبياء** التي تدل على حضور الله وقوته. إنه يرمز إلى **مجد المسيح بعد القيامة والصعود**، وسلطانه على كل شيء، وأنه هو الرب الحقيقي الذي له كل السيادة والقوة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="Image of John falling before the glorious Christ">
+                    <img src="Flux_Dev_a_breathtaking_highly_detailed_and_vibrantly_colored__3.jpg" alt="">
                     <p class="image-caption">مشهد مهيب لظهور المسيح ليوحنا، رمزاً للمجد والسلطان.</p>
                 </div>
             </div>
@@ -964,7 +1108,7 @@
                     <p>الأعمال الصالحة مهمة، لكن يجب أن تكون مدفوعة بالمحبة الخالصة للمسيح. يدعو الرب للتوبة والعودة إلى الشغف والحيوية الروحية الأولى.</p>
                 </div>
                 <div class="image-content">
-                    <img src="9-saint-mary_s-basilica-the-double-church-where-the-council-of-ephesusd983d986d98ad8b3d8a9-d8a7d984d8a8d8a7d8b2d98ad984d98ad983-d985d8a7d8b1d98a-d8add98ad8ab.jpg" alt="Image of the Church of Ephesus">
+                    <img src="9-saint-mary_s-basilica-the-double-church-where-the-council-of-ephesusd983d986d98ad8b3d8a9-d8a7d984d8a8d8a7d8b2d98ad984d98ad983-d985d8a7d8b1d98a-d8add98ad8ab.jpg" alt="">
                     <p class="image-caption">صورة لكنيسة أفسس.</p>
                 </div>
             </div>
@@ -982,7 +1126,7 @@
                     <p>الأمانة في وجه الاضطهاد تجلب مكافأة عظيمة، وهي إكليل الحياة. الضيقات قد تكون قصيرة الأمد، لكن الأمانة لله تدوم إلى الأبد.</p>
                 </div>
                 <div class="image-content">
-                    <img src="images.jpg" alt="Image of the Church of Smyrna">
+                    <img src="images.jpg" alt="">
                     <p class="image-caption">صورة لكنيسة سميرنا.</p>
                 </div>
             </div>
@@ -1000,7 +1144,7 @@
                     <p>حتى في بيئة صعبة، يجب على المؤمنين التمسك بالحق ورفض أي تسوية مع الشر أو التعاليم الخاطئة. الطاعة لكلمة الله أهم من مجرد الحفاظ على الاسم.</p>
                 </div>
                 <div class="image-content">
-                    <img src="احدى الكنائس السبعه بسفر الرؤيا ( برغامس).jpg" alt="Image of the Church of Pergamum">
+                    <img src="احدى الكنائس السبعه بسفر الرؤيا ( برغامس).jpg" alt="">
                     <p class="image-caption">صورة لكنيسة برغامس.</p>
                 </div>
             </div>
@@ -1018,7 +1162,7 @@
                     <p>ليس كافيًا أن تكون لديك أعمال صالحة، بل يجب أيضًا أن تكون صارمًا ضد الشر والتعاليم الخاطئة داخل الكنيسة. التساهل مع الخطية يقود إلى الفساد الروحي.</p>
                 </div>
                 <div class="image-content">
-                    <img src="image.jpg" alt="Image of the Church of Thyatira">
+                    <img src="image.jpg" alt="">
                     <p class="image-caption">صورة لكنيسة ثياتيرا.</p>
                 </div>
             </div>
@@ -1036,7 +1180,7 @@
                     <p>السمعة الخارجية لا تعني شيئًا بدون حيوية روحية داخلية. يجب على المؤمنين أن يكونوا ساهرين ومستعدين، وأن يكملوا أعمالهم بالإيمان والمحبة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+ساردس" alt="Image of the Church of Sardis">
+                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+ساردس" alt="">
                     <p class="image-caption">صورة لكنيسة ساردس.</p>
                 </div>
             </div>
@@ -1054,7 +1198,7 @@
                     <p>الأمانة لله، حتى في الظروف الصعبة أو مع موارد قليلة، تكافئ بفرص خدمة عظيمة وحماية إلهية. الرب يقدر الإخلاص أكثر من القدرات البشرية.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+فيلادلفيا" alt="Image of the Church of Philadelphia">
+                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+فيلادلفيا" alt="">
                     <p class="image-caption">صورة لكنيسة فيلادلفيا.</p>
                 </div>
             </div>
@@ -1072,7 +1216,7 @@
                     <p>الفتور الروحي أخطر من البرودة الصريحة، لأنه يعطي شعورًا زائفًا بالرضا. يجب على المؤمنين أن يسعوا للحرارة الروحية الحقيقية وأن يعتمدوا على غنى المسيح لا على غناهم المادي.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+لاودكية" alt="Image of the Church of Laodicea">
+                    <img src="https://placehold.co/400x300/2c3e50/ffffff?text=كنيسة+لاودكية" alt="">
                     <p class="image-caption">صورة لكنيسة لاودكية.</p>
                 </div>
             </div>
@@ -1113,7 +1257,7 @@
                     <p>يعلمنا هذا الإصحاح أهمية الانتظار والصلاة قبل البدء في الخدمة، والثقة في وعود الرب، وأهمية الوحدة في الكنيسة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-st-takla-org--sweet-bible-Ac_01_01.jpg" alt="Image of the Ascension of Christ and the election of Matthias">
+                    <img src="www-st-takla-org--sweet-bible-Ac_01_01.jpg" alt="">
                     <p class="image-caption">صعود المسيح واختيار متياس.</p>
                 </div>
             </div>
@@ -1135,7 +1279,7 @@
                     <p>يبرز هذا الإصحاح قوة الروح القدس في تجديد الحياة والشهادة، وأهمية الكرازة بكلمة الله، ودور الشركة المسيحية في نمو الكنيسة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="download.jpeg" alt="Image of the descent of the Holy Spirit on Pentecost">
+                    <img src="download.jpeg" alt="">
                     <p class="image-caption">حلول الروح القدس.</p>
                 </div>
             </div>
@@ -1156,7 +1300,7 @@
                     <p>يظهر قوة اسم يسوع المسيح في الشفاء والخلاص، وأهمية الشهادة الجريئة للمسيح، ودعوة الله المستمرة للتوبة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-St-Takla-org--PETEHEAL.jpg" alt="Image of the healing of the lame man at the Beautiful Gate">
+                    <img src="www-St-Takla-org--PETEHEAL.jpg" alt="">
                     <p class="image-caption">شفاء الأعرج.</p>
                 </div>
             </div>
@@ -1178,7 +1322,7 @@
                     <p>يعلمنا هذا الإصحاح الشجاعة في الشهادة للمسيح رغم الاضطهاد، وقوة الصلاة الجماعية، وأهمية الشركة والاهتمام بالفقراء في الكنيسة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-st-takla-org--sweet-bible-Ac_04_01.jpg" alt="Image of Peter and John before the Sanhedrin">
+                    <img src="www-st-takla-org--sweet-bible-Ac_04_01.jpg" alt="">
                     <p class="image-caption">بطرس ويوحنا أمام السنهدريم.</p>
                 </div>
             </div>
@@ -1201,7 +1345,7 @@
                     <p>يؤكد هذا الإصحاح على قدسية الروح القدس وخطورة الكذب عليه، وقوة الله في حماية خدامه، والشجاعة في مواجهة الظلم.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-st-takla-org--sweet-bible-Ac_04_02.jpg" alt="Image of Ananias and Sapphira, and the apostles in prison">
+                    <img src="www-st-takla-org--sweet-bible-Ac_04_02.jpg" alt="">
                     <p class="image-caption">حنانيا وسفيرة وسجن الرسل.</p>
                 </div>
             </div>
@@ -1223,7 +1367,7 @@
                     <p>يظهر أهمية التنظيم في الكنيسة لضمان العدالة في الخدمة، وأهمية اختيار خدام مملوئين من الروح القدس والحكمة، وشجاعة الشهادة للمسيح حتى في مواجهة الموت.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-St-Takla-org--The-Seven-Deacons.gif" alt="Image of the selection of deacons and the martyrdom of Stephen">
+                    <img src="www-St-Takla-org--The-Seven-Deacons.gif" alt="">
                     <p class="image-caption">اختيار الشمامسة.</p>
                 </div>
             </div>
@@ -1239,7 +1383,7 @@
                     <p>يعلمنا هذا الإصحاح قوة الشهادة الجريئة للحق حتى النهاية، وغفران الأعداء، وأن الألم من أجل المسيح هو طريق للمجد.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-St-Takla-org--Coptic-Saints-Saint-Stephen-02-01.jpg" alt="Image of Stephen's sermon and martyrdom">
+                    <img src="www-St-Takla-org--Coptic-Saints-Saint-Stephen-02-01.jpg" alt="">
                     <p class="image-caption">خطبة استفانوس واستشهاده.</p>
                 </div>
             </div>
@@ -1262,7 +1406,7 @@
                     <p>يظهر أن الاضطهاد يمكن أن يكون وسيلة لانتشار الإنجيل، وأهمية التبشير لكل الأمم، وخطورة محاولة الحصول على البركات الروحية بالمال.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-st-takla-org--sweet-bible-Ac_08_04.jpg" alt="Image of Philip preaching in Samaria and the Ethiopian eunuch">
+                    <img src="www-st-takla-org--sweet-bible-Ac_08_04.jpg" alt="">
                     <p class="image-caption">تبشير فيلبس في السامرة.</p>
                 </div>
             </div>
@@ -1284,7 +1428,7 @@
                     <p>يبرز هذا الإصحاح قوة الله في تحويل أعظم المضطهدين إلى أعظم المبشرين، وأهمية الطاعة لدعوة الله حتى لو كانت غير متوقعة، وقوة الصلاة في إقامة الأموات.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-st-takla-org--sweet-bible-Ac_09_01.jpg" alt="Image of Saul's conversion and Peter raising Tabitha">
+                    <img src="www-st-takla-org--sweet-bible-Ac_09_01.jpg" alt="">
                     <p class="image-caption">اهتداء شاول.</p>
                 </div>
             </div>
@@ -1307,7 +1451,7 @@
                     <p>يظهر أن الله لا يحابي الوجوه، وأن الإنجيل متاح لكل الأمم، وأهمية الطاعة للرؤى الإلهية حتى لو كانت تخالف المفاهيم التقليدية.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-St-Takla-org--Peter-Baptizing-the-Centurion-Cornelius-by-Francesco-Trevisani-1709.jpg" alt="Image of the conversion of Cornelius and his family">
+                    <img src="www-St-Takla-org--Peter-Baptizing-the-Centurion-Cornelius-by-Francesco-Trevisani-1709.jpg" alt="">
                     <p class="image-caption">اهتداء كرنيليوس.</p>
                 </div>
             </div>
@@ -1331,7 +1475,7 @@
                     <p>يؤكد هذا الإصحاح على أن الخلاص ليس مقتصراً على شعب معين، وأهمية قبول الآخر، ودور المعلمين في بناء الكنيسة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-st-takla-org--sweet-bible-Ac_12_03.jpg" alt="Image of Peter's defense and the spread of the Gospel in Antioch">
+                    <img src="www-st-takla-org--sweet-bible-Ac_12_03.jpg" alt="">
                     <p class="image-caption">انتشار الإنجيل في أنطاكية.</p>
                 </div>
             </div>
@@ -1355,7 +1499,7 @@
                     <p>يظهر قوة الصلاة الجماعية في تحرير السجناء، وحماية الله لخدامه، وعقابه للمتكبرين الذين يغتصبون مجد الله.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-St-Takla-org--10-Peter-Released-from-Prison-by-an-Angel.jpg" alt="Image of Peter in prison and the death of Herod">
+                    <img src="www-St-Takla-org--10-Peter-Released-from-Prison-by-an-Angel.jpg" alt="">
                     <p class="image-caption">سجن بطرس وموت هيرودس.</p>
                 </div>
             </div>
@@ -1380,7 +1524,7 @@
                     <p>يبدأ هذا الإصحاح رحلة التبشير للأمم، ويظهر أهمية قيادة الروح القدس للخدمة، والشجاعة في مواجهة المقاومة.</p>
                 </div>
                 <div class="image-content">
-                    <img src="images.jpeg" alt="Image of Paul and Barnabas on their first missionary journey">
+                    <img src="images.jpeg" alt="">
                     <p class="image-caption">رحلة بولس وبرنابا التبشيرية الأولى.</p>
                 </div>
             </div>
@@ -1406,7 +1550,7 @@
                     <p>يظهر أن الخدمة الحقيقية تتطلب الصبر في الضيقات، وعدم قبول المجد البشري، وأهمية متابعة المؤمنين الجدد وتقوية الكنائس.</p>
                 </div>
                 <div class="image-content">
-                    <img src="www-St-Takla-org--232--Paul-&-Barnabas-Treated-as-Gods.jpg" alt="Image of Paul and Barnabas preaching in Iconium, Lystra, and Derbe">
+                    <img src="www-St-Takla-org--232--Paul-&-Barnabas-Treated-as-Gods.jpg" alt="">
                     <p class="image-caption">التبشير في أيقونية ولسترة ودربة.</p>
                 </div>
             </div>
@@ -1436,7 +1580,7 @@
                     <p>تظل قصة كنيسة لاودكية تحذيرًا روحيًا للمؤمنين عبر العصور، مؤكدة على أهمية الحرارة الروحية، والاعتماد على غنى المسيح الحقيقي بدلاً من الغنى المادي الزائف، والسعي الدائم للتوبة والنمو في الإيمان.</p>
                 </div>
                 <div class="image-content">
-                    <img src="laodicea-2.jpg" alt="Image of Laodicea Historical Church ruins">
+                    <img src="laodicea-2.jpg" alt="">
                     <p class="image-caption">آثار كنيسة لاودكية القديمة.</p>
                 </div>
             </div>
@@ -1460,12 +1604,12 @@
                     <p>هدفنا هو النمو في معرفة الله ومحبته، والعيش حياة مسيحية أصيلة تعكس قيم الإنجيل، والاستعداد للمجيء الثاني للسيد المسيح.</p>
                 </div>
                 <div class="image-content">
-                    <img src="christ-pantokrator-icon.jpg" alt="Image of Church Beliefs">
+                    <img src="christ-pantokrator-icon.jpg" alt="">
                     <p class="image-caption">أيقونة أو رمز يمثل العقيدة الأرثوذكسية.</p>
                 </div>
             </div>
         </section>
-                </div>
+
             </div>
         </section>
     </main>
@@ -1477,6 +1621,8 @@
     <!-- Chatbot FAB -->
     <div class="chat-fab" id="chatFab">
         <i class="fas fa-comment-dots"></i>
+        <!-- Notification badge for unread messages -->
+        <div class="notification-badge" id="notificationBadge" style="display: none;">!</div>
     </div>
 
     <!-- Chatbot Modal -->
@@ -1491,20 +1637,22 @@
         <div class="chat-messages" id="chatMessages">
             <!-- Messages will be appended here -->
         </div>
-        <div class="loading-indicator" id="chatLoadingIndicator">
-            <div class="typing-dots">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
+        <!-- Typing indicator for bot responses -->
+        <div class="typing-indicator" id="typingIndicator">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
+        <!-- Suggested Questions -->
         <div class="chat-input-container">
             <textarea id="chatInput" placeholder="اكتب سؤالك هنا..." dir="rtl"></textarea>
             <button id="sendMessageButton"><i class="fas fa-paper-plane"></i></button>
         </div>
+        <!-- Loading indicator (kept for general loading, typing indicator is more specific) -->
+        <div class="loading-indicator" id="chatLoadingIndicator">جاري الكتابة...</div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Toast Notification (existing) -->
     <div class="toast-notification" id="chatNotification">
         <i class="fas fa-robot"></i>
         <span>مرحباً! اضغط هنا للدردشة مع مارك.</span>
@@ -1537,11 +1685,48 @@
             const sendMessageButton = document.getElementById('sendMessageButton');
             const chatLoadingIndicator = document.getElementById('chatLoadingIndicator');
             const chatNotification = document.getElementById('chatNotification');
+            const typingIndicator = document.getElementById('typingIndicator'); // New typing indicator
+            const notificationBadge = document.getElementById('notificationBadge'); // New notification badge
+            const suggestedQuestions = document.getElementById('suggestedQuestions'); // New suggested questions container
+            const suggestedQuestionElements = document.querySelectorAll('.suggested-question'); // New suggested question elements
 
             // Chatbot state
             let chatHistory = [];
+            let isFirstInteraction = true; // To show welcome message and suggested questions only once
+            let isBotTyping = false; // To prevent sending multiple messages while bot is typing
+            let unreadMessages = 0; // For the notification badge
             const botName = "مارك";
-            const welcomeMessage = "مرحبا انا مارك صديقكك الالي كيف يمكنني مساعدتك";
+            const welcomeMessage = "مرحباً بك! أنا مارك، مساعدك الآلي لدراسة الكتاب المقدس. يمكنني مساعدتك في فهم صفات الذات الإلهية في سفر الرؤيا، رسائل الكنائس السبع، حياة الآباء الرسل، وغيرها من المواضيع الروحية. كيف يمكنني مساعدتك اليوم؟";
+
+            // System instructions for the bot
+            const systemInstructions = `
+            أنت مساعد آلي ذكي اسمك "مارك" متخصص في دراسة الكتاب المقدس والعقيدة المسيحية الأرثوذكسية.
+            مهمتك هي مساعدة المستخدمين في فهم الكتاب المقدس والعقائد المسيحية بطريقة بسيطة وواضحة.
+            
+            يجب عليك:
+            1. الرد بلغة عربية فصحى واضحة وسهلة الفهم.
+            2. تقديم إجابات دقيقة ومبنية على الكتاب المقدس والتعاليم الأرثوذكسية.
+            3. تقسيم الإجابات الطويلة إلى فقرات واضحة.
+            4. استخدام أمثلة وتشبيهات مناسبة عندما يكون ذلك مفيداً.
+            5. الابتعاد عن الآراء الشخصية والالتزام بالتعاليم الكنسية.
+            6. عند السؤال عن مواضيع خارج نطاق الدين، politely decline والإشارة إلى تخصصك في الأمور الدينية.
+            7. استخدام نبرة ودودة واحترافية في نفس الوقت.
+            
+            مجالات تخصصك:
+            - تفسير الكتاب المقدس
+            - العقائد المسيحية الأرثوذكسية
+            - حياة القديسين والآباء الرسل
+            - الطقوس الكنسية والأسرار المقدسة
+            - الأخلاقيات المسيحية
+            - تاريخ الكنيسة
+            `;
+
+            // Initialize chat with system instructions
+            // This message is for the AI model's context and not displayed to the user
+            chatHistory.push({
+                role: "user",
+                parts: [{ text: systemInstructions }]
+            });
 
             // Store original content of sections to restore later for search functionality
             const originalSectionContents = {};
@@ -1686,8 +1871,14 @@
                             firstMatchingSectionId = section.id;
                             // Determine the parent chapter ID for this section
                             // This relies on section IDs having a chapter prefix (e.g., revelation1-sonOfMan)
-                            const chapterPrefix = section.id.split('-')[0];
-                            firstMatchingChapterId = chapterPrefix + '-content';
+                            const parts = section.id.split('-');
+                            if (parts.length > 1) { // Ensure there's a prefix to form a chapter ID
+                                firstMatchingChapterId = parts[0] + '-content';
+                            } else {
+                                // Fallback if section ID doesn't follow expected pattern, e.g., acts-content -> acts1
+                                // This might need more robust mapping if IDs are inconsistent
+                                firstMatchingChapterId = section.id.replace(/\d+$/, '') + 'content'; 
+                            }
                             foundMatch = true;
                         }
                     });
@@ -1816,52 +2007,124 @@
 
             searchInput.addEventListener('keyup', applySearchFilter);
 
-            // Chatbot Functions
+            // Add timestamp to messages
+            const getCurrentTime = () => {
+                const now = new Date();
+                return now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+            };
+
+            // Add message to chat
             const addMessage = (sender, text) => {
                 const messageElement = document.createElement('div');
                 messageElement.classList.add('message-bubble');
+                
                 if (sender === 'user') {
                     messageElement.classList.add('user-message');
                 } else {
                     messageElement.classList.add('bot-message');
                 }
-                messageElement.textContent = text;
+                
+                messageElement.innerHTML = text; // Use innerHTML to allow for time element
+                
+                const timeElement = document.createElement('div');
+                timeElement.classList.add('message-time');
+                timeElement.textContent = getCurrentTime();
+                messageElement.appendChild(timeElement);
+                
                 chatMessages.appendChild(messageElement);
+                
                 // Scroll to the bottom
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Mark as read if chat is open
+                if (chatModal.classList.contains('active')) {
+                    unreadMessages = 0;
+                    notificationBadge.style.display = 'none';
+                    chatFab.classList.remove('active'); // Remove pulse when chat is open
+                } else if (sender === 'bot') {
+                    unreadMessages++;
+                    notificationBadge.textContent = unreadMessages > 9 ? '9+' : unreadMessages;
+                    notificationBadge.style.display = 'flex';
+                    chatFab.classList.add('active'); // Add pulse for unread messages
+                }
+            };
+
+            // Show typing indicator
+            const showTypingIndicator = () => {
+                isBotTyping = true;
+                typingIndicator.classList.add('active');
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom to show indicator
+            };
+
+            // Hide typing indicator
+            const hideTypingIndicator = () => {
+                isBotTyping = false;
+                typingIndicator.classList.remove('active');
+            };
+
+            // Simulate typing delay for more natural interaction
+            const simulateTypingDelay = (message) => {
+                return new Promise(resolve => {
+                    const words = message.split(' ');
+                    let typedSoFar = '';
+                    let index = 0;
+                    
+                    // Create a temporary bot message element to show typing
+                    const tempMessageElement = document.createElement('div');
+                    tempMessageElement.classList.add('message-bubble', 'bot-message');
+                    chatMessages.appendChild(tempMessageElement);
+
+                    showTypingIndicator();
+                    
+                    const typingInterval = setInterval(() => {
+                        if (index < words.length) {
+                            typedSoFar += (index > 0 ? ' ' : '') + words[index];
+                            tempMessageElement.innerHTML = typedSoFar + '<div class="message-time">' + getCurrentTime() + '</div>';
+                            chatMessages.scrollTop = chatMessages.scrollHeight; // Keep scrolling as text appears
+                            index++;
+                        } else {
+                            clearInterval(typingInterval);
+                            hideTypingIndicator();
+                            // Replace the temporary message with the final one using addMessage to ensure proper styling and history update
+                            chatMessages.removeChild(tempMessageElement); // Remove temporary element
+                            addMessage('bot', message); // Add the complete message
+                            resolve();
+                        }
+                    }, 100); // Adjust typing speed here (100ms per word)
+                });
             };
 
             const clearChat = () => {
                 chatMessages.innerHTML = ''; // Clear all messages
                 chatHistory = []; // Reset chat history
+                // Re-add system instructions for the AI model
+                chatHistory.push({ role: "user", parts: [{ text: systemInstructions }] });
                 addMessage('bot', welcomeMessage); // Add welcome message again
-                chatHistory.push({ role: "model", parts: [{ text: welcomeMessage }] });
+                chatHistory.push({ role: "model", parts: [{ text: welcomeMessage }] }); // Add welcome message to history
+                isFirstInteraction = false; // It's not the first interaction with the welcome message anymore
+                suggestedQuestions.style.display = 'flex'; // Show suggested questions again after clearing
             };
 
+            // Send message to Gemini API
             const sendBotMessage = async (userMessage) => {
-                chatLoadingIndicator.style.display = 'flex'; // Show typing indicator
+                chatLoadingIndicator.style.display = 'block'; // Show general loading indicator
                 sendMessageButton.disabled = true;
                 chatInput.disabled = true;
-
-                // Add user message to history
-                chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
-
-                let botResponse = 'عذراً، لم أتمكن من فهم سؤالك. هل يمكنك إعادة الصياغة؟';
+                
+                let botResponse = 'عذراً، لم أتمكن من فهم سؤالك. يرجى المحاولة مرة أخرى لاحقاً.';
                 let foundContent = false;
-
-                // 1. Try to find content within the existing sections of the page
                 let relevantSectionContent = '';
                 let relevantSectionId = null;
                 let relevantChapterId = null;
 
                 const lowerCaseUserMessage = userMessage.toLowerCase();
 
+                // Search for relevant content on the page
                 for (const section of allFeatureSections) {
                     const sectionText = section.textContent.toLowerCase();
                     if (sectionText.includes(lowerCaseUserMessage)) {
                         relevantSectionContent = section.textContent;
                         relevantSectionId = section.id;
-                        // Determine parent chapter ID for navigation
                         const parts = section.id.split('-');
                         if (parts.length > 1) {
                             relevantChapterId = parts[0] + '-content';
@@ -1871,33 +2134,31 @@
                     }
                 }
 
+                // Prepare the full chat history for the API call
+                let currentChatContents = [...chatHistory]; // Clone to avoid modifying original history prematurely
+
+                // Add the current user's message to the temporary history
+                // This message will be modified below to include context if found
+                currentChatContents.push({ role: "user", parts: [{ text: userMessage }] });
+
+                // If relevant content is found, modify the last user message in the cloned history
+                if (foundContent) {
+                    const lastUserMessage = currentChatContents[currentChatContents.length - 1];
+                    lastUserMessage.parts[0].text = `السؤال: "${userMessage}"\n\nمعلومات من الموقع قد تكون ذات صلة:\n---\n${relevantSectionContent}\n---\n\nالرجاء الإجابة على السؤال بناءً على هذه المعلومات أولاً. إذا لم تكن الإجابة موجودة في المعلومات المقدمة، فاستخدم معرفتك العامة للإجابة، ولكن اذكر أن الإجابة من خارج محتوى الموقع.`;
+                } else {
+                    // If no content found, explicitly tell the model to use general knowledge
+                    const lastUserMessage = currentChatContents[currentChatContents.length - 1];
+                    lastUserMessage.parts[0].text = `السؤال: "${userMessage}"\n\nلم يتم العثور على معلومات ذات صلة في الموقع. الرجاء الإجابة من معرفتك العامة.`;
+                }
+
                 try {
                     const apiKey = ""; // Canvas will provide this
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    let payload;
-
-                    if (foundContent) {
-                        // If relevant content is found, use it as context for the AI model
-                        const contextPrompt = `بناءً على النص التالي من الموقع: "${relevantSectionContent}"، أجب على السؤال التالي: "${userMessage}". إذا لم تجد الإجابة في النص المقدم، يمكنك الإجابة من معرفتك العامة ولكن اذكر أن المعلومات من خارج الموقع.`;
-                        payload = {
-                            contents: [{ role: "user", parts: [{ text: contextPrompt }] }]
-                        };
-                        // Note: We are sending a fresh chat history for contextual questions
-                        // to ensure the model focuses only on the provided context + current question.
-                        // If we want it to maintain broader conversation history AND use context,
-                        // we'd append the contextPrompt to the existing chatHistory.
-                        // For this request, focusing on direct answer from site content is key.
-                    } else {
-                        // If no relevant content found on site, send the regular chat history
-                        payload = {
-                            contents: chatHistory
-                        };
-                    }
-
+                    
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify({ contents: currentChatContents }) // Send the prepared history
                     });
 
                     const result = await response.json();
@@ -1907,10 +2168,11 @@
                         result.candidates[0].content.parts.length > 0) {
                         botResponse = result.candidates[0].content.parts[0].text;
                         
+                        // Simulate typing effect
+                        await simulateTypingDelay(botResponse);
+
                         if (foundContent && relevantChapterId && relevantSectionId) {
-                            // Prepend a message indicating navigation
-                            botResponse = `لقد وجدت معلومات ذات صلة في الموقع. سأقوم بالانتقال إليها الآن.\n\n${botResponse}`;
-                            // Perform navigation
+                            // Perform navigation after typing simulation
                             handleChapterSelection(relevantChapterId);
                             setTimeout(() => {
                                 showSection(relevantSectionId, relevantChapterId);
@@ -1919,49 +2181,67 @@
                         }
                     } else {
                         console.error('Gemini API response structure unexpected:', result);
+                        // Add error message directly if API response is malformed
+                        addMessage('bot', 'عذراً، واجهت مشكلة في توليد الإجابة. يرجى المحاولة مرة أخرى.');
                     }
                 } catch (error) {
-                    botResponse = 'حدث خطأ أثناء الاتصال بخدمة الذكاء الاصطناعي. يرجى المحاولة لاحقاً.';
+                    // Add error message directly if there's a network or API error
+                    addMessage('bot', 'حدث خطأ أثناء الاتصال بخدمة الذكاء الاصطناعي. يرجى المحاولة لاحقاً.');
                     console.error('Error calling Gemini API:', error);
                 } finally {
-                    addMessage('bot', botResponse);
-                    // Only add the bot's response to chat history if it was a general conversation,
-                    // not a contextual one that used a fresh prompt.
-                    // For this implementation, we're keeping chatHistory for general conversation flow.
-                    if (!foundContent) {
-                         chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
-                    } else {
-                        // For contextual responses, we might want to manage history differently
-                        // or just add the final answer to keep the history concise.
-                        // For now, let's just add the final botResponse.
-                        chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
-                    }
-                   
-                    chatLoadingIndicator.style.display = 'none'; // Hide typing indicator
+                    // Add the bot's response to the actual chat history.
+                    // Note: The user's message in chatHistory was already added at the start of sendBotMessage.
+                    // We only add the bot's response here if it wasn't already added by simulateTypingDelay.
+                    // The simulateTypingDelay now adds the final message to the DOM and history.
+                    chatLoadingIndicator.style.display = 'none'; // Hide general loading indicator
                     sendMessageButton.disabled = false;
                     chatInput.disabled = false;
                     chatInput.focus();
                 }
             };
 
+            // Handle sending message
             const handleSendMessage = () => {
                 const message = chatInput.value.trim();
-                if (message) {
+                if (message && !isBotTyping) { // Prevent sending if bot is typing
                     addMessage('user', message);
                     sendBotMessage(message);
                     chatInput.value = '';
+                    
+                    if (isFirstInteraction) {
+                        isFirstInteraction = false;
+                        // Hide suggested questions after first interaction
+                        suggestedQuestions.style.display = 'none';
+                    }
                 }
             };
+
+            // Handle suggested question click
+            suggestedQuestionElements.forEach(question => {
+                question.addEventListener('click', () => {
+                    const questionText = question.getAttribute('data-question');
+                    chatInput.value = questionText;
+                    chatInput.focus();
+                });
+            });
 
             // Chatbot Event Listeners
             chatFab.addEventListener('click', () => {
                 chatModal.classList.toggle('active');
                 if (chatModal.classList.contains('active')) {
-                    // Send welcome message only once when chat is opened for the first time
-                    if (chatHistory.length === 0) {
+                    // Reset notification badge when chat is opened
+                    unreadMessages = 0;
+                    notificationBadge.style.display = 'none';
+                    chatFab.classList.remove('active'); // Remove pulse when chat is opened
+                    
+                    // Send welcome message only if it's the first time opening chat or if chat was cleared
+                    // Check if chatHistory contains only the system instruction
+                    if (chatHistory.length === 1 && chatHistory[0].parts[0].text === systemInstructions) {
                         addMessage('bot', welcomeMessage);
                         chatHistory.push({ role: "model", parts: [{ text: welcomeMessage }] });
+                        isFirstInteraction = false; // Mark as not first interaction after showing welcome
                     }
+                    
                     chatInput.focus();
                     chatNotification.classList.remove('show'); // Hide notification when chat is opened
                 }
@@ -1982,12 +2262,40 @@
                 }
             });
 
+            // Allow Shift+Enter for new lines
+            chatInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && event.shiftKey) {
+                    event.preventDefault();
+                    const start = chatInput.selectionStart;
+                    const end = chatInput.selectionEnd;
+                    chatInput.value = chatInput.value.substring(0, start) + '\n' + chatInput.value.substring(end);
+                    chatInput.selectionStart = chatInput.selectionEnd = start + 1;
+                }
+            });
+
+            // Auto-resize textarea as user types
+            chatInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
+            // Close chat when clicking outside
+            document.addEventListener('click', (event) => {
+                // Check if the click is outside the modal and outside the FAB
+                if (!chatModal.contains(event.target) && !chatFab.contains(event.target)) {
+                    chatModal.classList.remove('active');
+                }
+            });
+
             // Notification display logic
             const showNotification = () => {
-                chatNotification.classList.add('show');
-                setTimeout(() => {
-                    chatNotification.classList.remove('show');
-                }, 5000); // Hide after 5 seconds
+                // Only show notification if chat modal is not active
+                if (!chatModal.classList.contains('active')) {
+                    chatNotification.classList.add('show');
+                    setTimeout(() => {
+                        chatNotification.classList.remove('show');
+                    }, 5000); // Hide after 5 seconds
+                }
             };
 
             // Initial Page Load Logic (handles URL hash)
